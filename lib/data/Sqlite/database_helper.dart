@@ -75,11 +75,21 @@ class DatabaseHelper {
     );
   }
 
-  Future<void> delete(int id) async {
+  Future<void> deleteCreated(DateTime dateTime) async {
     if (!await databaseExists(_database.path)) {
       throw Exception('Database does not exist');
     }
 
-    await _database.delete('created_history', where: "ID = ?", whereArgs: [id]);
+    await _database.delete('created_history',
+        where: "Datetime = ?", whereArgs: [dateTime.toString()]);
+  }
+
+  Future<void> deleteScaned(DateTime dateTime) async {
+    if (!await databaseExists(_database.path)) {
+      throw Exception('Database does not exist');
+    }
+
+    await _database.delete('scanned_history',
+        where: "Datetime = ?", whereArgs: [dateTime.toString()]);
   }
 }

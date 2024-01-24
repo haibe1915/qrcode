@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QrUrlPage extends StatefulWidget {
-  const QrUrlPage({super.key, required this.historyItem});
+  QrUrlPage({super.key, required this.historyItem, this.controller});
 
   final HistoryItem historyItem;
+  QRViewController? controller;
 
   @override
   State<QrUrlPage> createState() => _QrUrlPageState();
@@ -32,6 +36,16 @@ class _QrUrlPageState extends State<QrUrlPage> {
 
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back), // Change the back button icon
+            onPressed: () {
+              if (widget.controller != null) {
+                print("resume");
+                widget.controller!.resumeCamera();
+              }
+              Navigator.of(context).pop();
+            },
+          ),
           title: Text('Url'),
           actions: [
             IconButton(
@@ -98,9 +112,6 @@ class _QrUrlPageState extends State<QrUrlPage> {
                           height: screenHeight * 0.4,
                           width: screenWidth * 0.8,
                           child: Container(
-                              alignment: Alignment.centerLeft,
-                              width: screenWidth * 0.7,
-                              height: 20,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -110,6 +121,22 @@ class _QrUrlPageState extends State<QrUrlPage> {
                               margin: EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: Text(widget.historyItem.content))))),
+              Center(
+                child: Center(
+                  child: Container(
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.4,
+                      padding: EdgeInsets.only(top: 10),
+                      child: Card(
+                          elevation: 4,
+                          child: InkWell(
+                              onTap: () async {
+                                launchUrl(
+                                    Uri.parse("${widget.historyItem.content}"));
+                              },
+                              child: Center(child: Text('Nhập'))))),
+                ),
+              )
             ],
           ),
         ));

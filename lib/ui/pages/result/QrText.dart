@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 
 class QrTextPage extends StatefulWidget {
-  const QrTextPage({super.key, required this.historyItem});
+  QrTextPage({super.key, required this.historyItem, this.controller});
 
   final HistoryItem historyItem;
+  QRViewController? controller;
 
   @override
   State<QrTextPage> createState() => _QrTextPageState();
@@ -32,6 +34,16 @@ class _QrTextPageState extends State<QrTextPage> {
 
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back), // Change the back button icon
+            onPressed: () {
+              if (widget.controller != null) {
+                print("resume");
+                widget.controller!.resumeCamera();
+              }
+              Navigator.of(context).pop();
+            },
+          ),
           title: Text('Văn bản'),
           actions: [
             IconButton(

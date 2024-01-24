@@ -11,6 +11,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   SearchBloc() : super(SearchStateNotLoaded()) {
     on<SearchEventLoadData>(_handleSearchEventLoadData);
+    on<SearchEventDeleteData>(_handleSearchEventDeleteData);
   }
   Search _search = Search();
 
@@ -33,6 +34,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(SearchStateError(e.toString()));
       }
     }
+  }
+
+  void _handleSearchEventDeleteData(
+      SearchEventDeleteData event, Emitter<SearchState> emit) async {
+    print(event.historyItem.datetime.toString());
+    print(event.type);
+    print(event.str);
+    List<HistoryItem> deleteResult = event.historyList;
+    deleteResult
+        .removeWhere((item) => item.datetime == event.historyItem.datetime);
+    StaticVariable.createdHistoryList
+        .removeWhere((item) => item.datetime == event.historyItem.datetime);
+    StaticVariable.scannedHistoryList
+        .removeWhere((item) => item.datetime == event.historyItem.datetime);
+
+    emit(SearchStateLoaded(event.type, event.str, deleteResult));
   }
 
   @override

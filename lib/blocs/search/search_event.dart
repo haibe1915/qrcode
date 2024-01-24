@@ -15,4 +15,16 @@ class SearchEventLoadData extends SearchEvent {
       {required this.str, required this.type, required this.historyList});
 }
 
+class SearchEventDeleteData extends SearchEvent {
+  final String str;
+  final int type;
+  final HistoryItem historyItem;
+  final List<HistoryItem> historyList;
+  SearchEventDeleteData(
+      {required this.str,
+      required this.type,
+      required this.historyItem,
+      required this.historyList});
+}
+
 class SearchEventPopSearch extends SearchEvent {}

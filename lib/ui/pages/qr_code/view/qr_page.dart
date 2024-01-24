@@ -1,9 +1,19 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
+import 'package:qrcode/repositories/image_gallery/getImage.dart';
+import 'package:qrcode/ui/pages/result/QrContact.dart';
+import 'package:qrcode/ui/pages/result/QrEvent.dart';
+import 'package:qrcode/ui/pages/result/QrPhone.dart';
+import 'package:qrcode/ui/pages/result/QrText.dart';
+import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
 class QrPage extends StatefulWidget {
   const QrPage({super.key});
@@ -16,6 +26,7 @@ class _QrPageState extends State<QrPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   Barcode? barcode;
+  XFile? _image;
 
   @override
   void dispose() {
@@ -46,6 +57,11 @@ class _QrPageState extends State<QrPage> {
       return "văn bản";
   }
 
+  Future<void> pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+  }
+
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -72,6 +88,13 @@ class _QrPageState extends State<QrPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            pickImage();
+                          });
+                        },
+                        icon: Icon(Icons.image)),
                     IconButton(
                         onPressed: () async {
                           await controller?.toggleFlash();
@@ -113,25 +136,79 @@ class _QrPageState extends State<QrPage> {
   }
 
   void onQRViewCreated(QRViewController controller) {
-    print("check");
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         barcode = scanData;
       });
-      print("scanned");
+      String type = typeSort(barcode!.code!);
       if (barcode != null) {
         print(barcode!.code);
         HistoryItem tmp = HistoryItem(
-          type: typeSort(barcode!.code!),
+          type: type,
           datetime: DateTime.now(),
           content: barcode!.code!,
         );
         StaticVariable.scannedController.add(tmp);
         StaticVariable.conn.insertScanned(tmp);
+        controller.pauseCamera();
+        switch (type) {
+          case "sự kiện":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QrEventPage(historyItem: tmp),
+              ),
+            );
+            break;
+          case "liên hệ":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QrContactPage(historyItem: tmp),
+              ),
+            );
+            break;
+          case "wifi":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    QrTextPage(historyItem: tmp, controller: controller),
+              ),
+            );
+            break;
+          case "url":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QrUrlPage(
+                  historyItem: tmp,
+                  controller: controller,
+                ),
+              ),
+            );
+            break;
+          case "điện thoại":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    QrPhonePage(historyItem: tmp, controller: controller),
+              ),
+            );
+            break;
+          case "văn bản":
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    QrTextPage(historyItem: tmp, controller: controller),
+              ),
+            );
+        }
       }
     });
-    print("end");
   }
 
   @override

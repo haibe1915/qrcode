@@ -11,6 +11,7 @@ import 'package:qrcode/blocs/search/search_event.dart';
 import 'package:qrcode/blocs/search/search_state.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
 import 'package:qrcode/ui/pages/result/QrEvent.dart';
+import 'package:qrcode/ui/pages/result/QrPhone.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
@@ -74,6 +75,8 @@ class _HistoryPageState extends State<HistoryPage> {
       return QrEventPage(historyItem: historyItem);
     } else if (historyItem.type == "liên hệ") {
       return QrContactPage(historyItem: historyItem);
+    } else if (historyItem.type == "điện thoại") {
+      return QrPhonePage(historyItem: historyItem);
     } else
       return QrTextPage(historyItem: historyItem);
   }
@@ -123,7 +126,7 @@ class _HistoryPageState extends State<HistoryPage> {
     int typeScanned = 0;
     _typeScannedController.sink.add(0);
     _scannedSearch.addListener(() {
-      _searchCreatedBloc.add(SearchEventLoadData(
+      _searchScannedBloc.add(SearchEventLoadData(
           str: _scannedSearch.text,
           type: typeScanned,
           historyList: StaticVariable.scannedHistoryList));
@@ -131,7 +134,7 @@ class _HistoryPageState extends State<HistoryPage> {
     _typeScannedController.stream.listen((typeChoosed) {
       print(typeChoosed);
       typeScanned = typeChoosed;
-      _searchCreatedBloc.add(SearchEventLoadData(
+      _searchScannedBloc.add(SearchEventLoadData(
           str: _createdSearch.text,
           type: typeChoosed,
           historyList: StaticVariable.scannedHistoryList));
@@ -224,7 +227,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                   final HistoryItem historyItem = StaticVariable
                                           .scannedHistoryList[
                                       StaticVariable.scannedHistoryList.length -
-                                          index];
+                                          index -
+                                          1];
                                   return InkWell(
                                       onTap: () {
                                         Navigator.push(
@@ -248,7 +252,61 @@ class _HistoryPageState extends State<HistoryPage> {
                                                   .toString()),
                                               subtitle: Text(
                                                   HistoryItemText(historyItem)),
-                                            ))
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Container(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                100, // Adjust the height as needed
+                                                            child: Text(
+                                                                "Bạn có muốn xoá không ?"),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: Text('Có'),
+                                                              onPressed: () {
+                                                                StaticVariable
+                                                                    .conn
+                                                                    .deleteScaned(
+                                                                        historyItem
+                                                                            .datetime);
+                                                                _searchScannedBloc.add(SearchEventDeleteData(
+                                                                    str: "",
+                                                                    type: 0,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        StaticVariable
+                                                                            .scannedHistoryList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child:
+                                                                  Text('Close'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
                                           ],
                                         ),
                                       ));
@@ -285,7 +343,63 @@ class _HistoryPageState extends State<HistoryPage> {
                                                   .toString()),
                                               subtitle: Text(
                                                   HistoryItemText(historyItem)),
-                                            ))
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Container(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                100, // Adjust the height as needed
+                                                            child: Text(
+                                                                "Bạn có muốn xoá không ?"),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: Text('Có'),
+                                                              onPressed: () {
+                                                                StaticVariable
+                                                                    .conn
+                                                                    .deleteScaned(
+                                                                        historyItem
+                                                                            .datetime);
+                                                                _searchScannedBloc.add(SearchEventDeleteData(
+                                                                    str: state
+                                                                        .str,
+                                                                    type: state
+                                                                        .type,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        state
+                                                                            .dataList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child:
+                                                                  Text('Close'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
                                           ],
                                         ),
                                       ));
@@ -409,7 +523,61 @@ class _HistoryPageState extends State<HistoryPage> {
                                                   .toString()),
                                               subtitle: Text(
                                                   HistoryItemText(historyItem)),
-                                            ))
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Container(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                100, // Adjust the height as needed
+                                                            child: Text(
+                                                                "Bạn có muốn xoá không ?"),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: Text('Có'),
+                                                              onPressed: () {
+                                                                StaticVariable
+                                                                    .conn
+                                                                    .deleteScaned(
+                                                                        historyItem
+                                                                            .datetime);
+                                                                _searchScannedBloc.add(SearchEventDeleteData(
+                                                                    str: "",
+                                                                    type: 0,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        StaticVariable
+                                                                            .createdHistoryList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child:
+                                                                  Text('Close'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
                                           ],
                                         ),
                                       ));
@@ -446,7 +614,63 @@ class _HistoryPageState extends State<HistoryPage> {
                                                   .toString()),
                                               subtitle: Text(
                                                   HistoryItemText(historyItem)),
-                                            ))
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Container(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                100, // Adjust the height as needed
+                                                            child: Text(
+                                                                "Bạn có muốn xoá không ?"),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: Text('Có'),
+                                                              onPressed: () {
+                                                                StaticVariable
+                                                                    .conn
+                                                                    .deleteScaned(
+                                                                        historyItem
+                                                                            .datetime);
+                                                                _searchScannedBloc.add(SearchEventDeleteData(
+                                                                    str: state
+                                                                        .str,
+                                                                    type: state
+                                                                        .type,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        state
+                                                                            .dataList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child:
+                                                                  Text('Close'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
                                           ],
                                         ),
                                       ));
