@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
-import 'package:qrcode/qr/view/pages/result/QrText.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/pages/result/QrText.dart';
 
 class TextToQrPage extends StatefulWidget {
   const TextToQrPage({super.key});

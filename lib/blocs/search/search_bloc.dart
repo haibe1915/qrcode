@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/history/bloc/search/search_event.dart';
-import 'package:qrcode/qr/view/pages/history/bloc/search/search_state.dart';
-import 'package:qrcode/qr/view/pages/history/history_function/search.dart';
+import 'package:qrcode/blocs/search/search_event.dart';
+import 'package:qrcode/blocs/search/search_state.dart';
+import 'package:qrcode/repositories/history_function/search.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override

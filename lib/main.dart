@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qrcode/Sqlite/database_helper.dart';
+import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/qr_observer.dart';
-import 'package:qrcode/qr_app.dart';
+import 'package:qrcode/ui/qr_app.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -47,5 +47,6 @@ Future<void> main() async {
   StaticVariable.createdController.addStream(StaticVariable.conn.readCreated());
   StaticVariable.scannedController.addStream(StaticVariable.conn.readScanned());
   await Future.delayed(Duration(seconds: 1));
+
   runApp(const QrApp());
 }

@@ -8,7 +8,7 @@ import 'package:flutter_contacts/properties/note.dart';
 import 'package:flutter_contacts/properties/phone.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 
 class QrContactPage extends StatefulWidget {
   const QrContactPage({super.key, required this.historyItem});

@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/bloc/PhoneToQr/phone_to_qr_bloc.dart';
-import 'package:qrcode/qr/view/pages/convert/bloc/PhoneToQr/phone_to_qr_event.dart';
-import 'package:qrcode/qr/view/pages/convert/bloc/PhoneToQr/phone_to_qr_state.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
+import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
+import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/contact/getContact.dart';
+import 'package:qrcode/repositories/contact/getContact.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PhoneToQrPage extends StatefulWidget {

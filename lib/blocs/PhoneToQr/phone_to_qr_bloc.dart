@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:qrcode/qr/view/pages/convert/bloc/PhoneToQr/phone_to_qr_event.dart';
-import 'package:qrcode/qr/view/pages/convert/bloc/PhoneToQr/phone_to_qr_state.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/contact/getContact.dart';
-import 'package:qrcode/qr/view/pages/history/history_function/search.dart';
+import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
+import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
+import 'package:qrcode/repositories/contact/getContact.dart';
+import 'package:qrcode/repositories/history_function/search.dart';
 
 class PhoneToQrBloc extends Bloc<PhoneToQrEvent, PhoneToQrState> {
   PhoneToQrBloc() : super(PhoneToQrStateNotLoaded()) {

@@ -1,11 +1,11 @@
 import 'package:async/async.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:qrcode/Sqlite/database_helper.dart';
+import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/view/convert_page.dart';
-import 'package:qrcode/qr/view/pages/qr_code/view/qr_page.dart';
-import 'package:qrcode/qr/view/pages/history/view/history_page.dart';
+import 'package:qrcode/ui/pages/convert/view/convert_page.dart';
+import 'package:qrcode/ui/pages/qr_code/view/qr_page.dart';
+import 'package:qrcode/ui/pages/history/view/history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class StaticVariable {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/qr/view/pages/convert/view/ContactToQrPage.dart';
-import 'package:qrcode/qr/view/pages/convert/view/EventToQrPage.dart';
-import 'package:qrcode/qr/view/pages/convert/view/PhoneToQrPage.dart';
-import 'package:qrcode/qr/view/pages/convert/view/UrlToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/ContactToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/EventToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/PhoneToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/UrlToQrPage.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode/qr/view/pages/convert/view/WifiToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/WifiToQrPage.dart';
 import 'TextToQrPage.dart';
 
 class ConvertPage extends StatelessWidget {

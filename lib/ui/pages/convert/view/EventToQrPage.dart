@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/contact/getContact.dart';
+import 'package:qrcode/repositories/contact/getContact.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 
 import 'dart:async';
 
-import 'package:qrcode/qr/view/pages/result/QrEvent.dart';
+import 'package:qrcode/ui/pages/result/QrEvent.dart';
 
 class EventToQrPage extends StatefulWidget {
   const EventToQrPage({super.key});

@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
-import 'package:qrcode/qr/view/pages/history/bloc/search/search_bloc.dart';
-import 'package:qrcode/qr/view/pages/history/bloc/search/search_event.dart';
-import 'package:qrcode/qr/view/pages/history/bloc/search/search_state.dart';
-import 'package:qrcode/qr/view/pages/result/QrContact.dart';
-import 'package:qrcode/qr/view/pages/result/QrEvent.dart';
-import 'package:qrcode/qr/view/pages/result/QrText.dart';
-import 'package:qrcode/qr/view/pages/result/QrUrl.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/blocs/search/search_bloc.dart';
+import 'package:qrcode/blocs/search/search_event.dart';
+import 'package:qrcode/blocs/search/search_state.dart';
+import 'package:qrcode/ui/pages/result/QrContact.dart';
+import 'package:qrcode/ui/pages/result/QrEvent.dart';
+import 'package:qrcode/ui/pages/result/QrText.dart';
+import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});

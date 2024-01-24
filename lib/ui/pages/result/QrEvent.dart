@@ -9,7 +9,7 @@ import 'package:flutter_contacts/properties/phone.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/qr/view/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 
 class QrEventPage extends StatefulWidget {
