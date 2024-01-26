@@ -4,7 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QRCodeWidget extends StatelessWidget {
   final String data;
 
-  QRCodeWidget({required this.data});
+  const QRCodeWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

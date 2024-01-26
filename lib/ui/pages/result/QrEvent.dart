@@ -7,15 +7,17 @@ import 'package:flutter_contacts/properties/address.dart';
 import 'package:flutter_contacts/properties/note.dart';
 import 'package:flutter_contacts/properties/phone.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 
 class QrEventPage extends StatefulWidget {
-  const QrEventPage({super.key, required this.historyItem});
+  QrEventPage({super.key, required this.historyItem, this.controller});
 
   final HistoryItem historyItem;
+  QRViewController? controller;
 
   @override
   State<QrEventPage> createState() => _QrEventPageState();
@@ -91,11 +93,20 @@ class _QrEventPageState extends State<QrEventPage> {
 
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     Map<String, String> event =
         extractICalendarValues(widget.historyItem.content);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back), // Change the back button icon
+            onPressed: () {
+              if (widget.controller != null) {
+                print("resume");
+                widget.controller!.resumeCamera();
+              }
+              Navigator.of(context).pop();
+            },
+          ),
           title: Text('Sự kiện'),
           actions: [
             IconButton(

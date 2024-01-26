@@ -10,8 +10,10 @@ import 'package:qrcode/blocs/search/search_bloc.dart';
 import 'package:qrcode/blocs/search/search_event.dart';
 import 'package:qrcode/blocs/search/search_state.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
+import 'package:qrcode/ui/pages/result/QrEmail.dart';
 import 'package:qrcode/ui/pages/result/QrEvent.dart';
 import 'package:qrcode/ui/pages/result/QrPhone.dart';
+import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
@@ -53,6 +55,22 @@ class _HistoryPageState extends State<HistoryPage> {
     return summary;
   }
 
+  String SmsText(String content) {
+    final phoneNumberStartIndex = content.indexOf(':') + 1;
+    final phoneNumberEndIndex = content.indexOf('?');
+    final phoneNumber =
+        content.substring(phoneNumberStartIndex, phoneNumberEndIndex);
+    return phoneNumber;
+  }
+
+  String EmailText(String content) {
+    final emailAddressStartIndex = content.indexOf(':') + 1;
+    final emailAddressEndIndex = content.indexOf('?');
+    final emailAddress =
+        content.substring(emailAddressStartIndex, emailAddressEndIndex);
+    return emailAddress;
+  }
+
   String HistoryItemText(HistoryItem item) {
     String summary = "";
     switch (item.type) {
@@ -61,6 +79,12 @@ class _HistoryPageState extends State<HistoryPage> {
         break;
       case 'liên hệ':
         summary = ContactText(item.content);
+        break;
+      case 'tin nhắn':
+        summary = SmsText(item.content);
+        break;
+      case 'email':
+        summary = EmailText(item.content);
         break;
       default:
         summary = item.content;
@@ -77,6 +101,10 @@ class _HistoryPageState extends State<HistoryPage> {
       return QrContactPage(historyItem: historyItem);
     } else if (historyItem.type == "điện thoại") {
       return QrPhonePage(historyItem: historyItem);
+    } else if (historyItem.type == "tin nhắn") {
+      return QrSmsPage(historyItem: historyItem);
+    } else if (historyItem.type == "email") {
+      return QrEmailPage(historyItem: historyItem);
     } else
       return QrTextPage(historyItem: historyItem);
   }

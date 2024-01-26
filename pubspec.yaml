@@ -51,6 +51,7 @@ dependencies:
   add_2_calendar: ^3.0.1
   image_picker: ^1.0.7
   url_launcher: ^6.2.4
+  scan: ^1.6.0
   #qrscan: ^0.3.3
 
 dev_dependencies:

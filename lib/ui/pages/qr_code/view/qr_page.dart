@@ -3,17 +3,25 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qrcode/blocs/scanImage/scan_image_bloc.dart';
+import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
+import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/repositories/image_gallery/getImage.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
+import 'package:qrcode/ui/pages/result/QrEmail.dart';
 import 'package:qrcode/ui/pages/result/QrEvent.dart';
 import 'package:qrcode/ui/pages/result/QrPhone.dart';
+import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:scan/scan.dart';
 
 class QrPage extends StatefulWidget {
   const QrPage({super.key});
@@ -26,7 +34,7 @@ class _QrPageState extends State<QrPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   Barcode? barcode;
-  XFile? _image;
+  ScanImageBloc _scanImageBloc = ScanImageBloc();
 
   @override
   void dispose() {
@@ -57,82 +65,187 @@ class _QrPageState extends State<QrPage> {
       return "văn bản";
   }
 
-  Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  void getResult(QRViewController controller, HistoryItem tmp) {
+    Future.delayed(Duration.zero, () {
+      controller.pauseCamera();
+      switch (tmp.type) {
+        case "sự kiện":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrEventPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "liên hệ":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrContactPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "wifi":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrTextPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "url":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QrUrlPage(
+                historyItem: tmp,
+                controller: controller,
+              ),
+            ),
+          );
+          break;
+        case "điện thoại":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrPhonePage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "tin nhắn":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrSmsPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "email":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrEmailPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+        case "văn bản":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  QrTextPage(historyItem: tmp, controller: controller),
+            ),
+          );
+          break;
+      }
+    });
   }
 
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          QRView(
-            key: qrKey,
-            onQRViewCreated: onQRViewCreated,
-            overlay: QrScannerOverlayShape(
-              borderWidth: 10,
-              cutOutSize: MediaQuery.of(context).size.width * 0.8,
+      child: Scaffold(
+        body: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            QRView(
+              key: qrKey,
+              onQRViewCreated: onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderWidth: 10,
+                cutOutSize: MediaQuery.of(context).size.width * 0.8,
+              ),
             ),
-          ),
-          Positioned(
-              top: 10,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white24),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            pickImage();
-                          });
-                        },
-                        icon: Icon(Icons.image)),
-                    IconButton(
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                        },
-                        icon: FutureBuilder<bool?>(
-                          future: controller?.getFlashStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.data != null) {
-                              return Icon(snapshot.data!
-                                  ? Icons.flash_on
-                                  : Icons.flash_off);
-                            } else {
-                              return Container();
-                            }
+            Positioned(
+                top: 10,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                          onPressed: () {
+                            _scanImageBloc.add(ScanImageScan());
                           },
-                        )),
-                    IconButton(
-                        onPressed: () async {
-                          await controller?.flipCamera();
-                        },
-                        icon: Icon(Icons.switch_camera)
-                        // FutureBuilder(
-                        //   future: controller?.getCameraInfo(),
-                        //   builder: (context, snapshot) {
-                        //     if (snapshot.data != null) {
-                        //       return Icon(Icons.switch_camera);
-                        //     } else {
-                        //       return Container();
-                        //     }
-                        //   },
-                        // )
-                        )
-                  ],
-                ),
-              ))
-        ],
+                          icon: Icon(Icons.image)),
+                      IconButton(
+                          onPressed: () async {
+                            await controller?.toggleFlash();
+                          },
+                          icon: FutureBuilder<bool?>(
+                            future: controller?.getFlashStatus(),
+                            builder: (context, snapshot) {
+                              if (snapshot.data != null) {
+                                return Icon(snapshot.data!
+                                    ? Icons.flash_on
+                                    : Icons.flash_off);
+                              } else {
+                                return Container();
+                              }
+                            },
+                          )),
+                      IconButton(
+                          onPressed: () async {
+                            await controller?.flipCamera();
+                          },
+                          icon: Icon(Icons.switch_camera)
+                          // FutureBuilder(
+                          //   future: controller?.getCameraInfo(),
+                          //   builder: (context, snapshot) {
+                          //     if (snapshot.data != null) {
+                          //       return Icon(Icons.switch_camera);
+                          //     } else {
+                          //       return Container();
+                          //     }
+                          //   },
+                          // )
+                          )
+                    ],
+                  ),
+                )),
+            BlocBuilder<ScanImageBloc, ScanImageState>(
+                bloc: _scanImageBloc,
+                builder: (context, state) {
+                  if (state is ScanImageNotScan) {
+                    return Container();
+                  } else if (state is ScanImageScaned) {
+                    getResult(controller!, state.tmp);
+                  } else if (state is ScanImageLoading) {
+                    return Center(
+                        child: Container(
+                            width: 200,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(
+                                  0.5), // Set the desired opacity value (0.0 to 1.0)
+                              borderRadius: BorderRadius.circular(
+                                  10), // Set the desired border radius
+                            ),
+                            child: Center(child: CircularProgressIndicator())));
+                  } else if (state is ScanImageError) {
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  }
+                  return Container();
+                })
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   void onQRViewCreated(QRViewController controller) {
@@ -141,72 +254,9 @@ class _QrPageState extends State<QrPage> {
       setState(() {
         barcode = scanData;
       });
-      String type = typeSort(barcode!.code!);
       if (barcode != null) {
         print(barcode!.code);
-        HistoryItem tmp = HistoryItem(
-          type: type,
-          datetime: DateTime.now(),
-          content: barcode!.code!,
-        );
-        StaticVariable.scannedController.add(tmp);
-        StaticVariable.conn.insertScanned(tmp);
-        controller.pauseCamera();
-        switch (type) {
-          case "sự kiện":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QrEventPage(historyItem: tmp),
-              ),
-            );
-            break;
-          case "liên hệ":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QrContactPage(historyItem: tmp),
-              ),
-            );
-            break;
-          case "wifi":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    QrTextPage(historyItem: tmp, controller: controller),
-              ),
-            );
-            break;
-          case "url":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QrUrlPage(
-                  historyItem: tmp,
-                  controller: controller,
-                ),
-              ),
-            );
-            break;
-          case "điện thoại":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    QrPhonePage(historyItem: tmp, controller: controller),
-              ),
-            );
-            break;
-          case "văn bản":
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    QrTextPage(historyItem: tmp, controller: controller),
-              ),
-            );
-        }
+        _scanImageBloc.add(ScanImageCapture(barcode!.code!));
       }
     });
   }

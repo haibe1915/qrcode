@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/ui/pages/convert/view/ContactToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/EmailToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/EventToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/PhoneToQrPage.dart';
+import 'package:qrcode/ui/pages/convert/view/SmsToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/UrlToQrPage.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/ui/pages/convert/view/WifiToQrPage.dart';
 import 'TextToQrPage.dart';
 
@@ -17,27 +18,29 @@ class ConvertPage extends StatelessWidget {
     'Điện thoại',
     'Liên hệ',
     // 'Vị trí',
-    // 'Tin nhắn',
+    'Tin nhắn',
     'Sự kiện',
-    // 'Email'
+    'Email'
   ];
 
   final List<Widget> functionPages = [
-    TextToQrPage(),
-    WifiToQrPage(),
+    const TextToQrPage(),
+    const WifiToQrPage(),
     UrlToQrPage(),
-    PhoneToQrPage(),
-    ContactToQrPage(),
-    EventToQrPage(),
+    const PhoneToQrPage(),
+    const ContactToQrPage(),
+    const SmsToQrPage(),
+    const EventToQrPage(),
+    const EmailToQrPage()
   ];
+  @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     ScrollController scrollController =
         ScrollController(initialScrollOffset: offset);
     return Scaffold(
         appBar: AppBar(
-          title: Text('QrCode'),
+          title: const Text('QrCode'),
         ),
         body: SingleChildScrollView(
             controller: scrollController,
@@ -45,7 +48,7 @@ class ConvertPage extends StatelessWidget {
               children: [
                 for (int i = 0; i < name.length; i++)
                   InkWell(
-                    child: Container(
+                    child: SizedBox(
                         height: screenHeight * 0.1,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

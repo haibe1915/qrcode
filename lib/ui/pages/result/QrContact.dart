@@ -6,14 +6,16 @@ import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/properties/address.dart';
 import 'package:flutter_contacts/properties/note.dart';
 import 'package:flutter_contacts/properties/phone.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 
 class QrContactPage extends StatefulWidget {
-  const QrContactPage({super.key, required this.historyItem});
+  QrContactPage({super.key, required this.historyItem, this.controller});
 
   final HistoryItem historyItem;
+  QRViewController? controller;
 
   @override
   State<QrContactPage> createState() => _QrContactPageState();
@@ -85,6 +87,16 @@ class _QrContactPageState extends State<QrContactPage> {
         extractcontactStringValues(widget.historyItem.content);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back), // Change the back button icon
+            onPressed: () {
+              if (widget.controller != null) {
+                print("resume");
+                widget.controller!.resumeCamera();
+              }
+              Navigator.of(context).pop();
+            },
+          ),
           title: Text('Văn bản'),
           actions: [
             IconButton(

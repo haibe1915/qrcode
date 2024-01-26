@@ -1,13 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
-import 'package:flutter/services.dart';
-import 'package:qrcode/repositories/contact/getContact.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/intl.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
@@ -24,16 +18,18 @@ class EventToQrPage extends StatefulWidget {
 }
 
 class _EventToQrPageState extends State<EventToQrPage> {
-  TextEditingController _titleEditingController = TextEditingController();
-  TextEditingController _locationEditingController = TextEditingController();
-  TextEditingController _describeEditingController = TextEditingController();
-  TextEditingController _urlEditingController = TextEditingController();
+  final TextEditingController _titleEditingController = TextEditingController();
+  final TextEditingController _locationEditingController =
+      TextEditingController();
+  final TextEditingController _describeEditingController =
+      TextEditingController();
+  final TextEditingController _urlEditingController = TextEditingController();
 
-  StreamController<DateTime> _streamStartDateTimeController =
+  final StreamController<DateTime> _streamStartDateTimeController =
       StreamController<DateTime>.broadcast();
-  StreamController<DateTime> _streamEndDateTimeController =
+  final StreamController<DateTime> _streamEndDateTimeController =
       StreamController<DateTime>.broadcast();
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
   DateTime dateTimeStart = DateTime.now();
   DateTime dateTimeEnd = DateTime.now();
 
@@ -58,14 +54,14 @@ class _EventToQrPageState extends State<EventToQrPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                content: Container(
+                content: const SizedBox(
                   width: 200, // Adjust the width as needed
                   height: 100, // Adjust the height as needed
                   child: Center(child: Text('Thêm thành công')),
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Close'),
+                    child: const Text('Close'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -93,13 +89,13 @@ class _EventToQrPageState extends State<EventToQrPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sự kiện'),
+          title: const Text('Sự kiện'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -142,12 +138,12 @@ class _EventToQrPageState extends State<EventToQrPage> {
         ),
         body: Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             child: Card(
                 elevation: 4,
                 clipBehavior: Clip.hardEdge,
                 child: IntrinsicHeight(
-                  child: Container(
+                  child: SizedBox(
                       width: screenWidth * 0.8,
                       child: SingleChildScrollView(
                         controller: _scrollController,
@@ -160,11 +156,11 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _titleEditingController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Tiêu đề',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,
@@ -179,11 +175,11 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _locationEditingController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Vị trí',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,
@@ -198,11 +194,11 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _describeEditingController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Nội dung',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,
@@ -217,11 +213,11 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _urlEditingController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Url',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,
@@ -236,7 +232,7 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: Center(
                                   child: StreamBuilder(
@@ -279,7 +275,7 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: Center(
                                   child: StreamBuilder(

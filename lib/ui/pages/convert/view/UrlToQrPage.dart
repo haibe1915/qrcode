@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
@@ -7,8 +6,8 @@ import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 class UrlToQrPage extends StatelessWidget {
   TextEditingController _textEditingController =
       TextEditingController(text: 'http://');
-  String _text = '';
-  int _textLength = 0;
+
+  UrlToQrPage({super.key});
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

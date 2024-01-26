@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
             _currentPageIndex = index;
           });
         },
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.access_time), label: 'History'),
           BottomNavigationBarItem(

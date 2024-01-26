@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:qrcode/constant/static_variables.dart';
@@ -10,13 +7,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/repositories/contact/getContact.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:intl/intl.dart';
-
-import 'dart:async';
 
 import 'package:qrcode/ui/pages/result/QrContact.dart';
 
@@ -28,17 +19,20 @@ class ContactToQrPage extends StatefulWidget {
 }
 
 class _ContactToQrPageState extends State<ContactToQrPage> {
-  TextEditingController _firstNameEditingController = TextEditingController();
-  TextEditingController _surNameEditingController = TextEditingController();
-  TextEditingController _locationEditingController = TextEditingController();
-  TextEditingController _phoneEditingController = TextEditingController();
-  TextEditingController _noteEditingController = TextEditingController();
+  final TextEditingController _firstNameEditingController =
+      TextEditingController();
+  final TextEditingController _surNameEditingController =
+      TextEditingController();
+  final TextEditingController _locationEditingController =
+      TextEditingController();
+  final TextEditingController _phoneEditingController = TextEditingController();
+  final TextEditingController _noteEditingController = TextEditingController();
 
-  TextEditingController _contactSearch = TextEditingController();
+  final TextEditingController _contactSearch = TextEditingController();
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
-  PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
+  final PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
 
   void _showContact() {
     showModalBottomSheet(
@@ -47,14 +41,14 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
         builder: (BuildContext context) {
           return BlocProvider<PhoneToQrBloc>(
             create: (context) => _phoneToQrBloc,
-            child: Container(
+            child: SizedBox(
               height: 0.8 * MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   TextField(
                     controller: _contactSearch,
                     onChanged: (value) {},
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -70,7 +64,8 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                 contacts: state.contacts));
                           });
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -102,7 +97,8 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                               ));
                         } else if (state is PhoneToQrStateSearch) {
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -133,15 +129,15 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                 ],
                               ));
                         } else if (state is PhoneToQrStateLoading) {
-                          return Container(
+                          return SizedBox(
                               height: 0.8 * MediaQuery.of(context).size.height,
-                              child:
-                                  Center(child: CircularProgressIndicator()));
+                              child: const Center(
+                                  child: CircularProgressIndicator()));
                         } else if (state is PhoneToQrStateError) {
                           return Center(
                             child: Text(
                               state.message,
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             ),
                           );
                         }
@@ -172,13 +168,14 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Liên hệ'),
+          title: const Text('Liên hệ'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -219,12 +216,12 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
           children: [
             Container(
                 alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 child: Card(
                     elevation: 4,
                     clipBehavior: Clip.hardEdge,
                     child: IntrinsicHeight(
-                      child: Container(
+                      child: SizedBox(
                           width: screenWidth * 0.8,
                           child: SingleChildScrollView(
                             controller: _scrollController,
@@ -237,11 +234,11 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: TextField(
                                     controller: _firstNameEditingController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       hintText: 'Tên',
                                       contentPadding: EdgeInsets.all(10),
                                       border: InputBorder.none,
@@ -256,11 +253,11 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: TextField(
                                     controller: _surNameEditingController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       hintText: 'Họ',
                                       contentPadding: EdgeInsets.all(10),
                                       border: InputBorder.none,
@@ -275,11 +272,11 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: TextField(
                                     controller: _locationEditingController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       hintText: 'Địa chỉ',
                                       contentPadding: EdgeInsets.all(10),
                                       border: InputBorder.none,
@@ -294,7 +291,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: TextField(
                                     controller: _phoneEditingController,
@@ -302,7 +299,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       hintText: 'Nhập số điện thoại của bạn',
                                       contentPadding: EdgeInsets.all(10),
                                       border: InputBorder.none,
@@ -317,11 +314,11 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       width: 1,
                                     ),
                                   ),
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 10, right: 10, bottom: 10),
                                   child: TextField(
                                     controller: _noteEditingController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       hintText: 'Ghi chú',
                                       contentPadding: EdgeInsets.all(10),
                                       border: InputBorder.none,
@@ -338,7 +335,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                 child: Container(
                     height: screenHeight * 0.1,
                     width: screenWidth * 0.4,
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Card(
                         elevation: 4,
                         child: InkWell(
@@ -346,7 +343,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                               _phoneToQrBloc.add(PhoneToQrEventLoadData());
                               _showContact();
                             },
-                            child: Center(child: Text('Nhập'))))),
+                            child: const Center(child: Text('Nhập'))))),
               ),
             )
           ],
