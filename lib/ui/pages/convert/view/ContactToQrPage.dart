@@ -212,141 +212,144 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: IntrinsicHeight(
-                      child: SizedBox(
-                          width: screenWidth * 0.8,
-                          child: SingleChildScrollView(
-                            controller: _scrollController,
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
+        body: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: IntrinsicHeight(
+                        child: SizedBox(
+                            width: screenWidth * 0.8,
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _firstNameEditingController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Tên',
+                                        contentPadding: EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
                                     ),
                                   ),
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  child: TextField(
-                                    controller: _firstNameEditingController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Tên',
-                                      contentPadding: EdgeInsets.all(10),
-                                      border: InputBorder.none,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
                                     ),
-                                    maxLines: null,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  child: TextField(
-                                    controller: _surNameEditingController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Họ',
-                                      contentPadding: EdgeInsets.all(10),
-                                      border: InputBorder.none,
-                                    ),
-                                    maxLines: null,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _surNameEditingController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Họ',
+                                        contentPadding: EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
                                     ),
                                   ),
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  child: TextField(
-                                    controller: _locationEditingController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Địa chỉ',
-                                      contentPadding: EdgeInsets.all(10),
-                                      border: InputBorder.none,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
                                     ),
-                                    maxLines: null,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  child: TextField(
-                                    controller: _phoneEditingController,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: const InputDecoration(
-                                      hintText: 'Nhập số điện thoại của bạn',
-                                      contentPadding: EdgeInsets.all(10),
-                                      border: InputBorder.none,
-                                    ),
-                                    maxLines: null,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _locationEditingController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Địa chỉ',
+                                        contentPadding: EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
                                     ),
                                   ),
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  child: TextField(
-                                    controller: _noteEditingController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Ghi chú',
-                                      contentPadding: EdgeInsets.all(10),
-                                      border: InputBorder.none,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
                                     ),
-                                    maxLines: null,
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _phoneEditingController,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      decoration: const InputDecoration(
+                                        hintText: 'Nhập số điện thoại của bạn',
+                                        contentPadding: EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ))),
-            Center(
-              child: Center(
-                child: Container(
-                    height: screenHeight * 0.1,
-                    width: screenWidth * 0.4,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Card(
-                        elevation: 4,
-                        child: InkWell(
-                            onTap: () {
-                              _phoneToQrBloc.add(PhoneToQrEventLoadData());
-                              _showContact();
-                            },
-                            child: const Center(child: Text('Nhập'))))),
-              ),
-            )
-          ],
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _noteEditingController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Ghi chú',
+                                        contentPadding: EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ))),
+              Center(
+                child: Center(
+                  child: Container(
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.4,
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Card(
+                          elevation: 4,
+                          child: InkWell(
+                              onTap: () {
+                                _phoneToQrBloc.add(PhoneToQrEventLoadData());
+                                _showContact();
+                              },
+                              child: const Center(child: Text('Nhập'))))),
+                ),
+              )
+            ],
+          ),
         ));
   }
 }

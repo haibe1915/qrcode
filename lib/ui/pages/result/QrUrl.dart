@@ -7,6 +7,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/widget/titleBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrUrlPage extends StatefulWidget {
@@ -84,24 +85,7 @@ class _QrUrlPageState extends State<QrUrlPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: screenWidth * 0.8,
-                margin: EdgeInsets.only(top: 20),
-                child: Card(
-                  elevation: 4,
-                  child: Row(
-                    children: [
-                      Container(
-                          width: 60,
-                          child: Center(child: Text(widget.historyItem.type))),
-                      Expanded(
-                          child: ListTile(
-                        title: Text(widget.historyItem.datetime.toString()),
-                      ))
-                    ],
-                  ),
-                ),
-              ),
+              TitleBar(screenWidth: screenWidth, widget: widget),
               Container(
                   alignment: Alignment.topCenter,
                   margin: EdgeInsets.only(top: 20),

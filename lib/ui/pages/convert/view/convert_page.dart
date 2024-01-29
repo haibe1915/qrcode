@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/pages/convert/view/ContactToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/EmailToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/EventToQrPage.dart';
@@ -33,35 +34,32 @@ class ConvertPage extends StatelessWidget {
     const EventToQrPage(),
     const EmailToQrPage()
   ];
+
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    ScrollController scrollController =
-        ScrollController(initialScrollOffset: offset);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('QrCode'),
-        ),
-        body: SingleChildScrollView(
-            controller: scrollController,
-            child: Column(
-              children: [
-                for (int i = 0; i < name.length; i++)
-                  InkWell(
-                    child: SizedBox(
-                        height: screenHeight * 0.1,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text(name[i])])),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => functionPages[i]),
-                      );
-                    },
-                  ),
-              ],
-            )));
+      appBar: AppBar(
+        title: const Text('QrCode'),
+      ),
+      body: ListView.builder(
+        itemCount: name.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => functionPages[index]),
+                );
+              },
+              child: ListTile(
+                leading: StaticVariable.iconCategory[name[index].toLowerCase()],
+                title: Text(name[index]),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

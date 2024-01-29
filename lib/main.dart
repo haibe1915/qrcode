@@ -48,5 +48,5 @@ Future<void> main() async {
   StaticVariable.scannedController.addStream(StaticVariable.conn.readScanned());
   await Future.delayed(const Duration(seconds: 1));
 
-  runApp(const QrApp());
+  runApp(QrApp());
 }

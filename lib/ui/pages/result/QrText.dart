@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/rendering.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/widget/titleBar.dart';
 
 class QrTextPage extends StatefulWidget {
   QrTextPage({super.key, required this.historyItem, this.controller});
@@ -35,7 +40,7 @@ class _QrTextPageState extends State<QrTextPage> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back), // Change the back button icon
+            icon: const Icon(Icons.arrow_back), // Change the back button icon
             onPressed: () {
               if (widget.controller != null) {
                 print("resume");
@@ -44,7 +49,7 @@ class _QrTextPageState extends State<QrTextPage> {
               Navigator.of(context).pop();
             },
           ),
-          title: Text('Văn bản'),
+          title: const Text('Văn bản'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -60,18 +65,26 @@ class _QrTextPageState extends State<QrTextPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Container(
+                        content: SizedBox(
                           width: 200, // Adjust the width as needed
                           height: 200, // Adjust the height as needed
                           child: QRCodeWidget(data: widget.historyItem.content),
                         ),
                         actions: [
                           TextButton(
-                            child: Text('Close'),
+                            child: const Text('Save'),
+                            onPressed: () async {
+                              QRCodeWidget(
+                                data: widget.historyItem.content,
+                              ).saveImageToGallery();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Close'),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                          ),
+                          )
                         ],
                       );
                     });
@@ -82,31 +95,14 @@ class _QrTextPageState extends State<QrTextPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: screenWidth * 0.8,
-                margin: EdgeInsets.only(top: 20),
-                child: Card(
-                  elevation: 4,
-                  child: Row(
-                    children: [
-                      Container(
-                          width: 60,
-                          child: Center(child: Text(widget.historyItem.type))),
-                      Expanded(
-                          child: ListTile(
-                        title: Text(widget.historyItem.datetime.toString()),
-                      ))
-                    ],
-                  ),
-                ),
-              ),
+              TitleBar(screenWidth: screenWidth, widget: widget),
               Container(
                   alignment: Alignment.topCenter,
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   child: Card(
                       elevation: 4,
                       clipBehavior: Clip.hardEdge,
-                      child: Container(
+                      child: SizedBox(
                           height: screenHeight * 0.4,
                           width: screenWidth * 0.8,
                           child: Container(
@@ -116,9 +112,10 @@ class _QrTextPageState extends State<QrTextPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Text(widget.historyItem.content))))),
+                              margin: const EdgeInsets.all(10),
+                              child: Container(
+                                  margin: const EdgeInsets.all(10),
+                                  child: Text(widget.historyItem.content)))))),
             ],
           ),
         ));

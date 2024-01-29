@@ -89,6 +89,7 @@ class _HistoryPageState extends State<HistoryPage> {
       default:
         summary = item.content;
     }
+    if (summary.length > 30) return summary.substring(0, 30) + "...";
     return summary;
   }
 
@@ -188,7 +189,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       child: TextField(
                         controller: _createdSearch,
                         onChanged: (value) {},
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Search',
                           prefixIcon: Icon(Icons.search),
                         ),
@@ -269,13 +270,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                       child: Card(
                                         child: Row(
                                           children: [
-                                            Container(
-                                                width: 60,
-                                                child: Center(
-                                                    child: Text(
-                                                        historyItem.type))),
                                             Expanded(
                                                 child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
                                               title: Text(historyItem.datetime
                                                   .toString()),
                                               subtitle: Text(
@@ -283,6 +282,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                             )),
                                             IconButton(
                                                 onPressed: () {
+                                                  print(historyItem.type);
                                                   showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -292,13 +292,16 @@ class _HistoryPageState extends State<HistoryPage> {
                                                             width:
                                                                 200, // Adjust the width as needed
                                                             height:
-                                                                100, // Adjust the height as needed
-                                                            child: Text(
-                                                                "Bạn có muốn xoá không ?"),
+                                                                50, // Adjust the height as needed
+                                                            child: const Center(
+                                                              child: Text(
+                                                                  "Bạn có muốn xoá không ?"),
+                                                            ),
                                                           ),
                                                           actions: [
                                                             TextButton(
-                                                              child: Text('Có'),
+                                                              child: const Text(
+                                                                  'Có'),
                                                               onPressed: () {
                                                                 StaticVariable
                                                                     .conn
@@ -319,8 +322,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                                               },
                                                             ),
                                                             TextButton(
-                                                              child:
-                                                                  Text('Close'),
+                                                              child: const Text(
+                                                                  'Không'),
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
@@ -331,7 +334,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         );
                                                       });
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.delete,
                                                   color: Colors.red,
                                                 ))
@@ -360,13 +363,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                       child: Card(
                                         child: Row(
                                           children: [
-                                            Container(
-                                                width: 60,
-                                                child: Center(
-                                                    child: Text(
-                                                        historyItem.type))),
                                             Expanded(
                                                 child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
                                               title: Text(historyItem.datetime
                                                   .toString()),
                                               subtitle: Text(
@@ -384,12 +385,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                                                 200, // Adjust the width as needed
                                                             height:
                                                                 100, // Adjust the height as needed
-                                                            child: Text(
+                                                            child: const Text(
                                                                 "Bạn có muốn xoá không ?"),
                                                           ),
                                                           actions: [
                                                             TextButton(
-                                                              child: Text('Có'),
+                                                              child: const Text(
+                                                                  'Có'),
                                                               onPressed: () {
                                                                 StaticVariable
                                                                     .conn
@@ -412,8 +414,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                                               },
                                                             ),
                                                             TextButton(
-                                                              child:
-                                                                  Text('Close'),
+                                                              child: const Text(
+                                                                  'Không'),
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
@@ -424,7 +426,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         );
                                                       });
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.delete,
                                                   color: Colors.red,
                                                 ))
@@ -434,12 +436,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                 },
                               );
                             } else if (state is SearchStateLoading) {
-                              return Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             } else if (state is SearchStateError) {
                               return Center(
                                 child: Text(
                                   state.message,
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                               );
                             }
@@ -459,7 +462,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       child: TextField(
                         controller: _createdSearch,
                         onChanged: (value) {},
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Search',
                           prefixIcon: Icon(Icons.search),
                         ),
@@ -540,13 +543,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                       child: Card(
                                         child: Row(
                                           children: [
-                                            Container(
-                                                width: 60,
-                                                child: Center(
-                                                    child: Text(
-                                                        historyItem.type))),
                                             Expanded(
                                                 child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
                                               title: Text(historyItem.datetime
                                                   .toString()),
                                               subtitle: Text(
@@ -564,12 +565,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                                                 200, // Adjust the width as needed
                                                             height:
                                                                 100, // Adjust the height as needed
-                                                            child: Text(
+                                                            child: const Text(
                                                                 "Bạn có muốn xoá không ?"),
                                                           ),
                                                           actions: [
                                                             TextButton(
-                                                              child: Text('Có'),
+                                                              child: const Text(
+                                                                  'Có'),
                                                               onPressed: () {
                                                                 StaticVariable
                                                                     .conn
@@ -590,8 +592,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                                               },
                                                             ),
                                                             TextButton(
-                                                              child:
-                                                                  Text('Close'),
+                                                              child: const Text(
+                                                                  'Không'),
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
@@ -602,7 +604,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         );
                                                       });
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.delete,
                                                   color: Colors.red,
                                                 ))
@@ -618,7 +620,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                 itemBuilder: (context, index) {
                                   final HistoryItem historyItem =
                                       state.dataList[index];
-                                  print(historyItem.type);
                                   return InkWell(
                                       onTap: () {
                                         Navigator.push(
@@ -631,13 +632,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                       child: Card(
                                         child: Row(
                                           children: [
-                                            Container(
-                                                width: 60,
-                                                child: Center(
-                                                    child: Text(
-                                                        historyItem.type))),
                                             Expanded(
                                                 child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
                                               title: Text(historyItem.datetime
                                                   .toString()),
                                               subtitle: Text(
@@ -655,12 +654,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                                                 200, // Adjust the width as needed
                                                             height:
                                                                 100, // Adjust the height as needed
-                                                            child: Text(
+                                                            child: const Text(
                                                                 "Bạn có muốn xoá không ?"),
                                                           ),
                                                           actions: [
                                                             TextButton(
-                                                              child: Text('Có'),
+                                                              child: const Text(
+                                                                  'Có'),
                                                               onPressed: () {
                                                                 StaticVariable
                                                                     .conn
@@ -683,8 +683,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                                               },
                                                             ),
                                                             TextButton(
-                                                              child:
-                                                                  Text('Close'),
+                                                              child: const Text(
+                                                                  'Không'),
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
@@ -695,7 +695,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         );
                                                       });
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.delete,
                                                   color: Colors.red,
                                                 ))
@@ -705,12 +705,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                 },
                               );
                             } else if (state is SearchStateLoading) {
-                              return Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             } else if (state is SearchStateError) {
                               return Center(
                                 child: Text(
                                   state.message,
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                               );
                             }

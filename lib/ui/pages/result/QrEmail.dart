@@ -7,6 +7,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/widget/titleBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrEmailPage extends StatefulWidget {
@@ -109,70 +110,67 @@ class _QrEmailPageState extends State<QrEmailPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: screenWidth * 0.8,
-                margin: EdgeInsets.only(top: 20),
-                child: Card(
-                  elevation: 4,
-                  child: Row(
-                    children: [
-                      Container(
-                          width: 60,
-                          child: Center(child: Text(widget.historyItem.type))),
-                      Expanded(
-                          child: ListTile(
-                        title: Text(widget.historyItem.datetime.toString()),
-                      ))
-                    ],
-                  ),
-                ),
-              ),
+              TitleBar(screenWidth: screenWidth, widget: widget),
               Container(
                   alignment: Alignment.topCenter,
                   margin: EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          width: screenWidth * 0.7,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          margin:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                          child: Text(contact["email"]!)),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          width: screenWidth * 0.7,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          margin:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                          child: Text(contact["subject"]!)),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          width: screenWidth * 0.7,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          margin:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                          child: Text(contact["body"]!))
-                    ],
-                  )),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: Container(
+                          width: screenWidth * 0.8,
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Email:',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  contact["email"]!,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Chủ đề:',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  contact["subject"]!,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Nội dung:',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  contact["body"]!,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              )
+                            ],
+                          )))),
               Center(
                 child: Center(
                   child: Container(
