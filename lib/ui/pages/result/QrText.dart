@@ -64,19 +64,19 @@ class _QrTextPageState extends State<QrTextPage> {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
+                      QRCodeWidget _qrCodeWidget =
+                          QRCodeWidget(data: widget.historyItem.content);
                       return AlertDialog(
                         content: SizedBox(
                           width: 200, // Adjust the width as needed
                           height: 200, // Adjust the height as needed
-                          child: QRCodeWidget(data: widget.historyItem.content),
+                          child: _qrCodeWidget,
                         ),
                         actions: [
                           TextButton(
                             child: const Text('Save'),
                             onPressed: () async {
-                              QRCodeWidget(
-                                data: widget.historyItem.content,
-                              ).saveImageToGallery();
+                              _qrCodeWidget.saveImageToGallery();
                             },
                           ),
                           TextButton(

@@ -24,15 +24,26 @@ class StaticVariable {
   static late DatabaseHelper conn;
   static String wifiSecurity = "WPA";
   static final Map<String, Icon> iconCategory = {
-    "văn bản": Icon(Icons.edit_document),
-    "wifi": Icon(Icons.wifi),
-    "url": Icon(Icons.link),
-    "điện thoại": Icon(Icons.phone),
-    "liên hệ": Icon(Icons.person),
-    // 'Vị trí',
-    "tin nhắn": Icon(Icons.sms),
-    "sự kiện": Icon(Icons.calendar_month),
-    "email": Icon(Icons.email),
+    "văn bản": Icon(
+      Icons.edit_document,
+      color: Colors.yellow.shade700,
+    ),
+    "wifi": Icon(Icons.wifi, color: Colors.lightBlue.shade700),
+    "url": Icon(Icons.link, color: Colors.blue.shade700),
+    "điện thoại": Icon(Icons.phone, color: Colors.green.shade700),
+    "liên hệ": Icon(Icons.person, color: Colors.redAccent.shade700),
+    "tin nhắn": Icon(
+      Icons.sms,
+      color: Colors.greenAccent.shade700,
+    ),
+    "sự kiện": Icon(
+      Icons.calendar_month,
+      color: Colors.red.shade700,
+    ),
+    "email": Icon(
+      Icons.email,
+      color: Colors.pink.shade700,
+    ),
   };
   static final ThemeData myTheme = ThemeData(
     primarySwatch: Colors.blueGrey,

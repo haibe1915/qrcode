@@ -106,6 +106,7 @@ class _QrEventPageState extends State<QrEventPage> {
 
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     Map<String, String> event =
         extractICalendarValues(widget.historyItem.content);
 
@@ -136,25 +137,27 @@ class _QrEventPageState extends State<QrEventPage> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    QRCodeWidget _qrCodeWidget =
+                        QRCodeWidget(data: widget.historyItem.content);
                     return AlertDialog(
-                      content: Container(
-                        width: 200,
-                        height: 200,
-                        child: QRCodeWidget(data: widget.historyItem.content),
+                      content: SizedBox(
+                        width: 200, // Adjust the width as needed
+                        height: 200, // Adjust the height as needed
+                        child: _qrCodeWidget,
                       ),
                       actions: [
                         TextButton(
-                          child: Text('Nhập'),
-                          onPressed: () {
-                            addEvent(event);
+                          child: const Text('Save'),
+                          onPressed: () async {
+                            _qrCodeWidget.saveImageToGallery();
                           },
                         ),
                         TextButton(
-                          child: Text('Close'),
+                          child: const Text('Close'),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                        ),
+                        )
                       ],
                     );
                   });
@@ -239,6 +242,19 @@ class _QrEventPageState extends State<QrEventPage> {
                       ),
                     ],
                   ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: Container(
+                height: screenHeight * 0.06,
+                width: screenWidth * 0.4,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    addEvent(event);
+                  },
+                  child: Text('Thêm'),
                 ),
               ),
             ),

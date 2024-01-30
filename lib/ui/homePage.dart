@@ -15,7 +15,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StaticVariable.pages[_currentPageIndex],
+      body: Stack(
+        children: [
+          StaticVariable.pages[_currentPageIndex],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 500, // Adjust the height as needed
+              // Replace with your banner ad widget
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentPageIndex,
         onTap: (int index) {

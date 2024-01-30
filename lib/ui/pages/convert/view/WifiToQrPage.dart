@@ -6,6 +6,7 @@ import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:qrcode/ui/pages/convert/view/SegmentButtonWifi.dart';
+import 'package:qrcode/ui/pages/result/QrWifi.dart';
 
 class WifiToQrPage extends StatefulWidget {
   const WifiToQrPage({super.key});
@@ -51,31 +52,17 @@ class _WifiToQrPageState extends State<WifiToQrPage> {
               onPressed: () {
                 var data =
                     "WIFI:S:${_ssidEditingController.text};T:${result};P:${_passwordEditingController.text};;";
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Container(
-                          width: 200, // Adjust the width as needed
-                          height: 200, // Adjust the height as needed
-                          child: QRCodeWidget(data: data),
-                        ),
-                        actions: [
-                          TextButton(
-                            child: Text('Close'),
-                            onPressed: () {
-                              _ssidEditingController.clear();
-                              _passwordEditingController.clear();
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    });
                 HistoryItem tmp = HistoryItem(
                     type: 'wifi', datetime: DateTime.now(), content: data);
                 StaticVariable.createdController.add(tmp);
                 StaticVariable.conn.insertCreated(tmp);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => QrWifiPage(
+                            historyItem: tmp,
+                          )),
+                );
               },
             )
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
 class UrlToQrPage extends StatelessWidget {
   TextEditingController _textEditingController =
@@ -26,34 +27,19 @@ class UrlToQrPage extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Container(
-                          width: 200, // Adjust the width as needed
-                          height: 200, // Adjust the height as needed
-                          child:
-                              QRCodeWidget(data: _textEditingController.text),
-                        ),
-                        actions: [
-                          TextButton(
-                            child: Text('Close'),
-                            onPressed: () {
-                              _textEditingController =
-                                  TextEditingController(text: 'http://');
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    });
                 HistoryItem tmp = HistoryItem(
                     type: 'url',
                     datetime: DateTime.now(),
                     content: _textEditingController.text);
                 StaticVariable.createdController.add(tmp);
                 StaticVariable.conn.insertCreated(tmp);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => QrUrlPage(
+                            historyItem: tmp,
+                          )),
+                );
               },
             )
           ],

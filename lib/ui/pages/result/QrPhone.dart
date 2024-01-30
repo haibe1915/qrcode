@@ -62,19 +62,27 @@ class _QrPhonePageState extends State<QrPhonePage> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    QRCodeWidget _qrCodeWidget =
+                        QRCodeWidget(data: widget.historyItem.content);
                     return AlertDialog(
-                      content: Container(
-                        width: 200,
-                        height: 200,
-                        child: QRCodeWidget(data: widget.historyItem.content),
+                      content: SizedBox(
+                        width: 200, // Adjust the width as needed
+                        height: 200, // Adjust the height as needed
+                        child: _qrCodeWidget,
                       ),
                       actions: [
                         TextButton(
-                          child: Text('Close'),
+                          child: const Text('Save'),
+                          onPressed: () async {
+                            _qrCodeWidget.saveImageToGallery();
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Close'),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                        ),
+                        )
                       ],
                     );
                   });
