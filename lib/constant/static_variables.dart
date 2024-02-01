@@ -49,4 +49,5 @@ class StaticVariable {
     primarySwatch: Colors.blueGrey,
     brightness: Brightness.light,
   );
+  static final adId = "ca-app-pub-3940256099942544/6300978111";
 }

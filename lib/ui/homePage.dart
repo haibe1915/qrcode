@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/ui/widget/AdBanner.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -18,13 +19,13 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           StaticVariable.pages[_currentPageIndex],
-          Positioned(
+          const Positioned(
             left: 0,
             right: 0,
             bottom: 0,
-            child: Container(
-              height: 500, // Adjust the height as needed
-              // Replace with your banner ad widget
+            child: SizedBox(
+              height: 50,
+              child: AdBanner(),
             ),
           ),
         ],

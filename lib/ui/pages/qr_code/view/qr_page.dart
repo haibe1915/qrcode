@@ -12,7 +12,6 @@ import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/repositories/image_gallery/getImage.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
 import 'package:qrcode/ui/pages/result/QrEmail.dart';
 import 'package:qrcode/ui/pages/result/QrEvent.dart';

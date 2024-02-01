@@ -11,7 +11,6 @@ import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/repositories/contact/getContact.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';

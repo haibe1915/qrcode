@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/repositories/image_gallery/getImage.dart';
-import 'package:qrcode/repositories/scan_image/addImageToDatabase.dart';
-import 'package:qrcode/repositories/scan_image/scan_image.dart';
+import 'package:qrcode/utils/image_gallery/getImage.dart';
+import 'package:qrcode/utils/scan_image/addImageToDatabase.dart';
+import 'package:qrcode/utils/scan_image/scan_image.dart';
 
 class ScanImageBloc extends Bloc<ScanImageEvent, ScanImageState> {
   @override
