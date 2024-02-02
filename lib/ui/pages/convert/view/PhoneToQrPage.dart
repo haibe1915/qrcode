@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:qrcode/constant/static_variables.dart';
@@ -7,9 +6,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/ui/pages/result/QrPhone.dart';
 
 class PhoneToQrPage extends StatefulWidget {
@@ -20,10 +17,10 @@ class PhoneToQrPage extends StatefulWidget {
 }
 
 class _PhoneToQrPageState extends State<PhoneToQrPage> {
-  TextEditingController _textEditingController = TextEditingController();
-  TextEditingController _contactSearch = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _contactSearch = TextEditingController();
 
-  PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
+  final PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
 
   @override
   void initState() {
@@ -37,14 +34,14 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
         builder: (BuildContext context) {
           return BlocProvider<PhoneToQrBloc>(
             create: (context) => _phoneToQrBloc,
-            child: Container(
+            child: SizedBox(
               height: 0.8 * MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   TextField(
                     controller: _contactSearch,
                     onChanged: (value) {},
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -60,7 +57,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                 contacts: state.contacts));
                           });
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -90,7 +87,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                               ));
                         } else if (state is PhoneToQrStateSearch) {
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -119,15 +116,15 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                 ],
                               ));
                         } else if (state is PhoneToQrStateLoading) {
-                          return Container(
+                          return SizedBox(
                               height: 0.8 * MediaQuery.of(context).size.height,
                               child:
-                                  Center(child: CircularProgressIndicator()));
+                                  const Center(child: CircularProgressIndicator()));
                         } else if (state is PhoneToQrStateError) {
                           return Center(
                             child: Text(
                               state.message,
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             ),
                           );
                         }
@@ -143,12 +140,13 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
         });
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Văn bản'),
+          title: const Text('Văn bản'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -182,11 +180,11 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
           children: [
             Container(
                 alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 child: Card(
                     elevation: 4,
                     clipBehavior: Clip.hardEdge,
-                    child: Container(
+                    child: SizedBox(
                         height: screenHeight * 0.1,
                         width: screenWidth * 0.8,
                         child: Column(
@@ -198,7 +196,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _textEditingController,
@@ -206,7 +204,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Nhập số điện thoại của bạn',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,
@@ -221,7 +219,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                 child: Container(
                     height: screenHeight * 0.1,
                     width: screenWidth * 0.4,
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Card(
                         elevation: 4,
                         child: InkWell(
@@ -229,7 +227,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                               _phoneToQrBloc.add(PhoneToQrEventLoadData());
                               _showContact();
                             },
-                            child: Center(child: Text('Nhập'))))),
+                            child: const Center(child: Text('Nhập'))))),
               ),
             )
           ],

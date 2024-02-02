@@ -1,11 +1,4 @@
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter/rendering.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
@@ -33,6 +26,7 @@ class _QrTextPageState extends State<QrTextPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -64,19 +58,19 @@ class _QrTextPageState extends State<QrTextPage> {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      QRCodeWidget _qrCodeWidget =
+                      QRCodeWidget qrCodeWidget =
                           QRCodeWidget(data: widget.historyItem.content);
                       return AlertDialog(
                         content: SizedBox(
                           width: 200, // Adjust the width as needed
                           height: 200, // Adjust the height as needed
-                          child: _qrCodeWidget,
+                          child: qrCodeWidget,
                         ),
                         actions: [
                           TextButton(
                             child: const Text('Save'),
                             onPressed: () async {
-                              _qrCodeWidget.saveImageToGallery();
+                              qrCodeWidget.saveImageToGallery();
                             },
                           ),
                           TextButton(
@@ -92,32 +86,29 @@ class _QrTextPageState extends State<QrTextPage> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TitleBar(screenWidth: screenWidth, widget: widget),
-              Container(
-                  alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Card(
-                      elevation: 4,
-                      clipBehavior: Clip.hardEdge,
-                      child: SizedBox(
-                          height: screenHeight * 0.4,
-                          width: screenWidth * 0.8,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
+        body: Column(
+          children: [
+            TitleBar(screenWidth: screenWidth, widget: widget),
+            Container(
+                alignment: Alignment.topCenter,
+                margin: const EdgeInsets.only(top: 20),
+                child: Card(
+                    elevation: 4,
+                    clipBehavior: Clip.hardEdge,
+                    child: SizedBox(
+                        height: screenHeight * 0.4,
+                        width: screenWidth * 0.8,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1,
                               ),
-                              margin: const EdgeInsets.all(10),
-                              child: Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: Text(widget.historyItem.content)))))),
-            ],
-          ),
+                            ),
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Text(widget.historyItem.content))))),
+          ],
         ));
   }
 }

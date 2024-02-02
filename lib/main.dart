@@ -13,7 +13,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
@@ -48,6 +47,7 @@ Future<void> main() async {
   StaticVariable.createdController.addStream(StaticVariable.conn.readCreated());
   StaticVariable.scannedController.addStream(StaticVariable.conn.readScanned());
   await Future.delayed(const Duration(seconds: 0));
+  MobileAds.instance.initialize();
 
-  runApp(QrApp());
+  runApp(const QrApp());
 }

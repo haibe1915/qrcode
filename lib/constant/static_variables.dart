@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qrcode/data/Sqlite/database_helper.dart';
@@ -7,11 +6,16 @@ import 'package:qrcode/ui/pages/convert/view/convert_page.dart';
 import 'package:qrcode/ui/pages/qr_code/view/qr_page.dart';
 import 'package:qrcode/ui/pages/history/view/history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:qrcode/ui/widget/AdBanner.dart';
 
 class StaticVariable {
   static List<HistoryItem> createdHistoryList = <HistoryItem>[];
   static List<HistoryItem> scannedHistoryList = <HistoryItem>[];
-  static List<Widget> pages = [HistoryPage(), QrPage(), ConvertPage()];
+  static List<Widget> pages = [
+    const HistoryPage(),
+    const QrPage(),
+    ConvertPage()
+  ];
   static List<String> historyPagesTabs = ['Đã quét', 'Đã tạo'];
   static StreamController<HistoryItem> createdController =
       StreamController<HistoryItem>.broadcast();
@@ -20,7 +24,7 @@ class StaticVariable {
   static StreamController<String> streamSearchController =
       StreamController<String>.broadcast();
   Map<Permission, PermissionStatus> permissionStatus =
-      Map<Permission, PermissionStatus>();
+      <Permission, PermissionStatus>{};
   static late DatabaseHelper conn;
   static String wifiSecurity = "WPA";
   static final Map<String, Icon> iconCategory = {
@@ -49,5 +53,6 @@ class StaticVariable {
     primarySwatch: Colors.blueGrey,
     brightness: Brightness.light,
   );
-  static final adId = "ca-app-pub-3940256099942544/6300978111";
+  static const adId = "ca-app-pub-3940256099942544/6300978111";
+  static AdBanner adBanner = const AdBanner();
 }

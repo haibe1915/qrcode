@@ -12,39 +12,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentPageIndex = 0;
+  int _currentPageIndex = 2;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          StaticVariable.pages[_currentPageIndex],
-          const Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SizedBox(
-              height: 50,
-              child: AdBanner(),
+    return Column(
+      children: [
+        Material(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: SafeArea(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
+              ),
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentPageIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentPageIndex = index;
-          });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.access_time), label: 'History'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_scanner), label: 'Qr'),
-          BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Convert'),
-        ],
-      ),
+        ),
+        Expanded(
+          child: Scaffold(
+            body: StaticVariable.pages[_currentPageIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _currentPageIndex,
+              onTap: (int index) {
+                setState(() {
+                  _currentPageIndex = index;
+                });
+              },
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.access_time), label: 'History'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code_scanner), label: 'Qr'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code), label: 'Convert'),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

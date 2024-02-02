@@ -11,6 +11,7 @@ class SegmentButtonWifi extends StatefulWidget {
 
 class _SegmentButtonWifiState extends State<SegmentButtonWifi> {
   String result = "WPA";
+  @override
   Widget build(BuildContext context) {
     return SegmentedButton<String>(
       segments: const <ButtonSegment<String>>[
@@ -28,7 +29,7 @@ class _SegmentButtonWifiState extends State<SegmentButtonWifi> {
         setState(() {
           result = newSelection.first;
         });
-        widget.onResultChanged?.call(result);
+        widget.onResultChanged.call(result);
       },
     );
   }

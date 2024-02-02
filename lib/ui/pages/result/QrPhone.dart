@@ -1,10 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
@@ -31,6 +26,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -38,7 +34,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (widget.controller != null) {
               print("resume");
@@ -47,7 +43,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Số điện thoại'),
+        title: const Text('Số điện thoại'),
         actions: [
           IconButton(
             padding:
@@ -62,19 +58,19 @@ class _QrPhonePageState extends State<QrPhonePage> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    QRCodeWidget _qrCodeWidget =
+                    QRCodeWidget qrCodeWidget =
                         QRCodeWidget(data: widget.historyItem.content);
                     return AlertDialog(
                       content: SizedBox(
                         width: 200, // Adjust the width as needed
                         height: 200, // Adjust the height as needed
-                        child: _qrCodeWidget,
+                        child: qrCodeWidget,
                       ),
                       actions: [
                         TextButton(
                           child: const Text('Save'),
                           onPressed: () async {
-                            _qrCodeWidget.saveImageToGallery();
+                            qrCodeWidget.saveImageToGallery();
                           },
                         ),
                         TextButton(
@@ -90,45 +86,43 @@ class _QrPhonePageState extends State<QrPhonePage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Card(
-                elevation: 4,
-                clipBehavior: Clip.hardEdge,
-                child: Container(
-                  height: screenHeight * 0.1,
-                  width: screenWidth * 0.8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Text(
-                        widget.historyItem.content,
-                        style: TextStyle(fontSize: 16),
-                      ),
+      body: Column(
+        children: [
+          TitleBar(screenWidth: screenWidth, widget: widget),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Card(
+              elevation: 4,
+              clipBehavior: Clip.hardEdge,
+              child: SizedBox(
+                height: screenHeight * 0.1,
+                width: screenWidth * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text(
+                      widget.historyItem.content,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Center(
-              child: Container(
-                height: screenHeight * 0.06,
-                width: screenWidth * 0.4,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    launchUrl(Uri.parse("tel:${widget.historyItem.content}"));
-                  },
-                  child: Text('Gọi'),
-                ),
+          ),
+          const SizedBox(height: 20),
+          Center(
+            child: SizedBox(
+              height: screenHeight * 0.06,
+              width: screenWidth * 0.4,
+              child: ElevatedButton(
+                onPressed: () async {
+                  launchUrl(Uri.parse("tel:${widget.historyItem.content}"));
+                },
+                child: const Text('Gọi'),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

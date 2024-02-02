@@ -12,8 +12,8 @@ class PhoneToQrBloc extends Bloc<PhoneToQrEvent, PhoneToQrState> {
   }
 
   List<Contact> contacts = [];
-  GetContact _getContact = GetContact();
-  Search _search = Search();
+  final GetContact _getContact = GetContact();
+  final Search _search = Search();
 
   void _handlePhoneToQrEventLoadData(
       PhoneToQrEvent event, Emitter<PhoneToQrState> emit) async {

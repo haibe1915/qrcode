@@ -7,6 +7,6 @@ class QrObserver extends BlocObserver {
   void onChange(BlocBase bloc, Change change) {
     // TODO: implement onChange
     super.onChange(bloc, change);
-    print('${bloc.runtimeType}: ${change}');
+    print('${bloc.runtimeType}: $change');
   }
 }

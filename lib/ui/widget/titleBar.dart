@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
-import 'package:qrcode/ui/pages/result/QrEvent.dart';
 
 class TitleBar extends StatelessWidget {
   TitleBar({
@@ -16,7 +15,7 @@ class TitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: screenWidth * 0.8,
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: Card(
         elevation: 4,
         child: Row(
@@ -26,7 +25,7 @@ class TitleBar extends StatelessWidget {
                 leading: StaticVariable.iconCategory[widget.historyItem.type],
                 title: Text(
                   widget.historyItem.datetime.toString(),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),

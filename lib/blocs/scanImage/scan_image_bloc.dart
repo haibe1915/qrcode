@@ -37,6 +37,7 @@ class ScanImageBloc extends Bloc<ScanImageEvent, ScanImageState> {
     }
   }
 
+  @override
   void onTransition(Transition<ScanImageEvent, ScanImageState> transition) {
     super.onTransition(transition);
     print(transition);

@@ -1,12 +1,12 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 
 class ScanImage {
   static Future<String?> scanImageFromImage(String imagePath) async {
     String? result = await Scan.parse(imagePath);
-    if (result != null)
+    if (result != null) {
       return result;
-    else
+    } else {
       return "ERROR";
+    }
   }
 }

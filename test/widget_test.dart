@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:qrcode/main.dart';
 import 'package:qrcode/ui/qr_app.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -16,7 +15,7 @@ void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     MobileAds.instance.initialize();
     // Build our app and trigger a frame.
-    await tester.pumpWidget(QrApp());
+    await tester.pumpWidget(const QrApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

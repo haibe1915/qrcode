@@ -86,7 +86,7 @@ class _HistoryPageState extends State<HistoryPage> {
       default:
         summary = item.content;
     }
-    if (summary.length > 30) return summary.substring(0, 30) + "...";
+    if (summary.length > 30) return "${summary.substring(0, 30)}...";
     return summary;
   }
 
@@ -126,43 +126,43 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     const int tabsCount = 2;
 
-    TextEditingController _createdSearch = TextEditingController();
-    StreamController<int> _typeCreatedController =
+    TextEditingController createdSearch = TextEditingController();
+    StreamController<int> typeCreatedController =
         StreamController<int>.broadcast();
     int typeCreated = 0;
-    _typeCreatedController.sink.add(0);
-    _createdSearch.addListener(() {
+    typeCreatedController.sink.add(0);
+    createdSearch.addListener(() {
       _searchCreatedBloc.add(SearchEventLoadData(
-          str: _createdSearch.text,
+          str: createdSearch.text,
           type: typeCreated,
           historyList: StaticVariable.createdHistoryList));
     });
 
-    _typeCreatedController.stream.listen((typeChoosed) {
+    typeCreatedController.stream.listen((typeChoosed) {
       typeCreated = typeChoosed;
       _searchCreatedBloc.add(SearchEventLoadData(
-          str: _createdSearch.text,
+          str: createdSearch.text,
           type: typeChoosed,
           historyList: StaticVariable.createdHistoryList));
     });
 
-    TextEditingController _scannedSearch = TextEditingController();
-    StreamController<int> _typeScannedController =
+    TextEditingController scannedSearch = TextEditingController();
+    StreamController<int> typeScannedController =
         StreamController<int>.broadcast();
     int typeScanned = 0;
 
-    _typeScannedController.sink.add(0);
-    _scannedSearch.addListener(() {
+    typeScannedController.sink.add(0);
+    scannedSearch.addListener(() {
       _searchScannedBloc.add(SearchEventLoadData(
-          str: _scannedSearch.text,
+          str: scannedSearch.text,
           type: typeScanned,
           historyList: StaticVariable.scannedHistoryList));
     });
 
-    _typeScannedController.stream.listen((typeChoosed) {
+    typeScannedController.stream.listen((typeChoosed) {
       typeScanned = typeChoosed;
       _searchScannedBloc.add(SearchEventLoadData(
-          str: _createdSearch.text,
+          str: createdSearch.text,
           type: typeChoosed,
           historyList: StaticVariable.scannedHistoryList));
     });
@@ -175,10 +175,10 @@ class _HistoryPageState extends State<HistoryPage> {
             appBar: AppBar(
               title: TabBar(tabs: <Widget>[
                 Tab(
-                    icon: Icon(Icons.qr_code_scanner),
+                    icon: const Icon(Icons.qr_code_scanner),
                     text: StaticVariable.historyPagesTabs[0]),
                 Tab(
-                    icon: Icon(Icons.qr_code),
+                    icon: const Icon(Icons.qr_code),
                     text: StaticVariable.historyPagesTabs[1]),
               ]),
             ),
@@ -190,7 +190,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     children: [
                       Expanded(
                         child: TextField(
-                          controller: _createdSearch,
+                          controller: createdSearch,
                           onChanged: (value) {},
                           decoration: const InputDecoration(
                             hintText: 'Search',
@@ -205,7 +205,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               return PopupMenuButton<int>(
                                 initialValue: typeScanned,
                                 onSelected: (int type) {
-                                  _typeCreatedController.sink.add(type);
+                                  typeCreatedController.sink.add(type);
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<int>>[
@@ -223,7 +223,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               return PopupMenuButton<int>(
                                 initialValue: state.type,
                                 onSelected: (int type) {
-                                  _typeCreatedController.sink.add(type);
+                                  typeCreatedController.sink.add(type);
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<int>>[
@@ -292,13 +292,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return AlertDialog(
-                                                            content: Container(
+                                                            content: const SizedBox(
                                                               width:
                                                                   200, // Adjust the width as needed
                                                               height:
                                                                   50, // Adjust the height as needed
                                                               child:
-                                                                  const Center(
+                                                                  Center(
                                                                 child: Text(
                                                                     "Bạn có muốn xoá không ?"),
                                                               ),
@@ -387,12 +387,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return AlertDialog(
-                                                            content: Container(
+                                                            content: const SizedBox(
                                                               width:
                                                                   200, // Adjust the width as needed
                                                               height:
                                                                   100, // Adjust the height as needed
-                                                              child: const Text(
+                                                              child: Text(
                                                                   "Bạn có muốn xoá không ?"),
                                                             ),
                                                             actions: [
@@ -469,7 +469,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     children: [
                       Expanded(
                         child: TextField(
-                          controller: _createdSearch,
+                          controller: createdSearch,
                           onChanged: (value) {},
                           decoration: const InputDecoration(
                             hintText: 'Search',
@@ -484,7 +484,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               return PopupMenuButton<int>(
                                 initialValue: typeScanned,
                                 onSelected: (int type) {
-                                  _typeCreatedController.sink.add(type);
+                                  typeCreatedController.sink.add(type);
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<int>>[
@@ -502,7 +502,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               return PopupMenuButton<int>(
                                 initialValue: state.type,
                                 onSelected: (int type) {
-                                  _typeCreatedController.sink.add(type);
+                                  typeCreatedController.sink.add(type);
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<int>>[
@@ -570,12 +570,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return AlertDialog(
-                                                            content: Container(
+                                                            content: const SizedBox(
                                                               width:
                                                                   200, // Adjust the width as needed
                                                               height:
                                                                   100, // Adjust the height as needed
-                                                              child: const Text(
+                                                              child: Text(
                                                                   "Bạn có muốn xoá không ?"),
                                                             ),
                                                             actions: [
@@ -661,12 +661,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return AlertDialog(
-                                                            content: Container(
+                                                            content: const SizedBox(
                                                               width:
                                                                   200, // Adjust the width as needed
                                                               height:
                                                                   100, // Adjust the height as needed
-                                                              child: const Text(
+                                                              child: Text(
                                                                   "Bạn có muốn xoá không ?"),
                                                             ),
                                                             actions: [

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
@@ -13,7 +12,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchEventLoadData>(_handleSearchEventLoadData);
     on<SearchEventDeleteData>(_handleSearchEventDeleteData);
   }
-  Search _search = Search();
+  final Search _search = Search();
 
   void _handleSearchEventLoadData(
       SearchEventLoadData event, Emitter<SearchState> emit) async {

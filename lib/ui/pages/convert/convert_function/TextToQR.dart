@@ -9,7 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QRCodeWidget extends StatelessWidget {
   final String data;
 
-  QRCodeWidget({required this.data});
+  QRCodeWidget({super.key, required this.data});
   final GlobalKey qrImageViewKey = GlobalKey();
 
   @override
@@ -49,14 +49,14 @@ class QRCodeWidget extends StatelessWidget {
             context: qrImageViewKey.currentContext!,
             builder: (BuildContext context) {
               return AlertDialog(
-                content: Container(
+                content: const SizedBox(
                   width: 200, // Adjust the width as needed
                   height: 100, // Adjust the height as needed
                   child: Center(child: Text('Thêm thành công')),
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Close'),
+                    child: const Text('Close'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -69,14 +69,14 @@ class QRCodeWidget extends StatelessWidget {
             context: qrImageViewKey.currentContext!,
             builder: (BuildContext context) {
               return AlertDialog(
-                content: Container(
+                content: const SizedBox(
                   width: 200, // Adjust the width as needed
                   height: 100, // Adjust the height as needed
                   child: Center(child: Text('Thêm thất bại')),
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Close'),
+                    child: const Text('Close'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

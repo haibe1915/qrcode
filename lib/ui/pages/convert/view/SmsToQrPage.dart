@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:qrcode/constant/static_variables.dart';
@@ -9,11 +8,8 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
-import 'package:qrcode/ui/pages/result/QrText.dart';
 
 class SmsToQrPage extends StatefulWidget {
   const SmsToQrPage({super.key});
@@ -23,12 +19,12 @@ class SmsToQrPage extends StatefulWidget {
 }
 
 class _SmsToQrPageState extends State<SmsToQrPage> {
-  TextEditingController _nameEditingController = TextEditingController();
-  TextEditingController _contactSearch = TextEditingController();
+  final TextEditingController _nameEditingController = TextEditingController();
+  final TextEditingController _contactSearch = TextEditingController();
 
-  PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
-  TextEditingController _textEditingController = TextEditingController();
-  StreamController<int> _textLengthStream = StreamController<int>();
+  final PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
+  final TextEditingController _textEditingController = TextEditingController();
+  final StreamController<int> _textLengthStream = StreamController<int>();
 
   @override
   void dispose() {
@@ -53,14 +49,14 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
         builder: (BuildContext context) {
           return BlocProvider<PhoneToQrBloc>(
             create: (context) => _phoneToQrBloc,
-            child: Container(
+            child: SizedBox(
               height: 0.8 * MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   TextField(
                     controller: _contactSearch,
                     onChanged: (value) {},
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -76,7 +72,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                 contacts: state.contacts));
                           });
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -106,7 +102,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                               ));
                         } else if (state is PhoneToQrStateSearch) {
                           return Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -135,15 +131,15 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                 ],
                               ));
                         } else if (state is PhoneToQrStateLoading) {
-                          return Container(
+                          return SizedBox(
                               height: 0.8 * MediaQuery.of(context).size.height,
                               child:
-                                  Center(child: CircularProgressIndicator()));
+                                  const Center(child: CircularProgressIndicator()));
                         } else if (state is PhoneToQrStateError) {
                           return Center(
                             child: Text(
                               state.message,
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             ),
                           );
                         }
@@ -159,12 +155,13 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
         });
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Tin nhắn'),
+          title: const Text('Tin nhắn'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -199,11 +196,11 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
           children: [
             Container(
                 alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 child: Card(
                     elevation: 4,
                     clipBehavior: Clip.hardEdge,
-                    child: Container(
+                    child: SizedBox(
                         height: screenHeight * 0.4,
                         width: screenWidth * 0.8,
                         child: Column(
@@ -215,7 +212,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: Row(
                                 children: [
@@ -226,7 +223,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter.digitsOnly,
                                       ],
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: 'Đến',
                                         contentPadding: EdgeInsets.all(10),
                                         border: InputBorder.none,
@@ -240,7 +237,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                             .add(PhoneToQrEventLoadData());
                                         _showContact();
                                       },
-                                      icon: Icon(Icons.add))
+                                      icon: const Icon(Icons.add))
                                 ],
                               ),
                             ),
@@ -253,7 +250,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                       if (snapshot.hasData) {
                                         return Text(snapshot.data.toString());
                                       } else {
-                                        return Text('');
+                                        return const Text('');
                                       }
                                     },
                                   ),
@@ -266,11 +263,11 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                   width: 1,
                                 ),
                               ),
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
                               child: TextField(
                                 controller: _textEditingController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Văn bản',
                                   contentPadding: EdgeInsets.all(10),
                                   border: InputBorder.none,

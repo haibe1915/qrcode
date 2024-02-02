@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
 
 class UrlToQrPage extends StatelessWidget {
-  TextEditingController _textEditingController =
+  final TextEditingController _textEditingController =
       TextEditingController(text: 'http://');
 
   UrlToQrPage({super.key});
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Url'),
+          title: const Text('Url'),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -46,11 +46,11 @@ class UrlToQrPage extends StatelessWidget {
         ),
         body: Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             child: Card(
                 elevation: 4,
                 clipBehavior: Clip.hardEdge,
-                child: Container(
+                child: SizedBox(
                     height: screenHeight * 0.4,
                     width: screenWidth * 0.8,
                     child: Column(
@@ -64,10 +64,10 @@ class UrlToQrPage extends StatelessWidget {
                             ),
                           ),
                           margin:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                              const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                           child: TextField(
                             controller: _textEditingController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               contentPadding: EdgeInsets.all(10),
                             ),
                             maxLines: null,

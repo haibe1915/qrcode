@@ -37,28 +37,32 @@ class ConvertPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('QrCode'),
-      ),
-      body: ListView.builder(
-        itemCount: name.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => functionPages[index]),
-                );
-              },
-              child: ListTile(
-                leading: StaticVariable.iconCategory[name[index].toLowerCase()],
-                title: Text(name[index]),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('QrCode'),
+        ),
+        body: ListView.builder(
+          itemCount: name.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => functionPages[index]),
+                  );
+                },
+                child: ListTile(
+                  leading:
+                      StaticVariable.iconCategory[name[index].toLowerCase()],
+                  title: Text(name[index]),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:qrcode/blocs/AdBanner/ad_banner_event.dart';
 import 'package:qrcode/blocs/AdBanner/ad_banner_state.dart';
 import 'package:qrcode/utils/Ads/AdsClient.dart';

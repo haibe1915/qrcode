@@ -1,16 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_bloc.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
-import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
 import 'package:qrcode/ui/pages/result/QrEmail.dart';
@@ -19,8 +14,6 @@ import 'package:qrcode/ui/pages/result/QrPhone.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:scan/scan.dart';
 
 class QrPage extends StatefulWidget {
   const QrPage({super.key});
@@ -33,7 +26,7 @@ class _QrPageState extends State<QrPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   Barcode? barcode;
-  ScanImageBloc _scanImageBloc = ScanImageBloc();
+  final ScanImageBloc _scanImageBloc = ScanImageBloc();
 
   @override
   void dispose() {
@@ -146,6 +139,7 @@ class _QrPageState extends State<QrPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -163,7 +157,7 @@ class _QrPageState extends State<QrPage> {
             Positioned(
                 top: 10,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white24),
@@ -176,7 +170,7 @@ class _QrPageState extends State<QrPage> {
                           onPressed: () {
                             _scanImageBloc.add(ScanImageScan());
                           },
-                          icon: Icon(Icons.image)),
+                          icon: const Icon(Icons.image)),
                       IconButton(
                           onPressed: () async {
                             await controller?.toggleFlash();
@@ -197,7 +191,7 @@ class _QrPageState extends State<QrPage> {
                           onPressed: () async {
                             await controller?.flipCamera();
                           },
-                          icon: Icon(Icons.switch_camera)
+                          icon: const Icon(Icons.switch_camera)
                           // FutureBuilder(
                           //   future: controller?.getCameraInfo(),
                           //   builder: (context, snapshot) {
@@ -230,12 +224,12 @@ class _QrPageState extends State<QrPage> {
                               borderRadius: BorderRadius.circular(
                                   10), // Set the desired border radius
                             ),
-                            child: Center(child: CircularProgressIndicator())));
+                            child: const Center(child: CircularProgressIndicator())));
                   } else if (state is ScanImageError) {
                     return Center(
                       child: Text(
                         state.message,
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     );
                   }

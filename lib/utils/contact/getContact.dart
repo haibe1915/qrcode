@@ -12,9 +12,9 @@ class GetContact {
     List<Contact> contacts = [];
     PermissionStatus contactsPermissionsStatus = await _contactsPermissions();
     if (contactsPermissionsStatus.isGranted) {
-      List<Contact> _contacts =
+      List<Contact> contacts0 =
           await FlutterContacts.getContacts(withProperties: true);
-      contacts = _contacts;
+      contacts = contacts0;
       return contacts;
     }
     return contacts;

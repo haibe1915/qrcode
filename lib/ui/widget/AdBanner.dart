@@ -9,7 +9,7 @@ class AdBanner extends StatefulWidget {
   const AdBanner({Key? key}) : super(key: key);
 
   @override
-  _AdBannerState createState() => _AdBannerState();
+  State<AdBanner> createState() => _AdBannerState();
 }
 
 class _AdBannerState extends State<AdBanner> {

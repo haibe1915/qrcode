@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:qrcode/constant/static_variables.dart';
 
@@ -15,6 +16,27 @@ class AdsClient {
         size: size ?? AdSize.banner,
         request: const AdRequest(),
         listener: BannerAdListener(
+          onAdOpened: (Ad ad) {
+            debugPrint(' BannerAdListener onAdOpened ${ad.toString()}.');
+          },
+          onAdClosed: (Ad ad) {
+            debugPrint(' BannerAdListener onAdClosed ${ad.toString()}.');
+          },
+          onAdImpression: (Ad ad) {
+            debugPrint(' BannerAdListener onAdImpression ${ad.toString()}.');
+          },
+          onAdWillDismissScreen: (Ad ad) {
+            debugPrint(
+                ' BannerAdListener onAdWillDismissScreen ${ad.toString()}.');
+          },
+          onPaidEvent: (
+            Ad ad,
+            double valueMicros,
+            PrecisionType precision,
+            String currencyCode,
+          ) {
+            debugPrint('BannerAdListener PaidEvent ${ad.toString()}.');
+          },
           onAdLoaded: adCompleter.complete,
           onAdFailedToLoad: (ad, error) {
             ad.dispose();

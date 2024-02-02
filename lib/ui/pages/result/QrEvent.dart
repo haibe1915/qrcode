@@ -1,15 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_contacts/contact.dart';
-import 'package:flutter_contacts/properties/address.dart';
-import 'package:flutter_contacts/properties/note.dart';
-import 'package:flutter_contacts/properties/phone.dart';
-import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
@@ -68,14 +59,14 @@ class _QrEventPageState extends State<QrEventPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                content: Container(
+                content: const SizedBox(
                   width: 200, // Adjust the width as needed
                   height: 100, // Adjust the height as needed
                   child: Center(child: Text('Thêm thành công')),
                 ),
                 actions: [
                   TextButton(
-                    child: Text('Close'),
+                    child: const Text('Close'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -104,6 +95,7 @@ class _QrEventPageState extends State<QrEventPage> {
     return values;
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -113,7 +105,7 @@ class _QrEventPageState extends State<QrEventPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (widget.controller != null) {
               print("resume");
@@ -122,7 +114,7 @@ class _QrEventPageState extends State<QrEventPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Sự kiện'),
+        title: const Text('Sự kiện'),
         actions: [
           IconButton(
             padding:
@@ -137,19 +129,19 @@ class _QrEventPageState extends State<QrEventPage> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    QRCodeWidget _qrCodeWidget =
+                    QRCodeWidget qrCodeWidget =
                         QRCodeWidget(data: widget.historyItem.content);
                     return AlertDialog(
                       content: SizedBox(
                         width: 200, // Adjust the width as needed
                         height: 200, // Adjust the height as needed
-                        child: _qrCodeWidget,
+                        child: qrCodeWidget,
                       ),
                       actions: [
                         TextButton(
                           child: const Text('Save'),
                           onPressed: () async {
-                            _qrCodeWidget.saveImageToGallery();
+                            qrCodeWidget.saveImageToGallery();
                           },
                         ),
                         TextButton(
@@ -165,101 +157,99 @@ class _QrEventPageState extends State<QrEventPage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            Container(
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: 20),
-              child: Card(
-                elevation: 4,
-                clipBehavior: Clip.hardEdge,
-                child: Container(
-                  width: screenWidth * 0.8,
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Summary:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["SUMMARY"]!,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Description:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["DESCRIPTION"]!,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Location:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["LOCATION"]!,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Start Time:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          _convertString(event["DTSTART"]!).toString(),
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'End Time:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          _convertString(event["DTEND"]!).toString(),
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Center(
+      body: Column(
+        children: [
+          TitleBar(screenWidth: screenWidth, widget: widget),
+          Container(
+            alignment: Alignment.topCenter,
+            margin: const EdgeInsets.only(top: 20),
+            child: Card(
+              elevation: 4,
+              clipBehavior: Clip.hardEdge,
               child: Container(
-                height: screenHeight * 0.06,
-                width: screenWidth * 0.4,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    addEvent(event);
-                  },
-                  child: Text('Thêm'),
+                width: screenWidth * 0.8,
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Summary:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        event["SUMMARY"]!,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Description:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        event["DESCRIPTION"]!,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Location:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        event["LOCATION"]!,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Start Time:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        _convertString(event["DTSTART"]!).toString(),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'End Time:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        _convertString(event["DTEND"]!).toString(),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+          Center(
+            child: SizedBox(
+              height: screenHeight * 0.06,
+              width: screenWidth * 0.4,
+              child: ElevatedButton(
+                onPressed: () async {
+                  addEvent(event);
+                },
+                child: const Text('Thêm'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
