@@ -15,7 +15,6 @@ class AdsBloc extends Bloc<AdBannerEvent, AdState> {
 
   Future<void> _adBannerRequestEventHandler(
       AdBannerRequestEvent event, Emitter<AdState> emit) async {
-    emit(AdLoading());
     try {
       final result = await _adsClient.getPageBannerAd();
       emit(state.copyWith(bottomBannerAd: result));
@@ -32,7 +31,6 @@ class AdsBloc extends Bloc<AdBannerEvent, AdState> {
 
   Future<void> _adNativeRequestEventHandler(
       AdNativeRequestEvent event, Emitter<AdState> emit) async {
-    emit(AdLoading());
     try {
       final result = await _adsClient.getPageNativeAd();
       emit(state.copyWith(nativeAd: result));

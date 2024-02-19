@@ -72,10 +72,20 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                       itemCount: state.contacts.length,
                                       itemBuilder: (context, index) {
                                         Contact contact = state.contacts[index];
+                                        List<String> contactName =
+                                            contact.displayName.split(" ");
                                         return InkWell(
                                           onTap: () {
                                             _firstNameEditingController.text =
-                                                contact.displayName;
+                                                contactName[0];
+                                            _surNameEditingController.text =
+                                                contactName[1];
+                                            _locationEditingController.text =
+                                                contact.addresses
+                                                    .elementAt(0)
+                                                    .address;
+                                            _noteEditingController.text =
+                                                contact.notes.elementAt(0).note;
                                             _phoneEditingController.text =
                                                 contact.phones
                                                     .elementAt(0)

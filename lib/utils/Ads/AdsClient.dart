@@ -33,7 +33,7 @@ class AdsClient {
       await bannerAd.load();
 
       return await adCompleter.future;
-    } catch (error, stackTrace) {
+    } catch (error) {
       throw error;
     }
   }
@@ -57,22 +57,23 @@ class AdsClient {
               debugPrint('NativeAdListener onAdFailedToLoad: $error');
               ad.dispose();
               adCompleter.completeError(error);
+              return StaticVariable.defaultAdNative;
             },
           ),
           nativeTemplateStyle: NativeTemplateStyle(
               // Required: Choose a template.
-              templateType: TemplateType.medium,
+              templateType: TemplateType.small,
               // Optional: Customize the ad's style.
-              mainBackgroundColor: Colors.purple,
+              mainBackgroundColor: Colors.white,
               cornerRadius: 10.0,
               callToActionTextStyle: NativeTemplateTextStyle(
-                  textColor: Colors.cyan,
-                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  backgroundColor: Colors.blue,
                   style: NativeTemplateFontStyle.monospace,
                   size: 16.0),
               primaryTextStyle: NativeTemplateTextStyle(
-                  textColor: Colors.red,
-                  backgroundColor: Colors.cyan,
+                  textColor: Colors.black,
+                  //backgroundColor: Colors.cyan,
                   style: NativeTemplateFontStyle.italic,
                   size: 16.0),
               secondaryTextStyle: NativeTemplateTextStyle(
@@ -89,7 +90,7 @@ class AdsClient {
       await nativeAd.load();
 
       return await adCompleter.future;
-    } catch (error, stackTrace) {
+    } catch (error) {
       throw error;
     }
   }
@@ -97,7 +98,7 @@ class AdsClient {
   Future<BannerAd> getPageBannerAd() async {
     try {
       return await _populateBannerAd(adUnitId: StaticVariable.adBannerId);
-    } catch (error, stackTrace) {
+    } catch (error) {
       throw error;
     }
   }
@@ -105,7 +106,7 @@ class AdsClient {
   Future<NativeAd> getPageNativeAd() async {
     try {
       return await _populateNativeAd(adUnitId: StaticVariable.adNativeId);
-    } catch (error, stackTrace) {
+    } catch (error) {
       // Handle the error appropriately
       throw error;
     }

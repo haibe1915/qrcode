@@ -30,30 +30,26 @@ class _AdNativeState extends State<AdNative> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AdsBloc, AdState>(
-      buildWhen: (pre, cur) => pre.bottomBannerAd != cur.bottomBannerAd,
+      buildWhen: (pre, cur) => pre.nativeAd != cur.nativeAd,
       builder: (context, state) {
-        if (state is AdLoading) {
-          return SizedBox(
-              height: 0.8 * MediaQuery.of(context).size.height,
-              child: const Center(child: CircularProgressIndicator()));
-        }
         if (!state.didNativeAdLoad) {
           return const SizedBox.shrink();
         }
-        return ConstrainedBox(
-          constraints: const BoxConstraints(
-            minWidth: 320, // minimum recommended width
-            minHeight: 320, // minimum recommended height
-            maxHeight: 320,
-          ),
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
           child: Stack(
             children: [
               AdWidget(ad: state.nativeAd!),
-              IconButton(
-                icon: const Icon(Icons.cancel),
-                onPressed: () {
-                  adsBloc.add(AdNativeDisposeEvent());
-                },
+              Positioned(
+                left: -10,
+                top: -10,
+                child: IconButton(
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () {
+                    adsBloc.add(AdNativeDisposeEvent());
+                  },
+                ),
               ),
             ],
           ),

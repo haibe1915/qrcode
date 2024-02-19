@@ -32,11 +32,6 @@ class _AdBannerState extends State<AdBanner> {
     return BlocBuilder<AdsBloc, AdState>(
       buildWhen: (pre, cur) => pre.bottomBannerAd != cur.bottomBannerAd,
       builder: (context, state) {
-        if (state is AdLoading) {
-          return SizedBox(
-              height: 0.8 * MediaQuery.of(context).size.height,
-              child: const Center(child: CircularProgressIndicator()));
-        }
         if (!state.didBottomBannerAdLoad) {
           return const SizedBox.shrink();
         }

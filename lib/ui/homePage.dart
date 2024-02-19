@@ -26,14 +26,6 @@ class _HomePageState extends State<HomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Material(
-          child: SafeArea(
-            child: SizedBox(
-              height: 50,
-              child: StaticVariable.adBanner,
-            ),
-          ),
-        ),
         Expanded(
           child: Scaffold(
             body: StaticVariable.pages[_currentPageIndex],
@@ -46,13 +38,28 @@ class _HomePageState extends State<HomePage> {
               },
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.access_time), label: 'History'),
+                    icon: Icon(
+                      Icons.access_time,
+                      color: Colors.grey,
+                    ),
+                    label: 'History'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.qr_code_scanner), label: 'Qr'),
+                    icon: Icon(Icons.qr_code_scanner, color: Colors.grey),
+                    label: 'Qr'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.qr_code), label: 'Convert'),
+                    icon: Icon(Icons.qr_code, color: Colors.grey),
+                    label: 'Convert'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings, color: Colors.grey),
+                    label: 'Setting'),
               ],
             ),
+          ),
+        ),
+        Material(
+          child: SizedBox(
+            height: 50,
+            child: StaticVariable.adBanner,
           ),
         ),
       ],
