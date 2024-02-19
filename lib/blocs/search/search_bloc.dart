@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
@@ -37,17 +36,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   void _handleSearchEventDeleteData(
       SearchEventDeleteData event, Emitter<SearchState> emit) async {
-    print(event.historyItem.datetime.toString());
-    print(event.type);
-    print(event.str);
+    emit(SearchStateLoading());
     List<HistoryItem> deleteResult = event.historyList;
+    int initialLength = deleteResult.length;
     deleteResult
         .removeWhere((item) => item.datetime == event.historyItem.datetime);
     StaticVariable.createdHistoryList
         .removeWhere((item) => item.datetime == event.historyItem.datetime);
     StaticVariable.scannedHistoryList
         .removeWhere((item) => item.datetime == event.historyItem.datetime);
-
     emit(SearchStateLoaded(event.type, event.str, deleteResult));
   }
 

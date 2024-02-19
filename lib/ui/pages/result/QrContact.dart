@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_contacts/properties/phone.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/widget/AdBanner.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
 
 class QrContactPage extends StatefulWidget {
@@ -30,7 +36,9 @@ class _QrContactPageState extends State<QrContactPage> {
   addContact(Map<String, String> contact) async {
     final newContact = Contact()
       ..name.first = contact["FN"]!
-      ..phones = [Phone(contact["TEL"]!)];
+      ..phones = [Phone(contact["TEL"]!)]
+      ..addresses = [Address(contact["ADR"]!)]
+      ..notes = [Note(contact["NOTE"]!)];
     await newContact.insert().then((_) {
       showDialog(
           context: context,
@@ -55,6 +63,7 @@ class _QrContactPageState extends State<QrContactPage> {
   }
 
   Map<String, String> extractcontactStringValues(String contactString) {
+    print(contactString);
     contactString = contactString.trim();
 
     List<String> lines = contactString.split('\n');
@@ -138,66 +147,112 @@ class _QrContactPageState extends State<QrContactPage> {
       ),
       body: Column(
         children: [
-          TitleBar(screenWidth: screenWidth, widget: widget),
-          Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.only(top: 20),
-            child: Card(
-              elevation: 4,
-              clipBehavior: Clip.hardEdge,
-              child: Container(
-                width: screenWidth * 0.8,
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Họ tên:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+          Expanded(
+            child: Column(
+              children: [
+                TitleBar(screenWidth: screenWidth, widget: widget),
+                Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                    elevation: 4,
+                    clipBehavior: Clip.hardEdge,
+                    child: Container(
+                      width: screenWidth * 0.8,
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                              'Họ tên:',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              contact["FN"]!,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 15),
+                            child: const Text(
+                              'Số điện thoại:',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              contact["TEL"]!,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 15),
+                            child: const Text(
+                              'Địa chỉ:',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              contact["ADR"] == null ? "" : contact["ADR"]!,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 15),
+                            child: const Text(
+                              'Ghi chú:',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              contact["NOTE"] == null ? "" : contact["NOTE"]!,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        contact["FN"]!,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 15),
-                      child: const Text(
-                        'Số điện thoại:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        contact["TEL"]!,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20),
+                Center(
+                  child: SizedBox(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.4,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        addContact(contact);
+                      },
+                      child: const Text('Thêm'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
           Center(
-            child: SizedBox(
-              height: screenHeight * 0.06,
-              width: screenWidth * 0.4,
-              child: ElevatedButton(
-                onPressed: () async {
-                  addContact(contact);
-                },
-                child: const Text('Thêm'),
-              ),
-            ),
+            child: Provider(
+                create: (_) => AdsBloc(),
+                builder: (context, child) {
+                  return const AdNative();
+                }),
           ),
         ],
       ),

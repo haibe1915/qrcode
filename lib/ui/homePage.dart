@@ -12,19 +12,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    // _adBannerSingleton.adBanner = StaticVariable.adBanner;
+  }
+
+  // final AdBannerSingleton _adBannerSingleton = AdBannerSingleton();
   int _currentPageIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Material(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SafeArea(
-              child: SizedBox(
-                height: 50,
-                child: StaticVariable.adBanner,
-              ),
+          child: SafeArea(
+            child: SizedBox(
+              height: 50,
+              child: StaticVariable.adBanner,
             ),
           ),
         ),

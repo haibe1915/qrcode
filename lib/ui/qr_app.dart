@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/homePage.dart';
-import 'package:qrcode/blocs/AdBanner/ad_banner_bloc.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:provider/provider.dart';
 
 class QrApp extends StatelessWidget {
@@ -13,15 +13,14 @@ class QrApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: StaticVariable.myTheme,
       home: MultiProvider(
-        providers: [
-          // Register the AdsBloc as a provider
-          Provider<AdsBloc>(
-            create: (_) => AdsBloc(),
-          ),
-          // Add more providers if needed
-        ],
-        child: const HomePage(title: 'QrApp'),
-      ),
+          providers: [
+            Provider<AdsBloc>(
+              create: (rootContext) => AdsBloc(),
+            ),
+          ],
+          builder: (context, child) {
+            return const HomePage(title: 'QrApp');
+          }),
     );
   }
 }

@@ -5,25 +5,25 @@ import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/blocs/Ad/ad_event.dart';
 import 'package:qrcode/blocs/Ad/ad_state.dart';
 
-class AdBanner extends StatefulWidget {
-  const AdBanner({Key? key}) : super(key: key);
+class AdNative extends StatefulWidget {
+  const AdNative({Key? key}) : super(key: key);
 
   @override
-  State<AdBanner> createState() => _AdBannerState();
+  State<AdNative> createState() => _AdNativeState();
 }
 
-class _AdBannerState extends State<AdBanner> {
+class _AdNativeState extends State<AdNative> {
   late AdsBloc adsBloc;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    adsBloc = context.watch<AdsBloc>()..add(AdBannerRequestEvent());
+    adsBloc = context.watch<AdsBloc>()..add(AdNativeRequestEvent());
   }
 
   @override
   void dispose() {
-    adsBloc.add(AdBannerDisposeEvent());
+    adsBloc.add(AdNativeDisposeEvent());
     super.dispose();
   }
 
@@ -37,19 +37,22 @@ class _AdBannerState extends State<AdBanner> {
               height: 0.8 * MediaQuery.of(context).size.height,
               child: const Center(child: CircularProgressIndicator()));
         }
-        if (!state.didBottomBannerAdLoad) {
+        if (!state.didNativeAdLoad) {
           return const SizedBox.shrink();
         }
-        return SizedBox(
-          width: double.infinity,
-          height: 50,
+        return ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 320, // minimum recommended width
+            minHeight: 320, // minimum recommended height
+            maxHeight: 320,
+          ),
           child: Stack(
             children: [
-              AdWidget(ad: state.bottomBannerAd!),
+              AdWidget(ad: state.nativeAd!),
               IconButton(
                 icon: const Icon(Icons.cancel),
                 onPressed: () {
-                  adsBloc.add(AdBannerDisposeEvent());
+                  adsBloc.add(AdNativeDisposeEvent());
                 },
               ),
             ],
@@ -58,22 +61,4 @@ class _AdBannerState extends State<AdBanner> {
       },
     );
   }
-}
-
-class AdBannerSingleton {
-  static final AdBannerSingleton _instance = AdBannerSingleton._internal();
-
-  factory AdBannerSingleton() {
-    return _instance;
-  }
-
-  late AdBanner _adBanner;
-
-  AdBanner get adBanner => _adBanner;
-
-  set adBanner(AdBanner adBanner) {
-    _adBanner = adBanner;
-  }
-
-  AdBannerSingleton._internal();
 }

@@ -10,53 +10,104 @@ class AdsClient {
     AdSize? size,
   }) async {
     try {
-      final adCompleter = Completer<Ad?>();
-      await BannerAd(
+      final adCompleter = Completer<BannerAd>();
+
+      final bannerAd = BannerAd(
         adUnitId: adUnitId,
         size: size ?? AdSize.banner,
         request: const AdRequest(),
         listener: BannerAdListener(
-          onAdOpened: (Ad ad) {
-            debugPrint(' BannerAdListener onAdOpened ${ad.toString()}.');
+          onAdLoaded: (Ad ad) {
+            debugPrint('BannerAdListener onAdLoaded ${ad.toString()}.');
+            adCompleter.complete(ad as BannerAd);
           },
-          onAdClosed: (Ad ad) {
-            debugPrint(' BannerAdListener onAdClosed ${ad.toString()}.');
-          },
-          onAdImpression: (Ad ad) {
-            debugPrint(' BannerAdListener onAdImpression ${ad.toString()}.');
-          },
-          onAdWillDismissScreen: (Ad ad) {
-            debugPrint(
-                ' BannerAdListener onAdWillDismissScreen ${ad.toString()}.');
-          },
-          onPaidEvent: (
-            Ad ad,
-            double valueMicros,
-            PrecisionType precision,
-            String currencyCode,
-          ) {
-            debugPrint('BannerAdListener PaidEvent ${ad.toString()}.');
-          },
-          onAdLoaded: adCompleter.complete,
-          onAdFailedToLoad: (ad, error) {
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            debugPrint('BannerAdListener onAdFailedToLoad: $error');
             ad.dispose();
             adCompleter.completeError(error);
           },
+          // Add other listener callbacks if needed
         ),
-      ).load();
+      );
 
-      final bannerAd = await adCompleter.future;
-      return bannerAd as BannerAd;
+      await bannerAd.load();
+
+      return await adCompleter.future;
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(error, stackTrace);
+      throw error;
+    }
+  }
+
+  Future<NativeAd> _populateNativeAd({
+    required String adUnitId,
+    AdSize? size,
+  }) async {
+    try {
+      final adCompleter = Completer<NativeAd>();
+
+      final nativeAd = NativeAd(
+          adUnitId: adUnitId,
+          request: const AdRequest(),
+          listener: NativeAdListener(
+            onAdLoaded: (Ad ad) {
+              debugPrint('NativeAdListener onAdLoaded ${ad.toString()}.');
+              adCompleter.complete(ad as NativeAd);
+            },
+            onAdFailedToLoad: (Ad ad, LoadAdError error) {
+              debugPrint('NativeAdListener onAdFailedToLoad: $error');
+              ad.dispose();
+              adCompleter.completeError(error);
+            },
+          ),
+          nativeTemplateStyle: NativeTemplateStyle(
+              // Required: Choose a template.
+              templateType: TemplateType.medium,
+              // Optional: Customize the ad's style.
+              mainBackgroundColor: Colors.purple,
+              cornerRadius: 10.0,
+              callToActionTextStyle: NativeTemplateTextStyle(
+                  textColor: Colors.cyan,
+                  backgroundColor: Colors.red,
+                  style: NativeTemplateFontStyle.monospace,
+                  size: 16.0),
+              primaryTextStyle: NativeTemplateTextStyle(
+                  textColor: Colors.red,
+                  backgroundColor: Colors.cyan,
+                  style: NativeTemplateFontStyle.italic,
+                  size: 16.0),
+              secondaryTextStyle: NativeTemplateTextStyle(
+                  textColor: Colors.green,
+                  backgroundColor: Colors.black,
+                  style: NativeTemplateFontStyle.bold,
+                  size: 16.0),
+              tertiaryTextStyle: NativeTemplateTextStyle(
+                  textColor: Colors.brown,
+                  backgroundColor: Colors.amber,
+                  style: NativeTemplateFontStyle.normal,
+                  size: 16.0)));
+
+      await nativeAd.load();
+
+      return await adCompleter.future;
+    } catch (error, stackTrace) {
+      throw error;
     }
   }
 
   Future<BannerAd> getPageBannerAd() async {
     try {
-      return await _populateBannerAd(adUnitId: StaticVariable.adId);
+      return await _populateBannerAd(adUnitId: StaticVariable.adBannerId);
     } catch (error, stackTrace) {
-      Error.throwWithStackTrace(error, stackTrace);
+      throw error;
+    }
+  }
+
+  Future<NativeAd> getPageNativeAd() async {
+    try {
+      return await _populateNativeAd(adUnitId: StaticVariable.adNativeId);
+    } catch (error, stackTrace) {
+      // Handle the error appropriately
+      throw error;
     }
   }
 }

@@ -8,3 +8,7 @@ class AdBannerEvent extends Equatable {
 class AdBannerRequestEvent extends AdBannerEvent {}
 
 class AdBannerDisposeEvent extends AdBannerEvent {}
+
+class AdNativeRequestEvent extends AdBannerEvent {}
+
+class AdNativeDisposeEvent extends AdBannerEvent {}

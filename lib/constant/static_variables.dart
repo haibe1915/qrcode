@@ -11,11 +11,7 @@ import 'package:qrcode/ui/widget/AdBanner.dart';
 class StaticVariable {
   static List<HistoryItem> createdHistoryList = <HistoryItem>[];
   static List<HistoryItem> scannedHistoryList = <HistoryItem>[];
-  static List<Widget> pages = [
-    const HistoryPage(),
-    const QrPage(),
-    ConvertPage()
-  ];
+  static List<Widget> pages = [HistoryPage(), const QrPage(), ConvertPage()];
   static List<String> historyPagesTabs = ['Đã quét', 'Đã tạo'];
   static StreamController<HistoryItem> createdController =
       StreamController<HistoryItem>.broadcast();
@@ -53,6 +49,7 @@ class StaticVariable {
     primarySwatch: Colors.blueGrey,
     brightness: Brightness.light,
   );
-  static const adId = "ca-app-pub-3940256099942544/6300978111";
+  static const adBannerId = "ca-app-pub-3940256099942544/6300978111";
+  static const adNativeId = "ca-app-pub-3940256099942544/2247696110";
   static AdBanner adBanner = const AdBanner();
 }

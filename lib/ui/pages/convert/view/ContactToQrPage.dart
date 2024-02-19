@@ -188,11 +188,13 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
               onPressed: () {
                 var data = 'BEGIN:VCARD\n'
                     'VERSION:3.0\n'
-                    'FN:${_firstNameEditingController.text}\n'
+                    'FN:${_firstNameEditingController.text} ${_surNameEditingController.text}\n'
                     'TEL:${_phoneEditingController.text}\n'
+                    'ADR: ${_locationEditingController.text}\n'
+                    'NOTE: ${_noteEditingController.text}\n'
                     'END:VCARD';
                 HistoryItem tmp = HistoryItem(
-                    type: 'liên hệ ', datetime: DateTime.now(), content: data);
+                    type: 'liên hệ', datetime: DateTime.now(), content: data);
                 StaticVariable.createdController.add(tmp);
                 StaticVariable.conn.insertCreated(tmp);
                 _firstNameEditingController.clear();
