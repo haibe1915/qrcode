@@ -233,10 +233,6 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
                                   Expanded(
                                     child: TextField(
                                       controller: _nameEditingController,
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
                                       decoration: const InputDecoration(
                                         hintText: 'Đến',
                                         contentPadding: EdgeInsets.all(10),

@@ -37,7 +37,7 @@ class _AdNativeState extends State<AdNative> {
         }
         return SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
-          height: 150,
+          height: 100,
           child: Stack(
             children: [
               AdWidget(ad: state.nativeAd!),

@@ -14,6 +14,8 @@ import 'package:qrcode/ui/pages/result/QrPhone.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
+import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
+import 'package:vibration/vibration.dart';
 
 class QrPage extends StatefulWidget {
   const QrPage({super.key});
@@ -224,7 +226,8 @@ class _QrPageState extends State<QrPage> {
                               borderRadius: BorderRadius.circular(
                                   10), // Set the desired border radius
                             ),
-                            child: const Center(child: CircularProgressIndicator())));
+                            child: const Center(
+                                child: CircularProgressIndicator())));
                   } else if (state is ScanImageError) {
                     return Center(
                       child: Text(
@@ -243,13 +246,16 @@ class _QrPageState extends State<QrPage> {
 
   void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         barcode = scanData;
       });
       if (barcode != null) {
         print(barcode!.code);
         _scanImageBloc.add(ScanImageCapture(barcode!.code!));
+      }
+      if (await SharedPreference.getVibrationPreference()) {
+        Vibration.vibrate(duration: 1000);
       }
     });
   }

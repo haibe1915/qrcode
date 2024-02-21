@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/ui/pages/convert/convert_function/TextToQR.dart';
+import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';

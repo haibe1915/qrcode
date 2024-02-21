@@ -78,14 +78,23 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                           onTap: () {
                                             _firstNameEditingController.text =
                                                 contactName[0];
-                                            _surNameEditingController.text =
-                                                contactName[1];
-                                            _locationEditingController.text =
-                                                contact.addresses
-                                                    .elementAt(0)
-                                                    .address;
-                                            _noteEditingController.text =
-                                                contact.notes.elementAt(0).note;
+                                            if (contactName.length > 1) {
+                                              _surNameEditingController.text =
+                                                  contactName[1];
+                                            }
+
+                                            if (contact.addresses.length > 1) {
+                                              _locationEditingController.text =
+                                                  contact.addresses
+                                                      .elementAt(0)
+                                                      .address;
+                                            }
+                                            if (contact.notes.length > 1) {
+                                              _noteEditingController.text =
+                                                  contact.notes
+                                                      .elementAt(0)
+                                                      .note;
+                                            }
                                             _phoneEditingController.text =
                                                 contact.phones
                                                     .elementAt(0)

@@ -72,7 +72,8 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                 contacts: state.contacts));
                           });
                           return Container(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -102,7 +103,8 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                               ));
                         } else if (state is PhoneToQrStateSearch) {
                           return Container(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Flexible(
@@ -133,8 +135,8 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                         } else if (state is PhoneToQrStateLoading) {
                           return SizedBox(
                               height: 0.8 * MediaQuery.of(context).size.height,
-                              child:
-                                  const Center(child: CircularProgressIndicator()));
+                              child: const Center(
+                                  child: CircularProgressIndicator()));
                         } else if (state is PhoneToQrStateError) {
                           return Center(
                             child: Text(
@@ -219,7 +221,6 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                   Expanded(
                                     child: TextField(
                                       controller: _nameEditingController,
-                                      keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter.digitsOnly,
                                       ],

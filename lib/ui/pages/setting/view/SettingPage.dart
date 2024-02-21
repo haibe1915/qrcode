@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/model/history_model.dart';
+import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
@@ -12,6 +13,19 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool _isMusicSwitched = true;
   bool _isVibrationSwitched = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVibrationPreference();
+  }
+
+  Future<void> _loadVibrationPreference() async {
+    bool vibrationPreference = await SharedPreference.getVibrationPreference();
+    setState(() {
+      _isVibrationSwitched = vibrationPreference;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +74,7 @@ class _SettingPageState extends State<SettingPage> {
                       value: _isVibrationSwitched,
                       activeColor: Colors.green,
                       onChanged: (value) {
+                        SharedPreference.setVibrationPreference(value);
                         setState(() {
                           _isVibrationSwitched = value;
                         });
@@ -148,8 +163,9 @@ class _SettingPageState extends State<SettingPage> {
                                             child: TextField(
                                               enabled: false,
                                               controller: _nameController,
-                                              keyboardType:
-                                                  TextInputType.number,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
                                               decoration: const InputDecoration(
                                                 hintText: 'Đến',
                                                 contentPadding:
@@ -173,6 +189,9 @@ class _SettingPageState extends State<SettingPage> {
                                           left: 10, right: 10, bottom: 10),
                                       child: TextField(
                                         enabled: false,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
                                         controller:
                                             _descriptionEditingController,
                                         decoration: const InputDecoration(
