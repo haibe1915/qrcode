@@ -1,14 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-class AdBannerEvent extends Equatable {
+class AdEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class AdBannerRequestEvent extends AdBannerEvent {}
+class AdBannerRequestEvent extends AdEvent {}
 
-class AdBannerDisposeEvent extends AdBannerEvent {}
+class AdBannerDisposeEvent extends AdEvent {}
 
-class AdNativeRequestEvent extends AdBannerEvent {}
+class AdNativeRequestEvent extends AdEvent {}
 
-class AdNativeDisposeEvent extends AdBannerEvent {}
+class AdNativeDisposeEvent extends AdEvent {}
+
+class AdInterstitialRequestEvent extends AdEvent {}
+
+class AdInterstitialDisposeEvent extends AdEvent {}

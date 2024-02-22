@@ -111,4 +111,13 @@ class AdsClient {
       throw error;
     }
   }
+
+  // Future<InterstitialAd> getPageInterstitialAd() async {
+  //   try {
+  //     return await _populateInterstitialAd(
+  //         adUnitId: StaticVariable.adInterstitialId);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 }

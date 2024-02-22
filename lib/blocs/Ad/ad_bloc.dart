@@ -4,7 +4,7 @@ import 'package:qrcode/blocs/Ad/ad_event.dart';
 import 'package:qrcode/blocs/Ad/ad_state.dart';
 import 'package:qrcode/utils/Ads/AdsClient.dart';
 
-class AdsBloc extends Bloc<AdBannerEvent, AdState> {
+class AdsBloc extends Bloc<AdEvent, AdState> {
   AdsBloc() : super(const AdState()) {
     on<AdBannerRequestEvent>(_adBannerRequestEventHandler);
     on<AdBannerDisposeEvent>(_adBannerDisposeEventHandler);
@@ -44,4 +44,20 @@ class AdsBloc extends Bloc<AdBannerEvent, AdState> {
     state.nativeAd?.dispose();
     emit(state.copyWithoutNativeAd());
   }
+
+  // Future<void> _adInterstitialRequestEventHandler(
+  //     AdInterstitialRequestEvent event, Emitter<AdState> emit) async {
+  //   try {
+  //     final result = await _adsClient.getPageInterstitialAd();
+  //     emit(state.copyWith(interstitialAd: result));
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
+
+  // Future<void> _adInterstitialDisposeEventHandler(
+  //     AdInterstitialDisposeEvent event, Emitter<AdState> emit) async {
+  //   state.interstitialAd?.dispose();
+  //   emit(state.copyWithoutInterstitialAd());
+  // }
 }

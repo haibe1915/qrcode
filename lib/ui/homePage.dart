@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
+import 'package:qrcode/ui/widget/AdInterstitial.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -11,15 +12,31 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  final _interstitialAd = AdInterstitial();
   @override
   void initState() {
     super.initState();
-    // _adBannerSingleton.adBanner = StaticVariable.adBanner;
+    WidgetsBinding.instance.addObserver(this);
+    _interstitialAd.populateInterstitialAd(
+        adUnitId: StaticVariable.adInterstitialId);
+    //_adBannerSingleton.adBanner = StaticVariable.adBanner;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   // final AdBannerSingleton _adBannerSingleton = AdBannerSingleton();
   int _currentPageIndex = 2;
+
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _interstitialAd.loadInterstitialAd();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
