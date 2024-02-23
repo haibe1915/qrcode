@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
@@ -171,7 +172,7 @@ class _QrWifiPageState extends State<QrWifiPage> {
                       child: Provider(
                           create: (_) => AdsBloc(),
                           builder: (context, child) {
-                            return const AdNative();
+                            return const AdNative(tempType: TemplateType.small);
                           }),
                     )
                   ],

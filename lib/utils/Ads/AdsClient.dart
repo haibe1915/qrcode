@@ -41,6 +41,7 @@ class AdsClient {
   Future<NativeAd> _populateNativeAd({
     required String adUnitId,
     AdSize? size,
+    TemplateType tempType = TemplateType.small,
   }) async {
     try {
       final adCompleter = Completer<NativeAd>();
@@ -62,13 +63,13 @@ class AdsClient {
           ),
           nativeTemplateStyle: NativeTemplateStyle(
               // Required: Choose a template.
-              templateType: TemplateType.small,
+              templateType: tempType,
               // Optional: Customize the ad's style.
               mainBackgroundColor: Colors.white,
               cornerRadius: 10.0,
               callToActionTextStyle: NativeTemplateTextStyle(
                   textColor: Colors.white,
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.blueGrey,
                   style: NativeTemplateFontStyle.monospace,
                   size: 16.0),
               primaryTextStyle: NativeTemplateTextStyle(
@@ -103,9 +104,10 @@ class AdsClient {
     }
   }
 
-  Future<NativeAd> getPageNativeAd() async {
+  Future<NativeAd> getPageNativeAd(TemplateType temptype) async {
     try {
-      return await _populateNativeAd(adUnitId: StaticVariable.adNativeId);
+      return await _populateNativeAd(
+          adUnitId: StaticVariable.adNativeId, tempType: temptype);
     } catch (error) {
       // Handle the error appropriately
       throw error;

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
@@ -9,6 +12,7 @@ import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
 import 'package:flutter/services.dart';
 
 import 'package:qrcode/ui/pages/result/QrContact.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 
 class ContactToQrPage extends StatefulWidget {
   const ContactToQrPage({super.key});
@@ -359,14 +363,28 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                       width: screenWidth * 0.4,
                       padding: const EdgeInsets.only(top: 10),
                       child: Card(
+                          color: Colors.blueGrey,
                           elevation: 4,
                           child: InkWell(
                               onTap: () {
                                 _phoneToQrBloc.add(PhoneToQrEventLoadData());
                                 _showContact();
                               },
-                              child: const Center(child: Text('Nhập'))))),
+                              child: const Center(
+                                  child: Text(
+                                'Nhập',
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'Roboto'),
+                              ))))),
                 ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return const AdNative(tempType: TemplateType.small);
+                    }),
               )
             ],
           ),

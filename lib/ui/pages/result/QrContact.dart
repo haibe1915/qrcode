@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_contacts/properties/phone.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
@@ -249,7 +250,7 @@ class _QrContactPageState extends State<QrContactPage> {
             child: Provider(
                 create: (_) => AdsBloc(),
                 builder: (context, child) {
-                  return const AdNative();
+                  return const AdNative(tempType: TemplateType.small);
                 }),
           ),
         ],

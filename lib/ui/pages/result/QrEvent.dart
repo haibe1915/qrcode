@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -257,7 +258,7 @@ class _QrEventPageState extends State<QrEventPage> {
             child: Provider(
                 create: (_) => AdsBloc(),
                 builder: (context, child) {
-                  return const AdNative();
+                  return const AdNative(tempType: TemplateType.small);
                 }),
           )
         ],

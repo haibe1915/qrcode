@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/blocs/search/search_bloc.dart';
 import 'package:qrcode/blocs/search/search_event.dart';
 import 'package:qrcode/blocs/search/search_state.dart';
@@ -14,6 +17,7 @@ import 'package:qrcode/ui/pages/result/QrPhone.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 
 class HistoryTab extends StatefulWidget {
   const HistoryTab({super.key, required this.type});
@@ -131,6 +135,13 @@ class _HistoryTabState extends State<HistoryTab> {
   }
 
   Widget build(BuildContext context) {
+    Widget adNativeTemp = Center(
+      child: Provider(
+          create: (_) => AdsBloc(),
+          builder: (context, child) {
+            return const AdNative(tempType: TemplateType.small);
+          }),
+    );
     List<HistoryItem> historyList = widget.type == 0
         ? StaticVariable.scannedHistoryList
         : StaticVariable.createdHistoryList;
@@ -147,6 +158,8 @@ class _HistoryTabState extends State<HistoryTab> {
       _searchBloc.add(SearchEventLoadData(
           str: search.text, type: typeChoosed, historyList: historyList));
     });
+
+    final _adBloc = AdsBloc();
 
     return Scaffold(
       body: Column(
@@ -220,94 +233,202 @@ class _HistoryTabState extends State<HistoryTab> {
                           itemBuilder: (context, index) {
                             final HistoryItem historyItem =
                                 historyList[historyList.length - index - 1];
-                            return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            resultPage(historyItem)),
-                                  );
-                                },
-                                child: Card(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: ListTile(
-                                        leading: StaticVariable
-                                            .iconCategory[historyItem.type],
-                                        title: Text(
-                                            historyItem.datetime.toString()),
-                                        subtitle:
-                                            Text(HistoryItemText(historyItem)),
-                                      )),
-                                      IconButton(
-                                          onPressed: () {
-                                            print(historyItem.type);
-                                            showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    content: const SizedBox(
-                                                      width:
-                                                          200, // Adjust the width as needed
-                                                      height:
-                                                          50, // Adjust the height as needed
-                                                      child: Center(
-                                                        child: Text(
-                                                            "Bạn có muốn xoá không ?"),
+                            if (index != 0 && index % 10 == 0) {
+                              return Column(
+                                children: [
+                                  adNativeTemp,
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  resultPage(historyItem)),
+                                        );
+                                      },
+                                      child: Card(
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
+                                              title: Text(historyItem.datetime
+                                                  .toString()),
+                                              subtitle: Text(
+                                                  HistoryItemText(historyItem)),
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  print(historyItem.type);
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content:
+                                                              const SizedBox(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                50, // Adjust the height as needed
+                                                            child: Center(
+                                                              child: Text(
+                                                                  "Bạn có muốn xoá không ?"),
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Có'),
+                                                              onPressed: () {
+                                                                if (widget
+                                                                        .type ==
+                                                                    0) {
+                                                                  StaticVariable
+                                                                      .conn
+                                                                      .deleteScaned(
+                                                                          historyItem
+                                                                              .datetime);
+                                                                } else if (widget
+                                                                        .type ==
+                                                                    1) {
+                                                                  StaticVariable
+                                                                      .conn
+                                                                      .deleteCreated(
+                                                                          historyItem
+                                                                              .datetime);
+                                                                }
+                                                                _searchBloc.add(SearchEventDeleteData(
+                                                                    str: "",
+                                                                    type: 0,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        historyList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Không'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
+                                          ],
+                                        ),
+                                      ))
+                                ],
+                              );
+                            } else {
+                              return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              resultPage(historyItem)),
+                                    );
+                                  },
+                                  child: Card(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: ListTile(
+                                          leading: StaticVariable
+                                              .iconCategory[historyItem.type],
+                                          title: Text(
+                                              historyItem.datetime.toString()),
+                                          subtitle: Text(
+                                              HistoryItemText(historyItem)),
+                                        )),
+                                        IconButton(
+                                            onPressed: () {
+                                              print(historyItem.type);
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      content: const SizedBox(
+                                                        width:
+                                                            200, // Adjust the width as needed
+                                                        height:
+                                                            50, // Adjust the height as needed
+                                                        child: Center(
+                                                          child: Text(
+                                                              "Bạn có muốn xoá không ?"),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    actions: [
-                                                      TextButton(
-                                                        child: const Text('Có'),
-                                                        onPressed: () {
-                                                          if (widget.type ==
-                                                              0) {
-                                                            StaticVariable.conn
-                                                                .deleteScaned(
-                                                                    historyItem
-                                                                        .datetime);
-                                                          } else if (widget
-                                                                  .type ==
-                                                              1) {
-                                                            StaticVariable.conn
-                                                                .deleteCreated(
-                                                                    historyItem
-                                                                        .datetime);
-                                                          }
-                                                          _searchBloc.add(
-                                                              SearchEventDeleteData(
-                                                                  str: "",
-                                                                  type: 0,
-                                                                  historyItem:
-                                                                      historyItem,
-                                                                  historyList:
-                                                                      historyList));
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                      TextButton(
-                                                        child:
-                                                            const Text('Không'),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                });
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ))
-                                    ],
-                                  ),
-                                ));
+                                                      actions: [
+                                                        TextButton(
+                                                          child:
+                                                              const Text('Có'),
+                                                          onPressed: () {
+                                                            if (widget.type ==
+                                                                0) {
+                                                              StaticVariable
+                                                                  .conn
+                                                                  .deleteScaned(
+                                                                      historyItem
+                                                                          .datetime);
+                                                            } else if (widget
+                                                                    .type ==
+                                                                1) {
+                                                              StaticVariable
+                                                                  .conn
+                                                                  .deleteCreated(
+                                                                      historyItem
+                                                                          .datetime);
+                                                            }
+                                                            _searchBloc.add(
+                                                                SearchEventDeleteData(
+                                                                    str: "",
+                                                                    type: 0,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        historyList));
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                        TextButton(
+                                                          child: const Text(
+                                                              'Không'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ))
+                                      ],
+                                    ),
+                                  ));
+                            }
                           },
                         );
                       } else if (state is SearchStateLoaded) {
@@ -318,93 +439,202 @@ class _HistoryTabState extends State<HistoryTab> {
                             final HistoryItem historyItem =
                                 state.dataList[index];
                             print(historyItem.type);
-                            return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            resultPage(historyItem)),
-                                  );
-                                },
-                                child: Card(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: ListTile(
-                                        leading: StaticVariable
-                                            .iconCategory[historyItem.type],
-                                        title: Text(
-                                            historyItem.datetime.toString()),
-                                        subtitle:
-                                            Text(HistoryItemText(historyItem)),
-                                      )),
-                                      IconButton(
-                                          onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    content: const SizedBox(
-                                                      width:
-                                                          200, // Adjust the width as needed
-                                                      height:
-                                                          100, // Adjust the height as needed
-                                                      child: Text(
-                                                          "Bạn có muốn xoá không ?"),
-                                                    ),
-                                                    actions: [
-                                                      TextButton(
-                                                        child: const Text('Có'),
-                                                        onPressed: () {
-                                                          if (widget.type ==
-                                                              0) {
-                                                            StaticVariable.conn
-                                                                .deleteScaned(
-                                                                    historyItem
-                                                                        .datetime);
-                                                          } else if (widget
-                                                                  .type ==
-                                                              1) {
-                                                            StaticVariable.conn
-                                                                .deleteCreated(
-                                                                    historyItem
-                                                                        .datetime);
-                                                          }
-                                                          _searchBloc.add(
-                                                              SearchEventDeleteData(
-                                                                  str:
-                                                                      state.str,
-                                                                  type: state
-                                                                      .type,
-                                                                  historyItem:
-                                                                      historyItem,
-                                                                  historyList: state
-                                                                      .dataList));
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
+                            if (index != 0 && index % 10 == 0) {
+                              return Column(
+                                children: [
+                                  adNativeTemp,
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  resultPage(historyItem)),
+                                        );
+                                      },
+                                      child: Card(
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: ListTile(
+                                              leading:
+                                                  StaticVariable.iconCategory[
+                                                      historyItem.type],
+                                              title: Text(historyItem.datetime
+                                                  .toString()),
+                                              subtitle: Text(
+                                                  HistoryItemText(historyItem)),
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content:
+                                                              const SizedBox(
+                                                            width:
+                                                                200, // Adjust the width as needed
+                                                            height:
+                                                                100, // Adjust the height as needed
+                                                            child: Text(
+                                                                "Bạn có muốn xoá không ?"),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Có'),
+                                                              onPressed: () {
+                                                                if (widget
+                                                                        .type ==
+                                                                    0) {
+                                                                  StaticVariable
+                                                                      .conn
+                                                                      .deleteScaned(
+                                                                          historyItem
+                                                                              .datetime);
+                                                                } else if (widget
+                                                                        .type ==
+                                                                    1) {
+                                                                  StaticVariable
+                                                                      .conn
+                                                                      .deleteCreated(
+                                                                          historyItem
+                                                                              .datetime);
+                                                                }
+                                                                _searchBloc.add(SearchEventDeleteData(
+                                                                    str: state
+                                                                        .str,
+                                                                    type: state
+                                                                        .type,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        state
+                                                                            .dataList));
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  'Không'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))
+                                          ],
+                                        ),
+                                      ))
+                                ],
+                              );
+                            } else {
+                              return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              resultPage(historyItem)),
+                                    );
+                                  },
+                                  child: Card(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: ListTile(
+                                          leading: StaticVariable
+                                              .iconCategory[historyItem.type],
+                                          title: Text(
+                                              historyItem.datetime.toString()),
+                                          subtitle: Text(
+                                              HistoryItemText(historyItem)),
+                                        )),
+                                        IconButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      content: const SizedBox(
+                                                        width:
+                                                            200, // Adjust the width as needed
+                                                        height:
+                                                            100, // Adjust the height as needed
+                                                        child: Text(
+                                                            "Bạn có muốn xoá không ?"),
                                                       ),
-                                                      TextButton(
-                                                        child:
-                                                            const Text('Không'),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                });
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ))
-                                    ],
-                                  ),
-                                ));
+                                                      actions: [
+                                                        TextButton(
+                                                          child:
+                                                              const Text('Có'),
+                                                          onPressed: () {
+                                                            if (widget.type ==
+                                                                0) {
+                                                              StaticVariable
+                                                                  .conn
+                                                                  .deleteScaned(
+                                                                      historyItem
+                                                                          .datetime);
+                                                            } else if (widget
+                                                                    .type ==
+                                                                1) {
+                                                              StaticVariable
+                                                                  .conn
+                                                                  .deleteCreated(
+                                                                      historyItem
+                                                                          .datetime);
+                                                            }
+                                                            _searchBloc.add(
+                                                                SearchEventDeleteData(
+                                                                    str: state
+                                                                        .str,
+                                                                    type: state
+                                                                        .type,
+                                                                    historyItem:
+                                                                        historyItem,
+                                                                    historyList:
+                                                                        state
+                                                                            .dataList));
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                        TextButton(
+                                                          child: const Text(
+                                                              'Không'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ))
+                                      ],
+                                    ),
+                                  ));
+                            }
                           },
                         );
                       } else if (state is SearchStateLoading) {

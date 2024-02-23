@@ -47,9 +47,7 @@ class _QrPageState extends State<QrPage> {
         string.contains("VERSION:") &&
         string.contains("FN:")) {
       return "liên hệ";
-    } else if (string.contains("WIFI:") &&
-        string.contains("S:") &&
-        string.contains("P:")) {
+    } else if (string.contains("WIFI:")) {
       return "wifi";
     } else if (string.contains("https://") || string.contains("http://")) {
       return "url";
