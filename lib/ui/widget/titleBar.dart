@@ -24,7 +24,9 @@ class TitleBar extends StatelessWidget {
               child: ListTile(
                 leading: StaticVariable.iconCategory[widget.historyItem.type],
                 title: Text(
-                  widget.historyItem.datetime.toString(),
+                  StaticVariable.formattedDateTime
+                      .format(widget.historyItem.datetime)
+                      .toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

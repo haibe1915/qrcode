@@ -244,7 +244,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                     dateTimeStart = DateTime.now();
                                   }
                                   return CupertinoButton(
-                                      child: Text(dateTimeStart.toString()),
+                                      child: Text(StaticVariable
+                                          .formattedDateTime
+                                          .format(dateTimeStart)
+                                          .toString()),
                                       onPressed: () {
                                         showCupertinoModalPopup(
                                             context: context,
@@ -287,7 +290,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                     dateTimeEnd = DateTime.now();
                                   }
                                   return CupertinoButton(
-                                      child: Text(dateTimeEnd.toString()),
+                                      child: Text(StaticVariable
+                                          .formattedDateTime
+                                          .format(dateTimeEnd)
+                                          .toString()),
                                       onPressed: () {
                                         showCupertinoModalPopup(
                                             context: context,

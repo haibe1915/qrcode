@@ -22,9 +22,9 @@ class HistoryPage extends StatelessWidget {
                     text: StaticVariable.historyPagesTabs[1]),
               ]),
             ),
-            body: TabBarView(children: [
-              HistoryTab(type: 0),
-              HistoryTab(type: 1)
+            body: const TabBarView(children: [
+              HistoryTab(type: "Scan"),
+              HistoryTab(type: "Create")
               // Scaffold(
               //     body: Column(
               //   children: [

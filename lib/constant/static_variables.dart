@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/convert/view/convert_page.dart';
@@ -99,4 +100,5 @@ class StaticVariable {
               backgroundColor: Colors.amber,
               style: NativeTemplateFontStyle.normal,
               size: 16.0)));
+  static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
 }

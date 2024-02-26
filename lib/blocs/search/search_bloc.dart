@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/search/search_event.dart';
@@ -37,8 +38,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   void _handleSearchEventDeleteData(
       SearchEventDeleteData event, Emitter<SearchState> emit) async {
     emit(SearchStateLoading());
-    List<HistoryItem> deleteResult = event.historyList;
-    int initialLength = deleteResult.length;
+    List<HistoryItem> deleteResult = event.historyList.reversed.toList();
     deleteResult
         .removeWhere((item) => item.datetime == event.historyItem.datetime);
     StaticVariable.createdHistoryList
@@ -51,6 +51,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   void onTransition(Transition<SearchEvent, SearchState> transition) {
     super.onTransition(transition);
-    print(transition);
+    debugPrint(transition.toString());
   }
 }

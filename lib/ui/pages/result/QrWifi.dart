@@ -41,15 +41,14 @@ class _QrWifiPageState extends State<QrWifiPage> {
 
     Map<String, String> values = {};
     values["wifi"] = valueS!;
-    values["password"] = valueT!;
-    values["type"] = valueP!;
+    values["password"] = valueP!;
+    values["type"] = valueT!;
     return values;
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     Map<String, String> wifi = extractWifiData(widget.historyItem.content);
 
     return Scaffold(
@@ -167,19 +166,19 @@ class _QrWifiPageState extends State<QrWifiPage> {
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Provider(
-                          create: (_) => AdsBloc(),
-                          builder: (context, child) {
-                            return const AdNative(tempType: TemplateType.small);
-                          }),
-                    )
                   ],
                 ),
               ),
             ),
           ),
+          const SizedBox(height: 20),
+          Center(
+            child: Provider(
+                create: (_) => AdsBloc(),
+                builder: (context, child) {
+                  return const AdNative(tempType: TemplateType.small);
+                }),
+          )
         ],
       ),
     );

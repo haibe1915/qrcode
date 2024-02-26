@@ -150,6 +150,7 @@ class _QrPageState extends State<QrPage> {
               key: qrKey,
               onQRViewCreated: onQRViewCreated,
               overlay: QrScannerOverlayShape(
+                borderColor: Colors.blueGrey,
                 borderWidth: 10,
                 cutOutSize: MediaQuery.of(context).size.width * 0.8,
               ),
@@ -229,7 +230,7 @@ class _QrPageState extends State<QrPage> {
                   } else if (state is ScanImageError) {
                     return Center(
                       child: Text(
-                        state.message,
+                        state.message.toString(),
                         style: const TextStyle(color: Colors.red),
                       ),
                     );

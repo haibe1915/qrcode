@@ -46,6 +46,7 @@ class ConvertPage extends StatelessWidget {
           itemCount: name.length,
           itemBuilder: (context, index) {
             return Card(
+              elevation: 2,
               child: InkWell(
                 onTap: () {
                   Navigator.push(

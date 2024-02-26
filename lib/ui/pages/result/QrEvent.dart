@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
@@ -219,7 +221,9 @@ class _QrEventPageState extends State<QrEventPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 5),
                       child: Text(
-                        _convertString(event["DTSTART"]!).toString(),
+                        StaticVariable.formattedDateTime
+                            .format(_convertString(event["DTSTART"]!))
+                            .toString(),
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
@@ -231,7 +235,9 @@ class _QrEventPageState extends State<QrEventPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 5),
                       child: Text(
-                        _convertString(event["DTEND"]!).toString(),
+                        StaticVariable.formattedDateTime
+                            .format(_convertString(event["DTEND"]!))
+                            .toString(),
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),

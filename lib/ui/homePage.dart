@@ -30,8 +30,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   // final AdBannerSingleton _adBannerSingleton = AdBannerSingleton();
-  int _currentPageIndex = 2;
+  int _currentPageIndex = 1;
 
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _interstitialAd.loadInterstitialAd();
