@@ -253,6 +253,9 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                               controller: _scrollController,
                               child: Column(
                                 children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
                                   Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(

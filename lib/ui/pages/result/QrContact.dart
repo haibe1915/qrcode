@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_contacts/properties/phone.dart';
@@ -89,6 +90,8 @@ class _QrContactPageState extends State<QrContactPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     Map<String, String> contact =
         extractcontactStringValues(widget.historyItem.content);
+    QRCodeWidget qrCodeWidget = QRCodeWidget(data: widget.historyItem.content);
+    final ScrollController _scrollController = ScrollController();
 
     return Scaffold(
       appBar: AppBar(
@@ -102,54 +105,94 @@ class _QrContactPageState extends State<QrContactPage> {
           },
         ),
         title: const Text('Liên hệ'),
-        actions: [
-          IconButton(
-            padding:
-                const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
-            alignment: Alignment.bottomLeft,
-            icon: const Icon(
-              Icons.qr_code,
-              size: 24,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    QRCodeWidget qrCodeWidget =
-                        QRCodeWidget(data: widget.historyItem.content);
-                    return AlertDialog(
-                      content: SizedBox(
-                        width: 200, // Adjust the width as needed
-                        height: 200, // Adjust the height as needed
-                        child: qrCodeWidget,
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Save'),
-                          onPressed: () async {
-                            qrCodeWidget.saveImageToGallery();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  });
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     padding:
+        //         const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
+        //     alignment: Alignment.bottomLeft,
+        //     icon: const Icon(
+        //       Icons.qr_code,
+        //       size: 24,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (BuildContext context) {
+        //             QRCodeWidget qrCodeWidget =
+        //                 QRCodeWidget(data: widget.historyItem.content);
+        //             return AlertDialog(
+        //               content: SizedBox(
+        //                 width: 200, // Adjust the width as needed
+        //                 height: 200, // Adjust the height as needed
+        //                 child: qrCodeWidget,
+        //               ),
+        //               actions: [
+        //                 TextButton(
+        //                   child: const Text('Save'),
+        //                   onPressed: () async {
+        //                     qrCodeWidget.saveImageToGallery();
+        //                   },
+        //                 ),
+        //                 TextButton(
+        //                   child: const Text('Close'),
+        //                   onPressed: () {
+        //                     Navigator.of(context).pop();
+        //                   },
+        //                 )
+        //               ],
+        //             );
+        //           });
+        //     },
+        //   )
+        // ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TitleBar(screenWidth: screenWidth, widget: widget),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: qrCodeWidget,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: screenWidth * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            qrCodeWidget.saveImageToGallery();
+                          },
+                          icon: const Icon(Icons.save),
+                          label: const Text('Lưu')),
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            Share.share('Họ tên: ${contact["FN"]}\n'
+                                'Số điện thoại: ${contact["TEL"]}\n'
+                                'Địa chỉ: ${contact["ADR"] ?? ""}\n'
+                                'Note: ${contact["NOTE"] ?? ""}\n');
+                          },
+                          icon: const Icon(Icons.share),
+                          label: const Text('Chia sẻ')),
+                      ElevatedButton.icon(
+                          onPressed: () async {
+                            addContact(contact);
+                          },
+                          icon: const Icon(Icons.add),
+                          label: const Text('Thêm')),
+                    ],
+                  ),
+                ),
                 Container(
                   alignment: Alignment.topCenter,
                   margin: const EdgeInsets.only(top: 20),
@@ -230,30 +273,30 @@ class _QrContactPageState extends State<QrContactPage> {
                   ),
                 ),
                 //const SizedBox(height: 20),
-                Center(
-                  child: SizedBox(
-                    height: screenHeight * 0.06,
-                    width: screenWidth * 0.4,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        addContact(contact);
-                      },
-                      child: const Text('Thêm'),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: SizedBox(
+                //     height: screenHeight * 0.06,
+                //     width: screenWidth * 0.4,
+                //     child: ElevatedButton(
+                //       onPressed: () async {
+                //         addContact(contact);
+                //       },
+                //       child: const Text('Thêm'),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
               ],
             ),
-          ),
-          Center(
-            child: Provider(
-                create: (_) => AdsBloc(),
-                builder: (context, child) {
-                  return const AdNative(tempType: TemplateType.small);
-                }),
-          ),
-        ],
+            Center(
+              child: Provider(
+                  create: (_) => AdsBloc(),
+                  builder: (context, child) {
+                    return const AdNative(tempType: TemplateType.small);
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

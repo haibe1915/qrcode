@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
@@ -10,6 +13,7 @@ import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
 import 'package:flutter/services.dart';
 import 'package:qrcode/ui/pages/result/QrEmail.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 
 class EmailToQrPage extends StatefulWidget {
   const EmailToQrPage({super.key});
@@ -206,107 +210,123 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: SizedBox(
-                        height: screenHeight * 0.4,
-                        width: screenWidth * 0.8,
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                          height: screenHeight * 0.4,
+                          width: screenWidth * 0.8,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
                               ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                      controller: _nameEditingController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Đến',
-                                        contentPadding: EdgeInsets.all(10),
-                                        border: InputBorder.none,
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: _nameEditingController,
+                                        decoration: const InputDecoration(
+                                          hintText: 'Đến',
+                                          contentPadding: EdgeInsets.all(10),
+                                          border: InputBorder.none,
+                                        ),
+                                        maxLines: null,
                                       ),
-                                      maxLines: null,
                                     ),
+                                    IconButton(
+                                        onPressed: () {
+                                          _phoneToQrBloc
+                                              .add(PhoneToQrEventLoadData());
+                                          _showContact();
+                                        },
+                                        icon: const Icon(Icons.add))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
                                   ),
-                                  IconButton(
-                                      onPressed: () {
-                                        _phoneToQrBloc
-                                            .add(PhoneToQrEventLoadData());
-                                        _showContact();
+                                ),
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                child: TextField(
+                                  controller: _descriptionEditingController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Chủ đề',
+                                    contentPadding: EdgeInsets.all(10),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: null,
+                                ),
+                              ),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    StreamBuilder<int>(
+                                      stream: _textLengthStream.stream,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data.toString());
+                                        } else {
+                                          return const Text('');
+                                        }
                                       },
-                                      icon: const Icon(Icons.add))
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _descriptionEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Chủ đề',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  StreamBuilder<int>(
-                                    stream: _textLengthStream.stream,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return Text(snapshot.data.toString());
-                                      } else {
-                                        return const Text('');
-                                      }
-                                    },
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    )
+                                  ]),
+                              Expanded(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
                                   ),
-                                ]),
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
                                 ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _textEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Văn bản',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                child: TextField(
+                                  controller: _textEditingController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Văn bản',
+                                    contentPadding: EdgeInsets.all(10),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: null,
                                 ),
-                                maxLines: null,
-                              ),
-                            ))
-                          ],
-                        )))),
-          ],
+                              )),
+                            ],
+                          )))),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return const AdNative(tempType: TemplateType.small);
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }

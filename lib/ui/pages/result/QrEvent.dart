@@ -11,6 +11,7 @@ import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:share_plus/share_plus.dart';
 
 class QrEventPage extends StatefulWidget {
   QrEventPage({super.key, required this.historyItem, this.controller});
@@ -107,6 +108,7 @@ class _QrEventPageState extends State<QrEventPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     Map<String, String> event =
         extractICalendarValues(widget.historyItem.content);
+    QRCodeWidget qrCodeWidget = QRCodeWidget(data: widget.historyItem.content);
 
     return Scaffold(
       appBar: AppBar(
@@ -121,153 +123,194 @@ class _QrEventPageState extends State<QrEventPage> {
           },
         ),
         title: const Text('Sự kiện'),
-        actions: [
-          IconButton(
-            padding:
-                const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
-            alignment: Alignment.bottomLeft,
-            icon: const Icon(
-              Icons.qr_code,
-              size: 24,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    QRCodeWidget qrCodeWidget =
-                        QRCodeWidget(data: widget.historyItem.content);
-                    return AlertDialog(
-                      content: SizedBox(
-                        width: 200, // Adjust the width as needed
-                        height: 200, // Adjust the height as needed
-                        child: qrCodeWidget,
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Save'),
-                          onPressed: () async {
-                            qrCodeWidget.saveImageToGallery();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  });
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     padding:
+        //         const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
+        //     alignment: Alignment.bottomLeft,
+        //     icon: const Icon(
+        //       Icons.qr_code,
+        //       size: 24,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (BuildContext context) {
+        //             QRCodeWidget qrCodeWidget =
+        //                 QRCodeWidget(data: widget.historyItem.content);
+        //             return AlertDialog(
+        //               content: SizedBox(
+        //                 width: 200, // Adjust the width as needed
+        //                 height: 200, // Adjust the height as needed
+        //                 child: qrCodeWidget,
+        //               ),
+        //               actions: [
+        //                 TextButton(
+        //                   child: const Text('Save'),
+        //                   onPressed: () async {
+        //                     qrCodeWidget.saveImageToGallery();
+        //                   },
+        //                 ),
+        //                 TextButton(
+        //                   child: const Text('Close'),
+        //                   onPressed: () {
+        //                     Navigator.of(context).pop();
+        //                   },
+        //                 )
+        //               ],
+        //             );
+        //           });
+        //     },
+        //   )
+        // ],
       ),
-      body: Column(
-        children: [
-          TitleBar(screenWidth: screenWidth, widget: widget),
-          Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.only(top: 20),
-            child: Card(
-              elevation: 4,
-              clipBehavior: Clip.hardEdge,
-              child: Container(
-                width: screenWidth * 0.8,
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Summary:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        event["SUMMARY"]!,
-                        style: const TextStyle(fontSize: 16),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TitleBar(screenWidth: screenWidth, widget: widget),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: qrCodeWidget,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: screenWidth * 0.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        qrCodeWidget.saveImageToGallery();
+                      },
+                      icon: const Icon(Icons.save),
+                      label: const Text('Lưu')),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Share.share('Summary: ${event["SUMMARY"]}\n'
+                            'Description: ${event["DESCRIPTION"] ?? ""}\n'
+                            'Location: ${event["LOCATION"] ?? ""}\n'
+                            'Start time: ${event["DTSTART"]}\n'
+                            'End time: ${event["DTEND"]}\n');
+                      },
+                      icon: const Icon(Icons.share),
+                      label: const Text('Chia sẻ')),
+                  ElevatedButton.icon(
+                      onPressed: () async {
+                        addEvent(event);
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text('Thêm')),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.only(top: 20),
+              child: Card(
+                elevation: 4,
+                clipBehavior: Clip.hardEdge,
+                child: Container(
+                  width: screenWidth * 0.8,
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Summary:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Description:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        event["DESCRIPTION"]!,
-                        style: const TextStyle(fontSize: 16),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          event["SUMMARY"]!,
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Location:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        event["LOCATION"]!,
-                        style: const TextStyle(fontSize: 16),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Description:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Start Time:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        StaticVariable.formattedDateTime
-                            .format(_convertString(event["DTSTART"]!))
-                            .toString(),
-                        style: const TextStyle(fontSize: 16),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          event["DESCRIPTION"]!,
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'End Time:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        StaticVariable.formattedDateTime
-                            .format(_convertString(event["DTEND"]!))
-                            .toString(),
-                        style: const TextStyle(fontSize: 16),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Location:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          event["LOCATION"]!,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Start Time:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          StaticVariable.formattedDateTime
+                              .format(_convertString(event["DTSTART"]!))
+                              .toString(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'End Time:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          StaticVariable.formattedDateTime
+                              .format(_convertString(event["DTEND"]!))
+                              .toString(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: SizedBox(
-              height: screenHeight * 0.06,
-              width: screenWidth * 0.4,
-              child: ElevatedButton(
-                onPressed: () async {
-                  addEvent(event);
-                },
-                child: const Text('Thêm'),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: Provider(
-                create: (_) => AdsBloc(),
-                builder: (context, child) {
-                  return const AdNative(tempType: TemplateType.small);
-                }),
-          )
-        ],
+            const SizedBox(height: 20),
+            // Center(
+            //   child: SizedBox(
+            //     height: screenHeight * 0.06,
+            //     width: screenWidth * 0.4,
+            //     child: ElevatedButton(
+            //       onPressed: () async {
+            //         addEvent(event);
+            //       },
+            //       child: const Text('Thêm'),
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(height: 20),
+            Center(
+              child: Provider(
+                  create: (_) => AdsBloc(),
+                  builder: (context, child) {
+                    return const AdNative(tempType: TemplateType.small);
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

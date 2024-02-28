@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -8,6 +9,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:share_plus/share_plus.dart';
 
 class QrTextPage extends StatefulWidget {
   QrTextPage({super.key, required this.historyItem, this.controller});
@@ -34,6 +36,7 @@ class _QrTextPageState extends State<QrTextPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    QRCodeWidget qrCodeWidget = QRCodeWidget(data: widget.historyItem.content);
 
     return Scaffold(
         appBar: AppBar(
@@ -48,79 +51,139 @@ class _QrTextPageState extends State<QrTextPage> {
             },
           ),
           title: const Text('Văn bản'),
-          actions: [
-            IconButton(
-              padding: const EdgeInsets.only(
-                  left: 10, top: 20, bottom: 20, right: 10),
-              alignment: Alignment.bottomLeft,
-              icon: const Icon(
-                Icons.qr_code,
-                size: 24,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      QRCodeWidget qrCodeWidget =
-                          QRCodeWidget(data: widget.historyItem.content);
-                      return AlertDialog(
-                        content: SizedBox(
-                          width: 200, // Adjust the width as needed
-                          height: 200, // Adjust the height as needed
-                          child: qrCodeWidget,
-                        ),
-                        actions: [
-                          TextButton(
-                            child: const Text('Save'),
-                            onPressed: () async {
-                              qrCodeWidget.saveImageToGallery();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('Close'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ],
-                      );
-                    });
-              },
-            )
-          ],
+          //         actions: [
+          //   IconButton(
+          //     padding: const EdgeInsets.only(
+          //         left: 10, top: 20, bottom: 20, right: 10),
+          //     alignment: Alignment.bottomLeft,
+          //     icon: const Icon(
+          //       Icons.qr_code,
+          //       size: 24,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       showDialog(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             QRCodeWidget qrCodeWidget =
+          //                 QRCodeWidget(data: widget.historyItem.content);
+          //             return AlertDialog(
+          //               content: SizedBox(
+          //                 width: 200, // Adjust the width as needed
+          //                 height: 200, // Adjust the height as needed
+          //                 child: qrCodeWidget,
+          //               ),
+          //               actions: [
+          //                 TextButton(
+          //                   child: const Text('Save'),
+          //                   onPressed: () async {
+          //                     qrCodeWidget.saveImageToGallery();
+          //                   },
+          //                 ),
+          //                 TextButton(
+          //                   child: const Text('Close'),
+          //                   onPressed: () {
+          //                     Navigator.of(context).pop();
+          //                   },
+          //                 )
+          //               ],
+          //             );
+          //           });
+          //     },
+          //   )
+          // ],
         ),
-        body: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: SizedBox(
-                        height: screenHeight * 0.4,
-                        width: screenWidth * 0.8,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              TitleBar(screenWidth: screenWidth, widget: widget),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: qrCodeWidget,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: screenWidth * 0.8,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          qrCodeWidget.saveImageToGallery();
+                        },
+                        icon: const Icon(Icons.save),
+                        label: const Text('Lưu')),
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          Share.share('Văn bản: ${widget.historyItem.content}');
+                        },
+                        icon: const Icon(Icons.share),
+                        label: const Text('Chia sẻ')),
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                                  text: widget.historyItem.content))
+                              .then((value) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: const SizedBox(
+                                      width: 200,
+                                      height: 100,
+                                      child: Center(
+                                          child: Text('Copy thành công')),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Close'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          });
+                        },
+                        icon: const Icon(Icons.copy),
+                        label: const Text('Copy'))
+                  ],
+                ),
+              ),
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                          height: screenHeight * 0.4,
+                          width: screenWidth * 0.8,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
-                            child: Text(widget.historyItem.content))))),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
-                  }),
-            )
-          ],
+                              margin: const EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Text(widget.historyItem.content))))),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return const AdNative(tempType: TemplateType.small);
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }

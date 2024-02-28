@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,6 +12,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'dart:async';
 
 import 'package:qrcode/ui/pages/result/QrEvent.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 
 class EventToQrPage extends StatefulWidget {
   const EventToQrPage({super.key});
@@ -136,190 +140,207 @@ class _EventToQrPageState extends State<EventToQrPage> {
             )
           ],
         ),
-        body: Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.only(top: 20),
-            child: Card(
-                elevation: 4,
-                clipBehavior: Clip.hardEdge,
-                child: IntrinsicHeight(
-                  child: SizedBox(
-                      width: screenWidth * 0.8,
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
+        body: Column(
+          children: [
+            Container(
+                alignment: Alignment.topCenter,
+                margin: const EdgeInsets.only(top: 20),
+                child: Card(
+                    elevation: 4,
+                    clipBehavior: Clip.hardEdge,
+                    child: IntrinsicHeight(
+                      child: SizedBox(
+                          width: screenWidth * 0.8,
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _titleEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Tiêu đề',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
+                                  ),
                                 ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _titleEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Tiêu đề',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _locationEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Vị trí',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
+                                  ),
                                 ),
-                                maxLines: null,
-                              ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _describeEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Nội dung',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _urlEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Url',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: Center(
+                                      child: StreamBuilder(
+                                    stream:
+                                        _streamStartDateTimeController.stream,
+                                    builder: ((context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        dateTimeStart = snapshot.data!;
+                                      } else {
+                                        dateTimeStart = DateTime.now();
+                                      }
+                                      return CupertinoButton(
+                                          child: Text(StaticVariable
+                                              .formattedDateTime
+                                              .format(dateTimeStart)
+                                              .toString()),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return SizedBox(
+                                                      height: 250,
+                                                      child:
+                                                          CupertinoDatePicker(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        initialDateTime:
+                                                            DateTime.now(),
+                                                        onDateTimeChanged:
+                                                            (DateTime newTime) {
+                                                          _streamStartDateTimeController
+                                                              .sink
+                                                              .add(newTime);
+                                                        },
+                                                      ));
+                                                });
+                                          });
+                                    }),
+                                  )),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: Center(
+                                      child: StreamBuilder(
+                                    stream: _streamEndDateTimeController.stream,
+                                    builder: ((context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        dateTimeEnd = snapshot.data!;
+                                      } else {
+                                        dateTimeEnd = DateTime.now();
+                                      }
+                                      return CupertinoButton(
+                                          child: Text(StaticVariable
+                                              .formattedDateTime
+                                              .format(dateTimeEnd)
+                                              .toString()),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return SizedBox(
+                                                      height: 250,
+                                                      child:
+                                                          CupertinoDatePicker(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        initialDateTime:
+                                                            DateTime.now(),
+                                                        onDateTimeChanged:
+                                                            (DateTime newTime) {
+                                                          _streamEndDateTimeController
+                                                              .sink
+                                                              .add(newTime);
+                                                        },
+                                                      ));
+                                                });
+                                          });
+                                    }),
+                                  )),
+                                ),
+                              ],
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _locationEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Vị trí',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _describeEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Nội dung',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _urlEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Url',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Center(
-                                  child: StreamBuilder(
-                                stream: _streamStartDateTimeController.stream,
-                                builder: ((context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    dateTimeStart = snapshot.data!;
-                                  } else {
-                                    dateTimeStart = DateTime.now();
-                                  }
-                                  return CupertinoButton(
-                                      child: Text(StaticVariable
-                                          .formattedDateTime
-                                          .format(dateTimeStart)
-                                          .toString()),
-                                      onPressed: () {
-                                        showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return SizedBox(
-                                                  height: 250,
-                                                  child: CupertinoDatePicker(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    initialDateTime:
-                                                        DateTime.now(),
-                                                    onDateTimeChanged:
-                                                        (DateTime newTime) {
-                                                      _streamStartDateTimeController
-                                                          .sink
-                                                          .add(newTime);
-                                                    },
-                                                  ));
-                                            });
-                                      });
-                                }),
-                              )),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Center(
-                                  child: StreamBuilder(
-                                stream: _streamEndDateTimeController.stream,
-                                builder: ((context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    dateTimeEnd = snapshot.data!;
-                                  } else {
-                                    dateTimeEnd = DateTime.now();
-                                  }
-                                  return CupertinoButton(
-                                      child: Text(StaticVariable
-                                          .formattedDateTime
-                                          .format(dateTimeEnd)
-                                          .toString()),
-                                      onPressed: () {
-                                        showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return SizedBox(
-                                                  height: 250,
-                                                  child: CupertinoDatePicker(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    initialDateTime:
-                                                        DateTime.now(),
-                                                    onDateTimeChanged:
-                                                        (DateTime newTime) {
-                                                      _streamEndDateTimeController
-                                                          .sink
-                                                          .add(newTime);
-                                                    },
-                                                  ));
-                                            });
-                                      });
-                                }),
-                              )),
-                            )
-                          ],
-                        ),
-                      )),
-                ))));
+                          )),
+                    ))),
+            const SizedBox(height: 20),
+            Center(
+              child: Provider(
+                  create: (_) => AdsBloc(),
+                  builder: (context, child) {
+                    return const AdNative(tempType: TemplateType.small);
+                  }),
+            )
+          ],
+        ));
   }
 }

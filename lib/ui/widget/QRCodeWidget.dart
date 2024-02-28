@@ -19,7 +19,12 @@ class QRCodeWidget extends StatelessWidget {
       children: [
         RepaintBoundary(
             key: qrImageViewKey,
-            child: QrImageView(data: data, version: QrVersions.auto, size: 200))
+            child: QrImageView(
+              data: data,
+              version: QrVersions.auto,
+              size: 250,
+              //embeddedImage: const AssetImage('assets/image/falcon_logo.jpg'),
+            ))
       ],
     ));
   }

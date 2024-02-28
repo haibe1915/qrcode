@@ -58,6 +58,7 @@ dependencies:
   vibration: ^1.8.4
   shared_preferences: ^2.2.2
   device_info_plus: ^9.1.2
+  share_plus: ^7.2.2
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/screen/Qr_splash_screen.png
+    - assets/image/falcon_logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

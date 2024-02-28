@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_bloc.dart';
@@ -10,6 +13,7 @@ import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_event.dart';
 import 'package:qrcode/blocs/PhoneToQr/phone_to_qr_state.dart';
 import 'package:flutter/services.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 
 class SmsToQrPage extends StatefulWidget {
   const SmsToQrPage({super.key});
@@ -207,6 +211,9 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                         width: screenWidth * 0.8,
                         child: Column(
                           children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -255,6 +262,9 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                       }
                                     },
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  )
                                 ]),
                             Expanded(
                                 child: Container(
@@ -278,6 +288,14 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                             ))
                           ],
                         )))),
+            const SizedBox(height: 20),
+            Center(
+              child: Provider(
+                  create: (_) => AdsBloc(),
+                  builder: (context, child) {
+                    return const AdNative(tempType: TemplateType.small);
+                  }),
+            )
           ],
         ));
   }

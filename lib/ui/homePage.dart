@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   // final AdBannerSingleton _adBannerSingleton = AdBannerSingleton();
-  int _currentPageIndex = 1;
+  int _currentPageIndex = 2;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           child: Scaffold(
             body: StaticVariable.pages[_currentPageIndex],
             bottomNavigationBar: BottomNavigationBar(
+              selectedLabelStyle: const TextStyle(color: Colors.grey),
               currentIndex: _currentPageIndex,
               onTap: (int index) {
                 setState(() {

@@ -7,6 +7,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrPhonePage extends StatefulWidget {
@@ -34,6 +35,8 @@ class _QrPhonePageState extends State<QrPhonePage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    final QRCodeWidget qrCodeWidget =
+        QRCodeWidget(data: widget.historyItem.content);
 
     return Scaffold(
       appBar: AppBar(
@@ -90,51 +93,90 @@ class _QrPhonePageState extends State<QrPhonePage> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          TitleBar(screenWidth: screenWidth, widget: widget),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: Card(
-              elevation: 4,
-              clipBehavior: Clip.hardEdge,
-              child: SizedBox(
-                height: screenHeight * 0.1,
-                width: screenWidth * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Text(
-                      widget.historyItem.content,
-                      style: const TextStyle(fontSize: 16),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TitleBar(screenWidth: screenWidth, widget: widget),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: qrCodeWidget,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: screenWidth * 0.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        qrCodeWidget.saveImageToGallery();
+                      },
+                      icon: const Icon(Icons.save),
+                      label: const Text('Lưu')),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Share.share(
+                            'Điện thoại: ${widget.historyItem.content}');
+                      },
+                      icon: const Icon(Icons.share),
+                      label: const Text('Chia sẻ')),
+                  ElevatedButton.icon(
+                      onPressed: () async {
+                        launchUrl(
+                            Uri.parse("tel:${widget.historyItem.content}"));
+                      },
+                      icon: const Icon(Icons.call),
+                      label: const Text('Gọi')),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: Card(
+                elevation: 4,
+                clipBehavior: Clip.hardEdge,
+                child: SizedBox(
+                  height: screenHeight * 0.1,
+                  width: screenWidth * 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Text(
+                        widget.historyItem.content,
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: SizedBox(
-              height: screenHeight * 0.06,
-              width: screenWidth * 0.4,
-              child: ElevatedButton(
-                onPressed: () async {
-                  launchUrl(Uri.parse("tel:${widget.historyItem.content}"));
-                },
-                child: const Text('Gọi'),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: Provider(
-                create: (_) => AdsBloc(),
-                builder: (context, child) {
-                  return const AdNative(tempType: TemplateType.small);
-                }),
-          )
-        ],
+            const SizedBox(height: 20),
+            // Center(
+            //   child: SizedBox(
+            //     height: screenHeight * 0.06,
+            //     width: screenWidth * 0.4,
+            //     child: ElevatedButton(
+            //       onPressed: () async {
+            //         launchUrl(Uri.parse("tel:${widget.historyItem.content}"));
+            //       },
+            //       child: const Text('Gọi'),
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(height: 20),
+            Center(
+              child: Provider(
+                  create: (_) => AdsBloc(),
+                  builder: (context, child) {
+                    return const AdNative(tempType: TemplateType.small);
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -41,12 +41,6 @@ class _AdBannerState extends State<AdBanner> {
           child: Stack(
             children: [
               AdWidget(ad: state.bottomBannerAd!),
-              IconButton(
-                icon: const Icon(Icons.cancel),
-                onPressed: () {
-                  adsBloc.add(AdBannerDisposeEvent());
-                },
-              ),
             ],
           ),
         );

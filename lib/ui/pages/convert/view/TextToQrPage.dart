@@ -99,6 +99,9 @@ class _TextToQrPageState extends State<TextToQrPage> {
                                       }
                                     },
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  )
                                 ]),
                             Expanded(
                                 child: Container(
