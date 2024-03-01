@@ -185,6 +185,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                             children: [
                               Expanded(
                                 child: TextField(
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                   enabled: false,
                                   controller: passwordController,
                                   obscureText: _obscureText,
@@ -234,7 +237,10 @@ class _QrWifiPageState extends State<QrWifiPage> {
               child: Provider(
                   create: (_) => AdsBloc(),
                   builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
+                    return AdNative(
+                      tempType: TemplateType.small,
+                      width: 0.8 * MediaQuery.of(context).size.width,
+                    );
                   }),
             )
           ],

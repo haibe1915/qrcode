@@ -42,27 +42,61 @@ class ConvertPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Qr Code Generator'),
         ),
-        body: ListView.builder(
-          itemCount: name.length,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 2,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => functionPages[index]),
-                  );
-                },
-                child: ListTile(
-                  leading:
-                      StaticVariable.iconCategory[name[index].toLowerCase()],
-                  title: Text(name[index]),
-                ),
-              ),
-            );
-          },
+        body: Center(
+          child: Container(
+            margin: const EdgeInsets.only(top: 10),
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: ListView.builder(
+              itemCount: name.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 5, bottom: 5),
+                  height: 80,
+                  child: Card(
+                    elevation: 4,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => functionPages[index]),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: StaticVariable
+                                    .colorCategory[name[index].toLowerCase()],
+                                borderRadius: BorderRadius.circular(5)),
+                            width: 65,
+                            child: Center(
+                                child: StaticVariable
+                                    .iconCategory2[name[index].toLowerCase()]),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                              title: Text(name[index]),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 65,
+                            child: Center(
+                              child: Icon(
+                                Icons.add_circle_rounded,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

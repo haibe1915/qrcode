@@ -6,6 +6,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_bloc.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/pages/result/QrContact.dart';
 import 'package:qrcode/ui/pages/result/QrEmail.dart';
@@ -58,6 +59,7 @@ class _QrPageState extends State<QrPage> {
   }
 
   void getResult(QRViewController controller, HistoryItem tmp) {
+    StaticVariable.interstitialAd.loadInterstitialAd();
     Future.delayed(Duration.zero, () {
       controller.pauseCamera();
       switch (tmp.type) {

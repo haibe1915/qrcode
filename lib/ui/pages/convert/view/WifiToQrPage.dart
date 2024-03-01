@@ -68,117 +68,125 @@ class _WifiToQrPageState extends State<WifiToQrPage> {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: IntrinsicHeight(
-                      child: SizedBox(
-                          width: screenWidth * 0.8,
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: IntrinsicHeight(
+                        child: SizedBox(
+                            width: screenWidth * 0.8,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                child: TextField(
-                                  controller: _ssidEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'SSID',
-                                    contentPadding: EdgeInsets.all(10),
-                                    border: InputBorder.none,
-                                  ),
-                                  maxLines: null,
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                child: TextField(
-                                  controller: _passwordEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Mật khẩu',
-                                    contentPadding: EdgeInsets.all(10),
-                                    border: InputBorder.none,
-                                  ),
-                                  maxLines: null,
-                                ),
-                              ),
-                              SegmentedButton<String>(
-                                style: ButtonStyle(
-                                  shape:
-                                      MaterialStateProperty.all<OutlinedBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      side: BorderSide(
-                                        color: Colors.grey,
-                                        width: 5.0,
-                                      ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
                                     ),
                                   ),
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                                      if (states
-                                          .contains(MaterialState.selected)) {
-                                        return Theme.of(context)
-                                            .colorScheme
-                                            .primary;
-                                      }
-                                      return Color.fromARGB(255, 196, 194, 194);
-                                    },
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _ssidEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'SSID',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
                                   ),
                                 ),
-                                segments: const <ButtonSegment<String>>[
-                                  ButtonSegment<String>(
-                                      value: "WPA",
-                                      label: Text('WPA/WPA2'),
-                                      icon: Icon(Icons.calendar_view_day)),
-                                  ButtonSegment<String>(
-                                      value: "WEP",
-                                      label: Text('WEP'),
-                                      icon: Icon(Icons.calendar_view_week)),
-                                ],
-                                selected: <String>{result},
-                                onSelectionChanged: (Set<String> newSelection) {
-                                  setState(() {
-                                    result = newSelection.first;
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              )
-                            ],
-                          )),
-                    ))),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
-                  }),
-            )
-          ],
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  child: TextField(
+                                    controller: _passwordEditingController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Mật khẩu',
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: null,
+                                  ),
+                                ),
+                                SegmentedButton<String>(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        side: BorderSide(
+                                          color: Colors.grey,
+                                          width: 5.0,
+                                        ),
+                                      ),
+                                    ),
+                                    backgroundColor: MaterialStateProperty
+                                        .resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return Theme.of(context)
+                                              .colorScheme
+                                              .primary;
+                                        }
+                                        return Color.fromARGB(
+                                            255, 196, 194, 194);
+                                      },
+                                    ),
+                                  ),
+                                  segments: const <ButtonSegment<String>>[
+                                    ButtonSegment<String>(
+                                        value: "WPA",
+                                        label: Text('WPA/WPA2'),
+                                        icon: Icon(Icons.calendar_view_day)),
+                                    ButtonSegment<String>(
+                                        value: "WEP",
+                                        label: Text('WEP'),
+                                        icon: Icon(Icons.calendar_view_week)),
+                                  ],
+                                  selected: <String>{result},
+                                  onSelectionChanged:
+                                      (Set<String> newSelection) {
+                                    setState(() {
+                                      result = newSelection.first;
+                                    });
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
+                            )),
+                      ))),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return AdNative(
+                        tempType: TemplateType.medium,
+                        width: 0.8 * MediaQuery.of(context).size.width,
+                      );
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }

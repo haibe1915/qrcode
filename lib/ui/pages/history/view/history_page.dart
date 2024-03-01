@@ -3,6 +3,8 @@ import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/widget/historyTab.dart';
 
 class HistoryPage extends StatelessWidget {
+  const HistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     const int tabsCount = 2;
@@ -12,15 +14,29 @@ class HistoryPage extends StatelessWidget {
         length: tabsCount,
         child: SafeArea(
           child: Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              title: TabBar(tabs: <Widget>[
-                Tab(
-                    icon: const Icon(Icons.qr_code_scanner),
-                    text: StaticVariable.historyPagesTabs[0]),
-                Tab(
-                    icon: const Icon(Icons.qr_code),
-                    text: StaticVariable.historyPagesTabs[1]),
-              ]),
+              backgroundColor: Colors.white,
+              title: TabBar(
+                  indicator: const UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      width: 12.0, // Width of the indicator line
+                      color: Colors.blueGrey, // Color of the indicator line
+                    ),
+                  ),
+                  labelColor: Colors.black,
+                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  unselectedLabelColor: Colors.grey,
+                  tabs: <Widget>[
+                    Tab(
+                        iconMargin: const EdgeInsets.only(bottom: 5),
+                        icon: const Icon(Icons.qr_code_scanner),
+                        text: StaticVariable.historyPagesTabs[0]),
+                    Tab(
+                        iconMargin: const EdgeInsets.only(bottom: 5),
+                        icon: const Icon(Icons.qr_code),
+                        text: StaticVariable.historyPagesTabs[1]),
+                  ]),
             ),
             body: const TabBarView(children: [
               HistoryTab(type: "Scan"),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -80,6 +81,70 @@ class _SettingPageState extends State<SettingPage> {
                         });
                       },
                     ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.vibration),
+                    title: const Text("Ngôn ngữ"),
+                    trailing: Text(StaticVariable.language),
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          final List<String> _languages = [
+                            'Spanish (Mexico)',
+                            'Arabic',
+                            'English (US)',
+                            'French',
+                            'German',
+                            'Portuguese (Brazil)',
+                            'Spanish (Spain)',
+                            'Turkish',
+                            'Japanese',
+                            'Dutch',
+                          ];
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: ListView.builder(
+                              itemCount: _languages.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final String language = _languages[index];
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(language,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                      onTap: () {
+                                        StaticVariable.language = language;
+                                        SharedPreference.setLanguagePreference(
+                                            language);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
                   )
                 ],
               ),

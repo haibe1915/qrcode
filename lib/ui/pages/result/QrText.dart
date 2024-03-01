@@ -161,25 +161,22 @@ class _QrTextPageState extends State<QrTextPage> {
                   child: Card(
                       elevation: 4,
                       clipBehavior: Clip.hardEdge,
-                      child: SizedBox(
-                          height: screenHeight * 0.4,
-                          width: screenWidth * 0.8,
+                      child: IntrinsicHeight(
                           child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
+                              width: screenWidth * 0.8,
                               margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Text(widget.historyItem.content))))),
+                                  left: 10, right: 10, bottom: 10, top: 10),
+                              child: Text(widget.historyItem.content,
+                                  style: const TextStyle(fontSize: 16)))))),
               const SizedBox(height: 20),
               Center(
                 child: Provider(
                     create: (_) => AdsBloc(),
                     builder: (context, child) {
-                      return const AdNative(tempType: TemplateType.small);
+                      return AdNative(
+                        tempType: TemplateType.small,
+                        width: 0.8 * MediaQuery.of(context).size.width,
+                      );
                     }),
               )
             ],

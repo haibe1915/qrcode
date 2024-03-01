@@ -48,51 +48,56 @@ class UrlToQrPage extends StatelessWidget {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: SizedBox(
-                        height: screenHeight * 0.4,
-                        width: screenWidth * 0.8,
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                          height: screenHeight * 0.4,
+                          width: screenWidth * 0.8,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
                               ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _textEditingController,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.all(10),
+                              Expanded(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
                                 ),
-                                maxLines: null,
-                              ),
-                            )),
-                          ],
-                        )))),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
-                  }),
-            )
-          ],
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                child: TextField(
+                                  controller: _textEditingController,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.all(10),
+                                  ),
+                                  maxLines: null,
+                                ),
+                              )),
+                            ],
+                          )))),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return AdNative(
+                        tempType: TemplateType.medium,
+                        width: 0.8 * MediaQuery.of(context).size.width,
+                      );
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }

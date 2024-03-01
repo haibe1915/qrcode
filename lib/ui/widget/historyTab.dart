@@ -52,12 +52,16 @@ class _HistoryTabState extends State<HistoryTab> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     Widget adNativeTemp = Center(
       child: Provider(
           create: (_) => AdsBloc(),
           builder: (context, child) {
-            return const AdNative(tempType: TemplateType.small);
+            return AdNative(
+              tempType: TemplateType.small,
+              width: 0.95 * MediaQuery.of(context).size.width,
+            );
           }),
     );
     List<HistoryItem> historyList = widget.type == "Scan"
@@ -79,128 +83,161 @@ class _HistoryTabState extends State<HistoryTab> {
     return Scaffold(
       body: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: search,
-                  onChanged: (value) {},
-                  decoration: const InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
+          Container(
+            margin: const EdgeInsets.only(top: 10, bottom: 5),
+            child: Row(
+              children: [
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Card(
+                    elevation: 4,
+                    child: TextField(
+                      controller: search,
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        hintText: 'Search',
+                        prefixIcon: Icon(
+                          Icons.search,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              BlocBuilder<SearchBloc, SearchState>(
-                  bloc: _searchBloc,
-                  builder: (context, state) {
-                    if (state is SearchStateNotLoaded) {
-                      return PopupMenuButton<int>(
-                        initialValue: type,
-                        onSelected: (int type) {
-                          typeController.sink.add(type);
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<int>>[
-                          const PopupMenuItem<int>(
-                            value: 0,
-                            child: Text('Thời gian'),
-                          ),
-                          const PopupMenuItem<int>(
-                            value: 1,
-                            child: Text('Thể loại'),
-                          ),
-                        ],
-                      );
-                    } else if (state is SearchStateLoaded) {
-                      return PopupMenuButton<int>(
-                        initialValue: state.type,
-                        onSelected: (int type) {
-                          typeController.sink.add(type);
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<int>>[
-                          const PopupMenuItem<int>(
-                            value: 0,
-                            child: Text('Thời gian'),
-                          ),
-                          const PopupMenuItem<int>(
-                            value: 1,
-                            child: Text('Thể loại'),
-                          ),
-                        ],
-                      );
-                    }
-                    return Container();
-                  })
-            ],
+                const SizedBox(width: 10),
+                Card(
+                  elevation: 4,
+                  child: BlocBuilder<SearchBloc, SearchState>(
+                      bloc: _searchBloc,
+                      builder: (context, state) {
+                        if (state is SearchStateNotLoaded) {
+                          return PopupMenuButton<int>(
+                            icon: const Icon(
+                              Icons.calendar_month,
+                              color: Colors.blueGrey,
+                            ),
+                            initialValue: type,
+                            onSelected: (int type) {
+                              typeController.sink.add(type);
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<int>>[
+                              const PopupMenuItem<int>(
+                                value: 0,
+                                child: Text('Thời gian'),
+                              ),
+                              const PopupMenuItem<int>(
+                                value: 1,
+                                child: Text('Thể loại'),
+                              ),
+                            ],
+                          );
+                        } else if (state is SearchStateLoaded) {
+                          return PopupMenuButton<int>(
+                            offset: const Offset(0, 50),
+                            icon: Icon(
+                              state.type == 0
+                                  ? Icons.calendar_month
+                                  : Icons.type_specimen,
+                              color: Colors.blueGrey,
+                            ),
+                            initialValue: state.type,
+                            onSelected: (int type) {
+                              typeController.sink.add(type);
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<int>>[
+                              const PopupMenuItem<int>(
+                                value: 0,
+                                child: Text('Thời gian'),
+                              ),
+                              const PopupMenuItem<int>(
+                                value: 1,
+                                child: Text('Thể loại'),
+                              ),
+                            ],
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
+                const SizedBox(width: 10),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Expanded(
-            child: Center(
-              child: BlocBuilder<SearchBloc, SearchState>(
-                  bloc: _searchBloc,
-                  builder: (context, state) {
-                    if (state is SearchStateNotLoaded) {
-                      return ListView.builder(
-                        controller: _scrollController,
-                        itemCount: historyList.length,
-                        itemBuilder: (context, index) {
-                          final HistoryItem historyItem =
-                              historyList[historyList.length - index - 1];
-                          if (index != 0 && index % 10 == 0) {
-                            return Column(
-                              children: [
-                                adNativeTemp,
-                                HistoryCard(
-                                    historyItem: historyItem,
-                                    type: widget.type,
-                                    searchBloc: _searchBloc)
-                              ],
-                            );
-                          } else {
-                            return HistoryCard(
-                                historyItem: historyItem,
-                                type: widget.type,
-                                searchBloc: _searchBloc);
-                          }
-                        },
-                      );
-                    } else if (state is SearchStateLoaded) {
-                      return ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.dataList.length,
-                        itemBuilder: (context, index) {
-                          final HistoryItem historyItem = state.dataList[index];
-                          if (index != 0 && index % 10 == 0) {
-                            return Column(
-                              children: [
-                                adNativeTemp,
-                                HistoryCard(
-                                    historyItem: historyItem,
-                                    type: widget.type,
-                                    searchBloc: _searchBloc)
-                              ],
-                            );
-                          } else {
-                            return HistoryCard(
-                                historyItem: historyItem,
-                                type: widget.type,
-                                searchBloc: _searchBloc);
-                          }
-                        },
-                      );
-                    } else if (state is SearchStateLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is SearchStateError) {
-                      return Center(
-                        child: Text(
-                          state.message,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      );
-                    }
-                    return Container();
-                  }),
+            child: SizedBox(
+              width: 0.95 * MediaQuery.of(context).size.width,
+              child: Center(
+                child: BlocBuilder<SearchBloc, SearchState>(
+                    bloc: _searchBloc,
+                    builder: (context, state) {
+                      if (state is SearchStateNotLoaded) {
+                        return ListView.builder(
+                          controller: _scrollController,
+                          itemCount: historyList.length,
+                          itemBuilder: (context, index) {
+                            final HistoryItem historyItem =
+                                historyList[historyList.length - index - 1];
+                            if (index != 0 && index % 10 == 0) {
+                              return Column(
+                                children: [
+                                  adNativeTemp,
+                                  HistoryCard(
+                                      historyItem: historyItem,
+                                      type: widget.type,
+                                      searchBloc: _searchBloc)
+                                ],
+                              );
+                            } else {
+                              return HistoryCard(
+                                  historyItem: historyItem,
+                                  type: widget.type,
+                                  searchBloc: _searchBloc);
+                            }
+                          },
+                        );
+                      } else if (state is SearchStateLoaded) {
+                        return ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.dataList.length,
+                          itemBuilder: (context, index) {
+                            final HistoryItem historyItem =
+                                state.dataList[index];
+                            if (index != 0 && index % 10 == 0) {
+                              return Column(
+                                children: [
+                                  adNativeTemp,
+                                  HistoryCard(
+                                      historyItem: historyItem,
+                                      type: widget.type,
+                                      searchBloc: _searchBloc)
+                                ],
+                              );
+                            } else {
+                              return HistoryCard(
+                                  historyItem: historyItem,
+                                  type: widget.type,
+                                  searchBloc: _searchBloc);
+                            }
+                          },
+                        );
+                      } else if (state is SearchStateLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is SearchStateError) {
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        );
+                      }
+                      return Container();
+                    }),
+              ),
             ),
           ),
         ],

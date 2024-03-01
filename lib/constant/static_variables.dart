@@ -10,16 +10,19 @@ import 'package:qrcode/ui/pages/history/view/history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode/ui/pages/setting/view/SettingPage.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
+import 'package:qrcode/ui/widget/AdInterstitial.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
+import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StaticVariable {
   static List<HistoryItem> createdHistoryList = <HistoryItem>[];
   static List<HistoryItem> scannedHistoryList = <HistoryItem>[];
   static List<Widget> pages = [
-    HistoryPage(),
+    const HistoryPage(),
     const QrPage(),
     ConvertPage(),
-    SettingPage(),
+    const SettingPage(),
   ];
   static List<String> historyPagesTabs = ['Đã quét', 'Đã tạo'];
   static StreamController<HistoryItem> createdController =
@@ -54,10 +57,52 @@ class StaticVariable {
       color: Colors.pink.shade700,
     ),
   };
-  static final ThemeData myTheme = ThemeData(
-    primarySwatch: Colors.blueGrey,
-    brightness: Brightness.light,
-  );
+  static final Map<String, Icon> iconCategory2 = {
+    "văn bản": const Icon(
+      Icons.edit_document,
+      color: Colors.white,
+    ),
+    "wifi": const Icon(
+      Icons.wifi,
+      color: Colors.white,
+    ),
+    "url": const Icon(
+      Icons.link,
+      color: Colors.white,
+    ),
+    "điện thoại": const Icon(
+      Icons.phone,
+      color: Colors.white,
+    ),
+    "liên hệ": const Icon(
+      Icons.person,
+      color: Colors.white,
+    ),
+    "tin nhắn": const Icon(
+      Icons.sms,
+      color: Colors.white,
+    ),
+    "sự kiện": const Icon(
+      Icons.calendar_month,
+      color: Colors.white,
+    ),
+    "email": const Icon(
+      Icons.email,
+      color: Colors.white,
+    ),
+  };
+
+  static final Map<String, Color> colorCategory = {
+    "văn bản": Colors.yellow.shade700,
+    "wifi": Colors.lightBlue.shade700,
+    "url": Colors.blue.shade700,
+    "điện thoại": Colors.green.shade700,
+    "liên hệ": Colors.redAccent.shade700,
+    "tin nhắn": Colors.greenAccent.shade700,
+    "sự kiện": Colors.red.shade700,
+    "email": Colors.pink.shade700,
+  };
+
   static const adBannerId = "ca-app-pub-3940256099942544/6300978111";
   static const adNativeId = "ca-app-pub-3940256099942544/2247696110";
   static const adInterstitialId = "ca-app-pub-3940256099942544/1033173712";
@@ -101,4 +146,6 @@ class StaticVariable {
               style: NativeTemplateFontStyle.normal,
               size: 16.0)));
   static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
+  static late String language;
+  static final interstitialAd = AdInterstitial();
 }

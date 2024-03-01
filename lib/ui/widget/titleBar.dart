@@ -20,9 +20,18 @@ class TitleBar extends StatelessWidget {
         elevation: 4,
         child: Row(
           children: [
+            Container(
+              height: 50,
+              margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: StaticVariable.colorCategory[widget.historyItem.type],
+                  borderRadius: BorderRadius.circular(5)),
+              width: 50,
+              child: Center(
+                  child: StaticVariable.iconCategory2[widget.historyItem.type]),
+            ),
             Expanded(
               child: ListTile(
-                leading: StaticVariable.iconCategory[widget.historyItem.type],
                 title: Text(
                   StaticVariable.formattedDateTime
                       .format(widget.historyItem.datetime)

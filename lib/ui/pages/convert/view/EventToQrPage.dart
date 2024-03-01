@@ -337,7 +337,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
               child: Provider(
                   create: (_) => AdsBloc(),
                   builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
+                    return AdNative(
+                      tempType: TemplateType.small,
+                      width: 0.8 * MediaQuery.of(context).size.width,
+                    );
                   }),
             )
           ],

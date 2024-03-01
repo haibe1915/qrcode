@@ -9,6 +9,7 @@ import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/qr_observer.dart';
 import 'package:qrcode/ui/qr_app.dart';
+import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -21,6 +22,7 @@ Future<void> main() async {
     databaseFactory = databaseFactoryFfi;
   }
   StaticVariable.conn = DatabaseHelper();
+  StaticVariable.language = await SharedPreference.getLanguagePreference();
   await StaticVariable.conn.initializeDatabase();
   BlocObserver observer = const QrObserver();
   StaticVariable.createdController.stream.listen(

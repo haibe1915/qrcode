@@ -128,77 +128,94 @@ class _HistoryCardState extends State<HistoryCard> {
       return QrTextPage(historyItem: historyItem);
   }
 
-  Widget build(BuildContext) {
+  @override
+  Widget build(BuildContext context) {
     List<HistoryItem> historyList = widget.type == "Scan"
         ? StaticVariable.scannedHistoryList
         : StaticVariable.createdHistoryList;
-    return InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => resultPage(widget.historyItem)),
-          );
-        },
-        child: Card(
-          child: Row(
-            children: [
-              Expanded(
-                  child: ListTile(
-                leading: StaticVariable.iconCategory[widget.historyItem.type],
-                title: Text(StaticVariable.formattedDateTime
-                    .format(widget.historyItem.datetime)
-                    .toString()),
-                subtitle: Text(HistoryItemText(widget.historyItem)),
-              )),
-              IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: const SizedBox(
-                              width: 200, // Adjust the width as needed
-                              height: 50, // Adjust the height as needed
-                              child: Center(
-                                child: Text("Bạn có muốn xoá không ?"),
+    return Container(
+      margin: const EdgeInsets.only(top: 5, bottom: 5),
+      height: 80,
+      child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => resultPage(widget.historyItem)),
+            );
+          },
+          child: Card(
+            elevation: 4,
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color:
+                          StaticVariable.colorCategory[widget.historyItem.type],
+                      borderRadius: BorderRadius.circular(5)),
+                  width: 65,
+                  child: Center(
+                      child: StaticVariable
+                          .iconCategory2[widget.historyItem.type]),
+                ),
+                Expanded(
+                    child: ListTile(
+                  //leading: StaticVariable.iconCategory[widget.historyItem.type],
+                  title: Text(StaticVariable.formattedDateTime
+                      .format(widget.historyItem.datetime)
+                      .toString()),
+                  subtitle: Text(HistoryItemText(widget.historyItem)),
+                )),
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: const SizedBox(
+                                width: 200, // Adjust the width as needed
+                                height: 50, // Adjust the height as needed
+                                child: Center(
+                                  child: Text("Bạn có muốn xoá không ?"),
+                                ),
                               ),
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text('Có'),
-                                onPressed: () {
-                                  if (widget.type == "Scan") {
-                                    StaticVariable.conn.deleteScaned(
-                                        widget.historyItem.datetime);
-                                  } else if (widget.type == "Create") {
-                                    StaticVariable.conn.deleteCreated(
-                                        widget.historyItem.datetime);
-                                  }
-                                  widget.searchBloc.add(SearchEventDeleteData(
-                                      str: "",
-                                      type: 0,
-                                      historyItem: widget.historyItem,
-                                      historyList: historyList));
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('Không'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ))
-            ],
-          ),
-        ));
+                              actions: [
+                                TextButton(
+                                  child: const Text('Có'),
+                                  onPressed: () {
+                                    if (widget.type == "Scan") {
+                                      StaticVariable.conn.deleteScaned(
+                                          widget.historyItem.datetime);
+                                    } else if (widget.type == "Create") {
+                                      StaticVariable.conn.deleteCreated(
+                                          widget.historyItem.datetime);
+                                    }
+                                    widget.searchBloc.add(SearchEventDeleteData(
+                                        str: "",
+                                        type: 0,
+                                        historyItem: widget.historyItem,
+                                        historyList: historyList));
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Không'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ))
+              ],
+            ),
+          )),
+    );
   }
 }

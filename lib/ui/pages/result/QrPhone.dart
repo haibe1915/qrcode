@@ -51,47 +51,47 @@ class _QrPhonePageState extends State<QrPhonePage> {
           },
         ),
         title: const Text('Số điện thoại'),
-        actions: [
-          IconButton(
-            padding:
-                const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
-            alignment: Alignment.bottomLeft,
-            icon: const Icon(
-              Icons.qr_code,
-              size: 24,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    QRCodeWidget qrCodeWidget =
-                        QRCodeWidget(data: widget.historyItem.content);
-                    return AlertDialog(
-                      content: SizedBox(
-                        width: 200, // Adjust the width as needed
-                        height: 200, // Adjust the height as needed
-                        child: qrCodeWidget,
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Save'),
-                          onPressed: () async {
-                            qrCodeWidget.saveImageToGallery();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  });
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     padding:
+        //         const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
+        //     alignment: Alignment.bottomLeft,
+        //     icon: const Icon(
+        //       Icons.qr_code,
+        //       size: 24,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (BuildContext context) {
+        //             QRCodeWidget qrCodeWidget =
+        //                 QRCodeWidget(data: widget.historyItem.content);
+        //             return AlertDialog(
+        //               content: SizedBox(
+        //                 width: 200, // Adjust the width as needed
+        //                 height: 200, // Adjust the height as needed
+        //                 child: qrCodeWidget,
+        //               ),
+        //               actions: [
+        //                 TextButton(
+        //                   child: const Text('Save'),
+        //                   onPressed: () async {
+        //                     qrCodeWidget.saveImageToGallery();
+        //                   },
+        //                 ),
+        //                 TextButton(
+        //                   child: const Text('Close'),
+        //                   onPressed: () {
+        //                     Navigator.of(context).pop();
+        //                   },
+        //                 )
+        //               ],
+        //             );
+        //           });
+        //     },
+        //   )
+        // ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -172,7 +172,10 @@ class _QrPhonePageState extends State<QrPhonePage> {
               child: Provider(
                   create: (_) => AdsBloc(),
                   builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
+                    return AdNative(
+                      tempType: TemplateType.small,
+                      width: 0.8 * MediaQuery.of(context).size.width,
+                    );
                   }),
             )
           ],

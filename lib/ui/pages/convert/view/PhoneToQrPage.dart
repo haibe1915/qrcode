@@ -182,72 +182,77 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: SizedBox(
-                        height: screenHeight * 0.1,
-                        width: screenWidth * 0.8,
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                          height: screenHeight * 0.1,
+                          width: screenWidth * 0.8,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
+                                margin:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: TextField(
+                                  controller: _textEditingController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  decoration: const InputDecoration(
+                                    hintText: 'Nhập số điện thoại của bạn',
+                                    contentPadding: EdgeInsets.all(10),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: null,
                                 ),
                               ),
-                              margin:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: TextField(
-                                controller: _textEditingController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                decoration: const InputDecoration(
-                                  hintText: 'Nhập số điện thoại của bạn',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            ),
-                          ],
-                        )))),
-            Center(
-              child: Center(
-                child: Container(
-                    height: screenHeight * 0.1,
-                    width: screenWidth * 0.4,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Card(
-                        elevation: 4,
-                        child: InkWell(
-                            onTap: () {
-                              _phoneToQrBloc.add(PhoneToQrEventLoadData());
-                              _showContact();
-                            },
-                            child: const Center(child: Text('Nhập'))))),
+                            ],
+                          )))),
+              Center(
+                child: Center(
+                  child: Container(
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.4,
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Card(
+                          elevation: 4,
+                          child: InkWell(
+                              onTap: () {
+                                _phoneToQrBloc.add(PhoneToQrEventLoadData());
+                                _showContact();
+                              },
+                              child: const Center(child: Text('Nhập'))))),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return const AdNative(tempType: TemplateType.small);
-                  }),
-            )
-          ],
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return AdNative(
+                        tempType: TemplateType.medium,
+                        width: 0.8 * MediaQuery.of(context).size.width,
+                      );
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }
