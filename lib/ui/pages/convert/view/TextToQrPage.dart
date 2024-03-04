@@ -56,7 +56,7 @@ class _TextToQrPageState extends State<TextToQrPage> {
               ),
               onPressed: () {
                 HistoryItem tmp = HistoryItem(
-                    type: 'văn bản',
+                    type: 'text',
                     datetime: DateTime.now(),
                     content: _textEditingController.text);
                 StaticVariable.createdController.add(tmp);
@@ -73,70 +73,72 @@ class _TextToQrPageState extends State<TextToQrPage> {
             )
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: SizedBox(
-                        height: screenHeight * 0.4,
-                        width: screenWidth * 0.8,
-                        child: Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  StreamBuilder<int>(
-                                    stream: _textLengthStream.stream,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return Text(snapshot.data.toString());
-                                      } else {
-                                        return const Text('');
-                                      }
-                                    },
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: Card(
+                      elevation: 4,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                          height: screenHeight * 0.4,
+                          width: screenWidth * 0.8,
+                          child: Column(
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    StreamBuilder<int>(
+                                      stream: _textLengthStream.stream,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data.toString());
+                                        } else {
+                                          return const Text('');
+                                        }
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    )
+                                  ]),
+                              Expanded(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  )
-                                ]),
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
                                 ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: TextField(
-                                controller: _textEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Văn bản',
-                                  contentPadding: EdgeInsets.all(10),
-                                  border: InputBorder.none,
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                child: TextField(
+                                  controller: _textEditingController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Văn bản',
+                                    contentPadding: EdgeInsets.all(10),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: null,
                                 ),
-                                maxLines: null,
-                              ),
-                            )),
-                          ],
-                        )))),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
-            )
-          ],
+                              )),
+                            ],
+                          )))),
+              const SizedBox(height: 20),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return AdNative(
+                        tempType: TemplateType.small,
+                        width: 0.8 * MediaQuery.of(context).size.width,
+                      );
+                    }),
+              )
+            ],
+          ),
         ));
   }
 }

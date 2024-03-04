@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_contacts/contact.dart';
@@ -44,10 +45,10 @@ class _QrContactPageState extends State<QrContactPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: const SizedBox(
+              content: SizedBox(
                 width: 200, // Adjust the width as needed
                 height: 100, // Adjust the height as needed
-                child: Center(child: Text('Thêm thành công')),
+                child: Center(child: const Text('addSuccess').tr()),
               ),
               actions: [
                 TextButton(

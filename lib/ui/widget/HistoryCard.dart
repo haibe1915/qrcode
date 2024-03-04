@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -112,13 +113,13 @@ class _HistoryCardState extends State<HistoryCard> {
   Widget resultPage(HistoryItem historyItem) {
     if (historyItem.type == "url") {
       return QrUrlPage(historyItem: historyItem);
-    } else if (historyItem.type == "sự kiện") {
+    } else if (historyItem.type == "event") {
       return QrEventPage(historyItem: historyItem);
-    } else if (historyItem.type == "liên hệ") {
+    } else if (historyItem.type == "contact") {
       return QrContactPage(historyItem: historyItem);
-    } else if (historyItem.type == "điện thoại") {
+    } else if (historyItem.type == "phone") {
       return QrPhonePage(historyItem: historyItem);
-    } else if (historyItem.type == "tin nhắn") {
+    } else if (historyItem.type == "sms") {
       return QrSmsPage(historyItem: historyItem);
     } else if (historyItem.type == "email") {
       return QrEmailPage(historyItem: historyItem);
@@ -173,16 +174,16 @@ class _HistoryCardState extends State<HistoryCard> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              content: const SizedBox(
+                              content: SizedBox(
                                 width: 200, // Adjust the width as needed
                                 height: 50, // Adjust the height as needed
                                 child: Center(
-                                  child: Text("Bạn có muốn xoá không ?"),
+                                  child: const Text("confirmDelete").tr(),
                                 ),
                               ),
                               actions: [
                                 TextButton(
-                                  child: const Text('Có'),
+                                  child: const Text('yes').tr(),
                                   onPressed: () {
                                     if (widget.type == "Scan") {
                                       StaticVariable.conn.deleteScaned(
@@ -200,7 +201,7 @@ class _HistoryCardState extends State<HistoryCard> {
                                   },
                                 ),
                                 TextButton(
-                                  child: const Text('Không'),
+                                  child: const Text('no').tr(),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },

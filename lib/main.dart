@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
@@ -15,6 +16,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive,
       overlays: [SystemUiOverlay.top]);
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -25,6 +27,7 @@ Future<void> main() async {
   StaticVariable.language = await SharedPreference.getLanguagePreference();
   await StaticVariable.conn.initializeDatabase();
   BlocObserver observer = const QrObserver();
+
   StaticVariable.createdController.stream.listen(
     (HistoryItem item) {
       debugPrint('Created item added: $item');
@@ -54,5 +57,25 @@ Future<void> main() async {
   await Future.delayed(const Duration(seconds: 0));
   MobileAds.instance.initialize();
 
-  runApp(const QrApp());
+  runApp(EasyLocalization(
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('vi', 'VN'),
+        const Locale('es', 'MX'),
+        const Locale('ar'),
+        const Locale('en', 'US'),
+        const Locale('fr'),
+        const Locale('de'),
+        const Locale('pt', 'BR'),
+        const Locale('es', 'ES'),
+        const Locale('tr'),
+        const Locale('ja'),
+        const Locale('nl'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      child: Builder(builder: ((context) {
+        context.setLocale(StaticVariable.languageMap[StaticVariable.language]!);
+        return const QrApp();
+      }))));
 }

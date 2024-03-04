@@ -24,7 +24,6 @@ class StaticVariable {
     ConvertPage(),
     const SettingPage(),
   ];
-  static List<String> historyPagesTabs = ['Đã quét', 'Đã tạo'];
   static StreamController<HistoryItem> createdController =
       StreamController<HistoryItem>.broadcast();
   static StreamController<HistoryItem> scannedController =
@@ -36,19 +35,19 @@ class StaticVariable {
   static late DatabaseHelper conn;
   static String wifiSecurity = "WPA";
   static final Map<String, Icon> iconCategory = {
-    "văn bản": Icon(
+    "text": Icon(
       Icons.edit_document,
       color: Colors.yellow.shade700,
     ),
     "wifi": Icon(Icons.wifi, color: Colors.lightBlue.shade700),
     "url": Icon(Icons.link, color: Colors.blue.shade700),
-    "điện thoại": Icon(Icons.phone, color: Colors.green.shade700),
-    "liên hệ": Icon(Icons.person, color: Colors.redAccent.shade700),
-    "tin nhắn": Icon(
+    "phone": Icon(Icons.phone, color: Colors.green.shade700),
+    "contact": Icon(Icons.person, color: Colors.redAccent.shade700),
+    "sms": Icon(
       Icons.sms,
       color: Colors.greenAccent.shade700,
     ),
-    "sự kiện": Icon(
+    "event": Icon(
       Icons.calendar_month,
       color: Colors.red.shade700,
     ),
@@ -58,7 +57,7 @@ class StaticVariable {
     ),
   };
   static final Map<String, Icon> iconCategory2 = {
-    "văn bản": const Icon(
+    "text": const Icon(
       Icons.edit_document,
       color: Colors.white,
     ),
@@ -70,19 +69,19 @@ class StaticVariable {
       Icons.link,
       color: Colors.white,
     ),
-    "điện thoại": const Icon(
+    "phone": const Icon(
       Icons.phone,
       color: Colors.white,
     ),
-    "liên hệ": const Icon(
+    "contact": const Icon(
       Icons.person,
       color: Colors.white,
     ),
-    "tin nhắn": const Icon(
+    "sms": const Icon(
       Icons.sms,
       color: Colors.white,
     ),
-    "sự kiện": const Icon(
+    "event": const Icon(
       Icons.calendar_month,
       color: Colors.white,
     ),
@@ -93,13 +92,13 @@ class StaticVariable {
   };
 
   static final Map<String, Color> colorCategory = {
-    "văn bản": Colors.yellow.shade700,
+    "text": Colors.yellow.shade700,
     "wifi": Colors.lightBlue.shade700,
     "url": Colors.blue.shade700,
-    "điện thoại": Colors.green.shade700,
-    "liên hệ": Colors.redAccent.shade700,
-    "tin nhắn": Colors.greenAccent.shade700,
-    "sự kiện": Colors.red.shade700,
+    "phone": Colors.green.shade700,
+    "contact": Colors.redAccent.shade700,
+    "sms": Colors.greenAccent.shade700,
+    "event": Colors.red.shade700,
     "email": Colors.pink.shade700,
   };
 
@@ -148,4 +147,17 @@ class StaticVariable {
   static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
   static late String language;
   static final interstitialAd = AdInterstitial();
+  static final Map<String, Locale> languageMap = {
+    'Spanish (Mexico)': const Locale('es', 'MX'),
+    'Arabic': const Locale('ar'),
+    'English (US)': const Locale('en', 'US'),
+    'French': const Locale('fr'),
+    'German': const Locale('de'),
+    'Portuguese (Brazil)': const Locale('pt', 'BR'),
+    'Spanish (Spain)': const Locale('es', 'ES'),
+    'Turkish': const Locale('tr'),
+    'Japanese': const Locale('ja'),
+    'Dutch': const Locale('nl'),
+    'Vietnamese': const Locale('vi', 'VN')
+  };
 }

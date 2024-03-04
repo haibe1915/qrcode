@@ -165,7 +165,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
               ),
               onPressed: () {
                 HistoryItem tmp = HistoryItem(
-                    type: 'điện thoại',
+                    type: 'phone',
                     datetime: DateTime.now(),
                     content: _textEditingController.text);
                 StaticVariable.createdController.add(tmp);

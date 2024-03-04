@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/pages/convert/view/ContactToQrPage.dart';
@@ -13,15 +14,15 @@ class ConvertPage extends StatelessWidget {
   ConvertPage({Key? key}) : super(key: key);
   final double offset = 0;
   final List<String> name = [
-    'Văn bản',
-    'Wifi',
-    'Url',
-    'Điện thoại',
-    'Liên hệ',
+    'text',
+    'wifi',
+    'url',
+    'phone',
+    'contact',
     // 'Vị trí',
-    'Tin nhắn',
-    'Sự kiện',
-    'Email'
+    'sms',
+    'event',
+    'email'
   ];
 
   final List<Widget> functionPages = [
@@ -77,7 +78,7 @@ class ConvertPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListTile(
-                              title: Text(name[index]),
+                              title: Text(name[index]).tr(),
                             ),
                           ),
                           const SizedBox(

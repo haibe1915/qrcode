@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
+import 'package:qrcode/ui/widget/LanguageOption.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -28,6 +31,10 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
+  void changeLanguage() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,18 +45,18 @@ class _SettingPageState extends State<SettingPage> {
         body: Column(
           children: [
             const SizedBox(height: 20),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
-                Text(
-                  "Chung",
+                const Text(
+                  "general",
                   style: TextStyle(
                     fontSize: 18,
                   ),
-                )
+                ).tr()
               ],
             ),
             Card(
@@ -57,7 +64,7 @@ class _SettingPageState extends State<SettingPage> {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.volume_down),
-                    title: const Text("Âm thanh"),
+                    title: const Text("sound").tr(),
                     trailing: Switch(
                       value: _isMusicSwitched,
                       activeColor: Colors.green,
@@ -70,7 +77,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.vibration),
-                    title: const Text("Rung"),
+                    title: const Text("vibration").tr(),
                     trailing: Switch(
                       value: _isVibrationSwitched,
                       activeColor: Colors.green,
@@ -82,86 +89,23 @@ class _SettingPageState extends State<SettingPage> {
                       },
                     ),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.vibration),
-                    title: const Text("Ngôn ngữ"),
-                    trailing: Text(StaticVariable.language),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          final List<String> _languages = [
-                            'Spanish (Mexico)',
-                            'Arabic',
-                            'English (US)',
-                            'French',
-                            'German',
-                            'Portuguese (Brazil)',
-                            'Spanish (Spain)',
-                            'Turkish',
-                            'Japanese',
-                            'Dutch',
-                          ];
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: ListView.builder(
-                              itemCount: _languages.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String language = _languages[index];
-                                return Column(
-                                  children: [
-                                    ListTile(
-                                      title: Text(language,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold)),
-                                      onTap: () {
-                                        StaticVariable.language = language;
-                                        SharedPreference.setLanguagePreference(
-                                            language);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    Center(
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.75,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            width: 0.5,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  )
+                  LanguageOption(onLanguageChanged: changeLanguage)
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
-                Text(
-                  "Nhà phát triển",
+                const Text(
+                  "developer",
                   style: TextStyle(
                     fontSize: 18,
                   ),
-                ),
+                ).tr(),
               ],
             ),
             Card(
@@ -170,13 +114,13 @@ class _SettingPageState extends State<SettingPage> {
                   InkWell(
                     child: ListTile(
                       leading: const Icon(Icons.mail),
-                      title: const Text("Phản hồi"),
+                      title: const Text("response").tr(),
                     ),
                     onTap: () {
                       TextEditingController _nameController =
                           TextEditingController(text: "abcd@gmail.com");
                       TextEditingController _descriptionEditingController =
-                          TextEditingController(text: "Phản hồi về qrcode");
+                          TextEditingController(text: "Response about qrcode");
                       TextEditingController _textEditingController =
                           TextEditingController();
                       showModalBottomSheet(
@@ -187,7 +131,7 @@ class _SettingPageState extends State<SettingPage> {
                               height: 0.9 * MediaQuery.of(context).size.height,
                               child: Scaffold(
                                 appBar: AppBar(
-                                    title: const Text('Phản hồi'),
+                                    title: const Text('Phản hồi').tr(),
                                     actions: [
                                       IconButton(
                                         padding: const EdgeInsets.only(
@@ -228,7 +172,7 @@ class _SettingPageState extends State<SettingPage> {
                                             child: TextField(
                                               enabled: false,
                                               controller: _nameController,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.black,
                                               ),
                                               decoration: const InputDecoration(
@@ -254,7 +198,7 @@ class _SettingPageState extends State<SettingPage> {
                                           left: 10, right: 10, bottom: 10),
                                       child: TextField(
                                         enabled: false,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black,
                                         ),
                                         controller:

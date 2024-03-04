@@ -217,7 +217,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                     'NOTE: ${_noteEditingController.text}\n'
                     'END:VCARD';
                 HistoryItem tmp = HistoryItem(
-                    type: 'liên hệ', datetime: DateTime.now(), content: data);
+                    type: 'contact', datetime: DateTime.now(), content: data);
                 StaticVariable.createdController.add(tmp);
                 StaticVariable.conn.insertCreated(tmp);
                 _firstNameEditingController.clear();

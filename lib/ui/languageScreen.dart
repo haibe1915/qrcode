@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qrcode/ui/homePage.dart';
 import 'package:qrcode/ui/qr_app.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
+import 'package:qrcode/constant/static_variables.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -67,6 +68,7 @@ class _LanguageListState extends State<LanguageList> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
+                StaticVariable.language = language;
                 SharedPreference.setLanguagePreference(language);
                 Navigator.pushReplacement(
                     context,

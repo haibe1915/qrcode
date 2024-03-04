@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/widget/historyTab.dart';
@@ -31,11 +32,11 @@ class HistoryPage extends StatelessWidget {
                     Tab(
                         iconMargin: const EdgeInsets.only(bottom: 5),
                         icon: const Icon(Icons.qr_code_scanner),
-                        text: StaticVariable.historyPagesTabs[0]),
+                        text: 'scanned'.tr()),
                     Tab(
                         iconMargin: const EdgeInsets.only(bottom: 5),
                         icon: const Icon(Icons.qr_code),
-                        text: StaticVariable.historyPagesTabs[1]),
+                        text: 'created'.tr()),
                   ]),
             ),
             body: const TabBarView(children: [

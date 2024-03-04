@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -54,10 +55,10 @@ class QRCodeWidget extends StatelessWidget {
             context: qrImageViewKey.currentContext!,
             builder: (BuildContext context) {
               return AlertDialog(
-                content: const SizedBox(
+                content: SizedBox(
                   width: 200, // Adjust the width as needed
                   height: 100, // Adjust the height as needed
-                  child: Center(child: Text('Thêm thành công')),
+                  child: Center(child: const Text('addSuccess').tr()),
                 ),
                 actions: [
                   TextButton(

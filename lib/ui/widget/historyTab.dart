@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -94,9 +95,9 @@ class _HistoryTabState extends State<HistoryTab> {
                     child: TextField(
                       controller: search,
                       onChanged: (value) {},
-                      decoration: const InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(
+                      decoration: InputDecoration(
+                        hintText: 'Search'.tr(),
+                        prefixIcon: const Icon(
                           Icons.search,
                         ),
                         border: InputBorder.none,
@@ -122,13 +123,13 @@ class _HistoryTabState extends State<HistoryTab> {
                             },
                             itemBuilder: (BuildContext context) =>
                                 <PopupMenuEntry<int>>[
-                              const PopupMenuItem<int>(
+                              PopupMenuItem<int>(
                                 value: 0,
-                                child: Text('Thời gian'),
+                                child: const Text('time').tr(),
                               ),
-                              const PopupMenuItem<int>(
+                              PopupMenuItem<int>(
                                 value: 1,
-                                child: Text('Thể loại'),
+                                child: const Text('type').tr(),
                               ),
                             ],
                           );
