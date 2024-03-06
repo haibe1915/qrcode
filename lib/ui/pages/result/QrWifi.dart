@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,7 @@ class _QrWifiPageState extends State<QrWifiPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Wifi'),
+        title: const Text('wifi').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -124,7 +125,7 @@ class _QrWifiPageState extends State<QrWifiPage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -133,14 +134,17 @@ class _QrWifiPageState extends State<QrWifiPage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Share.share('Wifi: ${wifi["wifi"]}\n'
-                            'Security type: ${wifi["type"]}');
+                        Share.share('wifi'.tr() +
+                            ': ${wifi["wifi"]}\n'
+                                    'security type'
+                                .tr() +
+                            ': ${wifi["type"]}');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                 ],
               ),
             ),
@@ -157,9 +161,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: const Text(
-                          'Wifi:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(
+                          '${'wifi'.tr()}:',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(
@@ -173,9 +177,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                       Container(
                         alignment: Alignment.centerLeft,
                         margin: const EdgeInsets.only(top: 15),
-                        child: const Text(
-                          'Password:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(
+                          '${'password'.tr()}:',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(
@@ -214,9 +218,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                       Container(
                         alignment: Alignment.centerLeft,
                         margin: const EdgeInsets.only(top: 15),
-                        child: const Text(
-                          'Security type:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(
+                          '${'security type'.tr()}:',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(

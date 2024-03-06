@@ -20,20 +20,20 @@ class AddImageToDb {
         string.contains("DTSTART") &&
         string.contains("DTEND") &&
         string.contains("SUMMARY")) {
-      return "sự kiện";
+      return "event";
     } else if (string.contains("BEGIN:VCARD") &&
         string.contains("VERSION:") &&
         string.contains("FN:")) {
-      return "liên hệ";
-    } else if (string.contains("WIFI:") &&
-        string.contains("S:") &&
-        string.contains("P:")) {
+      return "contact";
+    } else if (string.contains("WIFI:")) {
       return "wifi";
     } else if (string.contains("https://") || string.contains("http://")) {
       return "url";
     } else if (RegExp(r'^[0-9]+$').hasMatch(string) && string.length < 15) {
-      return "điện thoại";
+      return "phone";
+    } else if (string.contains('sms:')) {
+      return "sms";
     } else
-      return "văn bản";
+      return "text";
   }
 }

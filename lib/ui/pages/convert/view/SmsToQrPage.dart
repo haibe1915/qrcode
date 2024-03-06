@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -60,9 +61,9 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                   TextField(
                     controller: _contactSearch,
                     onChanged: (value) {},
-                    decoration: const InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                    decoration: InputDecoration(
+                      hintText: 'search'.tr(),
+                      prefixIcon: const Icon(Icons.search),
                     ),
                   ),
                   Expanded(
@@ -167,7 +168,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Tin nhắn'),
+          title: const Text('sms').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -233,9 +234,10 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                           FilteringTextInputFormatter
                                               .digitsOnly,
                                         ],
-                                        decoration: const InputDecoration(
-                                          hintText: 'Đến',
-                                          contentPadding: EdgeInsets.all(10),
+                                        decoration: InputDecoration(
+                                          hintText: 'receiver'.tr(),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
                                           border: InputBorder.none,
                                         ),
                                         maxLines: null,
@@ -280,9 +282,9 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                                     left: 10, right: 10, bottom: 10),
                                 child: TextField(
                                   controller: _textEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Văn bản',
-                                    contentPadding: EdgeInsets.all(10),
+                                  decoration: InputDecoration(
+                                    hintText: 'message'.tr(),
+                                    contentPadding: const EdgeInsets.all(10),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,

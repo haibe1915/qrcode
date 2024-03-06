@@ -17,6 +17,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool _isMusicSwitched = true;
   bool _isVibrationSwitched = true;
+  bool _isPremium = false;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _SettingPageState extends State<SettingPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('QrCode'),
+          title: const Text('setting').tr(),
         ),
         body: Column(
           children: [
@@ -89,7 +90,21 @@ class _SettingPageState extends State<SettingPage> {
                       },
                     ),
                   ),
-                  LanguageOption(onLanguageChanged: changeLanguage)
+                  LanguageOption(onLanguageChanged: changeLanguage),
+                  ListTile(
+                    leading: const Icon(Icons.money),
+                    title: const Text("Premium"),
+                    trailing: Switch(
+                      value: _isPremium,
+                      activeColor: Colors.green,
+                      onChanged: (value) {
+                        SharedPreference.setPremiumPreference(value);
+                        setState(() {
+                          _isPremium = value;
+                        });
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

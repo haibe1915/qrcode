@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -50,7 +51,7 @@ class _QrTextPageState extends State<QrTextPage> {
               Navigator.of(context).pop();
             },
           ),
-          title: const Text('Văn bản'),
+          title: const Text('text').tr(),
           //         actions: [
           //   IconButton(
           //     padding: const EdgeInsets.only(
@@ -107,7 +108,7 @@ class _QrTextPageState extends State<QrTextPage> {
                 height: 10,
               ),
               SizedBox(
-                width: screenWidth * 0.8,
+                width: screenWidth * 0.9,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -116,13 +117,14 @@ class _QrTextPageState extends State<QrTextPage> {
                           qrCodeWidget.saveImageToGallery();
                         },
                         icon: const Icon(Icons.save),
-                        label: const Text('Lưu')),
+                        label: const Text('save').tr()),
                     ElevatedButton.icon(
                         onPressed: () {
-                          Share.share('Văn bản: ${widget.historyItem.content}');
+                          Share.share(
+                              '${'text'.tr()}: ${widget.historyItem.content}');
                         },
                         icon: const Icon(Icons.share),
-                        label: const Text('Chia sẻ')),
+                        label: const Text('share').tr()),
                     ElevatedButton.icon(
                         onPressed: () {
                           Clipboard.setData(ClipboardData(
@@ -132,15 +134,16 @@ class _QrTextPageState extends State<QrTextPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    content: const SizedBox(
+                                    content: SizedBox(
                                       width: 200,
                                       height: 100,
                                       child: Center(
-                                          child: Text('Copy thành công')),
+                                          child:
+                                              const Text('copy success').tr()),
                                     ),
                                     actions: [
                                       TextButton(
-                                        child: const Text('Close'),
+                                        child: const Text('close').tr(),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
@@ -151,7 +154,7 @@ class _QrTextPageState extends State<QrTextPage> {
                           });
                         },
                         icon: const Icon(Icons.copy),
-                        label: const Text('Copy'))
+                        label: const Text('copy').tr())
                   ],
                 ),
               ),

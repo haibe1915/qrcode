@@ -11,21 +11,29 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/qr_observer.dart';
 import 'package:qrcode/ui/qr_app.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt("lastAdTimePreference", DateTime.now().millisecondsSinceEpoch);
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive,
       overlays: [SystemUiOverlay.top]);
+
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
   StaticVariable.conn = DatabaseHelper();
   StaticVariable.language = await SharedPreference.getLanguagePreference();
   await StaticVariable.conn.initializeDatabase();
+
   BlocObserver observer = const QrObserver();
 
   StaticVariable.createdController.stream.listen(
@@ -55,6 +63,7 @@ Future<void> main() async {
   StaticVariable.createdController.addStream(StaticVariable.conn.readCreated());
   StaticVariable.scannedController.addStream(StaticVariable.conn.readScanned());
   await Future.delayed(const Duration(seconds: 0));
+
   MobileAds.instance.initialize();
 
   runApp(EasyLocalization(
@@ -63,7 +72,6 @@ Future<void> main() async {
         const Locale('vi', 'VN'),
         const Locale('es', 'MX'),
         const Locale('ar'),
-        const Locale('en', 'US'),
         const Locale('fr'),
         const Locale('de'),
         const Locale('pt', 'BR'),

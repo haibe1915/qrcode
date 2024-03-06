@@ -39,6 +39,7 @@ class _AdNativeState extends State<AdNative> {
     } else if (widget.tempType == TemplateType.medium) {
       adHeight = 360; // Change the height for medium template type
     }
+    final premiumState = false;
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5),
       // decoration: BoxDecoration(

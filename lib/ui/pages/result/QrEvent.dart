@@ -74,7 +74,7 @@ class _QrEventPageState extends State<QrEventPage> {
                 ),
                 actions: [
                   TextButton(
-                    child: const Text('Close'),
+                    child: const Text('close').tr(),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -123,7 +123,7 @@ class _QrEventPageState extends State<QrEventPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Sự kiện'),
+        title: const Text('event').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -180,7 +180,7 @@ class _QrEventPageState extends State<QrEventPage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -189,23 +189,23 @@ class _QrEventPageState extends State<QrEventPage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Share.share('Summary: ${event["SUMMARY"]}\n'
-                            'Description: ${event["DESCRIPTION"] ?? ""}\n'
-                            'Location: ${event["LOCATION"] ?? ""}\n'
-                            'Start time: ${event["DTSTART"]}\n'
-                            'End time: ${event["DTEND"]}\n');
+                        Share.share('${'summmary'.tr()}${': ${event["SUMMARY"]}\n'
+                            'description'.tr()}${': ${event["DESCRIPTION"] ?? ""}\n'
+                            'location'.tr()}${': ${event["LOCATION"] ?? ""}\n'
+                            'start time'.tr()}${': ${event["DTSTART"]}\n'
+                            'end time'.tr()}: ${event["DTEND"]}\n');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                   ElevatedButton.icon(
                       onPressed: () async {
                         addEvent(event);
                       },
                       icon: const Icon(Icons.add),
-                      label: const Text('Thêm')),
+                      label: const Text('add').tr()),
                 ],
               ),
             ),
@@ -221,9 +221,9 @@ class _QrEventPageState extends State<QrEventPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Summary:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${'summary'.tr()}:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5),
@@ -233,9 +233,9 @@ class _QrEventPageState extends State<QrEventPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Description:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${'description'.tr()}:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5),
@@ -245,9 +245,9 @@ class _QrEventPageState extends State<QrEventPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Location:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${'location'.tr()}:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5),
@@ -257,9 +257,9 @@ class _QrEventPageState extends State<QrEventPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Start Time:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${'start time'.tr()}:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5),
@@ -271,9 +271,9 @@ class _QrEventPageState extends State<QrEventPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'End Time:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${'end time'.tr()}:',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5),

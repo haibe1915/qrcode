@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdInterstitial {
   late InterstitialAd _interstitialAd;
@@ -26,6 +27,13 @@ class AdInterstitial {
   }
 
   Future<void> loadInterstitialAd() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastAdTime = prefs.getInt("lastAdTimePreference");
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (lastAdTime != null && now - lastAdTime < 30000) {
+      return;
+    }
+    prefs.setInt("lastAdTimePreference", DateTime.now().millisecondsSinceEpoch);
     return _interstitialAd.show();
   }
 }

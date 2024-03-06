@@ -16,14 +16,15 @@ import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StaticVariable {
-  static List<HistoryItem> createdHistoryList = <HistoryItem>[];
-  static List<HistoryItem> scannedHistoryList = <HistoryItem>[];
   static List<Widget> pages = [
     const HistoryPage(),
     const QrPage(),
     ConvertPage(),
-    const SettingPage(),
   ];
+  static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
+
+  static List<HistoryItem> createdHistoryList = <HistoryItem>[];
+  static List<HistoryItem> scannedHistoryList = <HistoryItem>[];
   static StreamController<HistoryItem> createdController =
       StreamController<HistoryItem>.broadcast();
   static StreamController<HistoryItem> scannedController =
@@ -33,7 +34,8 @@ class StaticVariable {
   Map<Permission, PermissionStatus> permissionStatus =
       <Permission, PermissionStatus>{};
   static late DatabaseHelper conn;
-  static String wifiSecurity = "WPA";
+
+  //Icon color
   static final Map<String, Icon> iconCategory = {
     "text": Icon(
       Icons.edit_document,
@@ -90,7 +92,6 @@ class StaticVariable {
       color: Colors.white,
     ),
   };
-
   static final Map<String, Color> colorCategory = {
     "text": Colors.yellow.shade700,
     "wifi": Colors.lightBlue.shade700,
@@ -102,9 +103,11 @@ class StaticVariable {
     "email": Colors.pink.shade700,
   };
 
+  // Ad relate
   static const adBannerId = "ca-app-pub-3940256099942544/6300978111";
   static const adNativeId = "ca-app-pub-3940256099942544/2247696110";
   static const adInterstitialId = "ca-app-pub-3940256099942544/1033173712";
+  static final interstitialAd = AdInterstitial();
   static AdBanner adBanner = const AdBanner();
   static NativeAd defaultAdNative = NativeAd(
       adUnitId: adNativeId,
@@ -144,9 +147,9 @@ class StaticVariable {
               backgroundColor: Colors.amber,
               style: NativeTemplateFontStyle.normal,
               size: 16.0)));
-  static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
+
+  //Language
   static late String language;
-  static final interstitialAd = AdInterstitial();
   static final Map<String, Locale> languageMap = {
     'Spanish (Mexico)': const Locale('es', 'MX'),
     'Arabic': const Locale('ar'),

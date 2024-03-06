@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -45,9 +46,9 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                   TextField(
                     controller: _contactSearch,
                     onChanged: (value) {},
-                    decoration: const InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                    decoration: InputDecoration(
+                      hintText: 'search'.tr(),
+                      prefixIcon: const Icon(Icons.search),
                     ),
                   ),
                   Expanded(
@@ -152,7 +153,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Điện thoại'),
+          title: const Text('phone').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -214,9 +215,9 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                   inputFormatters: <TextInputFormatter>[
                                     FilteringTextInputFormatter.digitsOnly,
                                   ],
-                                  decoration: const InputDecoration(
-                                    hintText: 'Nhập số điện thoại của bạn',
-                                    contentPadding: EdgeInsets.all(10),
+                                  decoration: InputDecoration(
+                                    hintText: 'phone'.tr(),
+                                    contentPadding: const EdgeInsets.all(10),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,
@@ -231,13 +232,14 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                       width: screenWidth * 0.4,
                       padding: const EdgeInsets.only(top: 10),
                       child: Card(
+                          color: Colors.blueGrey,
                           elevation: 4,
                           child: InkWell(
                               onTap: () {
                                 _phoneToQrBloc.add(PhoneToQrEventLoadData());
                                 _showContact();
                               },
-                              child: const Center(child: Text('Nhập'))))),
+                              child: Center(child: const Text('enter', style: TextStyle(color: Colors.white)).tr())))),
                 ),
               ),
               const SizedBox(height: 20),

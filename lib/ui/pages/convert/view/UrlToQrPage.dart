@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class UrlToQrPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Url'),
+          title: const Text('url').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(

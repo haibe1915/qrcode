@@ -66,7 +66,7 @@ class _EventToQrPageState extends State<EventToQrPage> {
                 ),
                 actions: [
                   TextButton(
-                    child: const Text('Close'),
+                    child: const Text('close').tr(),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -100,7 +100,7 @@ class _EventToQrPageState extends State<EventToQrPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Sự kiện'),
+          title: const Text('event').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -168,9 +168,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                         left: 10, right: 10, bottom: 10),
                                     child: TextField(
                                       controller: _titleEditingController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Tiêu đề',
-                                        contentPadding: EdgeInsets.all(10),
+                                      decoration: InputDecoration(
+                                        hintText: 'title'.tr(),
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
                                         border: InputBorder.none,
                                       ),
                                       maxLines: null,
@@ -187,9 +188,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                         left: 10, right: 10, bottom: 10),
                                     child: TextField(
                                       controller: _locationEditingController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Vị trí',
-                                        contentPadding: EdgeInsets.all(10),
+                                      decoration: InputDecoration(
+                                        hintText: 'location'.tr(),
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
                                         border: InputBorder.none,
                                       ),
                                       maxLines: null,
@@ -206,9 +208,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                         left: 10, right: 10, bottom: 10),
                                     child: TextField(
                                       controller: _describeEditingController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Nội dung',
-                                        contentPadding: EdgeInsets.all(10),
+                                      decoration: InputDecoration(
+                                        hintText: 'description'.tr(),
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
                                         border: InputBorder.none,
                                       ),
                                       maxLines: null,
@@ -225,9 +228,10 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                         left: 10, right: 10, bottom: 10),
                                     child: TextField(
                                       controller: _urlEditingController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Url',
-                                        contentPadding: EdgeInsets.all(10),
+                                      decoration: InputDecoration(
+                                        hintText: 'url'.tr(),
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
                                         border: InputBorder.none,
                                       ),
                                       maxLines: null,

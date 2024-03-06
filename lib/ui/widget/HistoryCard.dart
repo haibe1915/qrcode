@@ -88,13 +88,13 @@ class _HistoryCardState extends State<HistoryCard> {
   String HistoryItemText(HistoryItem item) {
     String summary = "";
     switch (item.type) {
-      case 'sự kiện':
+      case 'event':
         summary = EventText(item.content);
         break;
-      case 'liên hệ':
+      case 'contact':
         summary = ContactText(item.content);
         break;
-      case 'tin nhắn':
+      case 'sms':
         summary = SmsText(item.content);
         break;
       case 'email':

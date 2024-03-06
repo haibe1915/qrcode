@@ -41,7 +41,7 @@ class ConvertPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Qr Code Generator'),
+          title: const Text('qr generator').tr(),
         ),
         body: Center(
           child: Container(

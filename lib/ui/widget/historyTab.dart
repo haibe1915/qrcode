@@ -96,7 +96,7 @@ class _HistoryTabState extends State<HistoryTab> {
                       controller: search,
                       onChanged: (value) {},
                       decoration: InputDecoration(
-                        hintText: 'Search'.tr(),
+                        hintText: 'search'.tr(),
                         prefixIcon: const Icon(
                           Icons.search,
                         ),
@@ -148,13 +148,13 @@ class _HistoryTabState extends State<HistoryTab> {
                             },
                             itemBuilder: (BuildContext context) =>
                                 <PopupMenuEntry<int>>[
-                              const PopupMenuItem<int>(
+                              PopupMenuItem<int>(
                                 value: 0,
-                                child: Text('Thời gian'),
+                                child: const Text('time').tr(),
                               ),
-                              const PopupMenuItem<int>(
+                              PopupMenuItem<int>(
                                 value: 1,
-                                child: Text('Thể loại'),
+                                child: const Text('type').tr(),
                               ),
                             ],
                           );

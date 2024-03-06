@@ -15,6 +15,7 @@ import 'package:qrcode/ui/pages/result/QrPhone.dart';
 import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
+import 'package:qrcode/ui/pages/result/QrWifi.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:vibration/vibration.dart';
 
@@ -43,19 +44,21 @@ class _QrPageState extends State<QrPage> {
         string.contains("DTSTART") &&
         string.contains("DTEND") &&
         string.contains("SUMMARY")) {
-      return "sự kiện";
+      return "event";
     } else if (string.contains("BEGIN:VCARD") &&
         string.contains("VERSION:") &&
         string.contains("FN:")) {
-      return "liên hệ";
+      return "contact";
     } else if (string.contains("WIFI:")) {
       return "wifi";
     } else if (string.contains("https://") || string.contains("http://")) {
       return "url";
     } else if (RegExp(r'^[0-9]+$').hasMatch(string) && string.length < 15) {
-      return "điện thoại";
+      return "phone";
+    } else if (string.contains('sms:')) {
+      return "sms";
     } else
-      return "văn bản";
+      return "text";
   }
 
   void getResult(QRViewController controller, HistoryItem tmp) {
@@ -63,7 +66,7 @@ class _QrPageState extends State<QrPage> {
     Future.delayed(Duration.zero, () {
       controller.pauseCamera();
       switch (tmp.type) {
-        case "sự kiện":
+        case "event":
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -72,7 +75,7 @@ class _QrPageState extends State<QrPage> {
             ),
           );
           break;
-        case "liên hệ":
+        case "contact":
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -86,7 +89,7 @@ class _QrPageState extends State<QrPage> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  QrTextPage(historyItem: tmp, controller: controller),
+                  QrWifiPage(historyItem: tmp, controller: controller),
             ),
           );
           break;
@@ -101,7 +104,7 @@ class _QrPageState extends State<QrPage> {
             ),
           );
           break;
-        case "điện thoại":
+        case "phone":
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -110,7 +113,7 @@ class _QrPageState extends State<QrPage> {
             ),
           );
           break;
-        case "tin nhắn":
+        case "sms":
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -128,7 +131,7 @@ class _QrPageState extends State<QrPage> {
             ),
           );
           break;
-        case "văn bản":
+        default:
           Navigator.push(
             context,
             MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _QrUrlPageState extends State<QrUrlPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Url'),
+        title: const Text('url').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -106,7 +107,7 @@ class _QrUrlPageState extends State<QrUrlPage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -115,19 +116,20 @@ class _QrUrlPageState extends State<QrUrlPage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Share.share('Url: ${widget.historyItem.content}');
+                        Share.share(
+                            '${'url'.tr()}: ${widget.historyItem.content}');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                   ElevatedButton.icon(
                       onPressed: () async {
                         launchUrl(Uri.parse(widget.historyItem.content));
                       },
                       icon: const Icon(Icons.add_link),
-                      label: const Text('Truy cập')),
+                      label: const Text('access').tr()),
                 ],
               ),
             ),

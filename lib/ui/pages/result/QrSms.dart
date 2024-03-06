@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class _QrSmsPageState extends State<QrSmsPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Tin nhắn'),
+        title: const Text('sms').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -125,7 +126,7 @@ class _QrSmsPageState extends State<QrSmsPage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -134,20 +135,23 @@ class _QrSmsPageState extends State<QrSmsPage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Share.share('Người nhận: ${contact["phone_number"]}\n'
-                            'Nội dung: ${contact["message"] ?? ""}\n');
+                        Share.share('receiver'.tr() +
+                            ': ${contact["phone_number"]}\n'
+                                    'message'
+                                .tr() +
+                            ': ${contact["message"] ?? ""}\n');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                   ElevatedButton.icon(
                       onPressed: () async {
                         launchUrl(Uri.parse(widget.historyItem.content));
                       },
                       icon: const Icon(Icons.call),
-                      label: const Text('Gọi')),
+                      label: const Text('call').tr()),
                 ],
               ),
             ),
@@ -164,9 +168,10 @@ class _QrSmsPageState extends State<QrSmsPage> {
                           children: [
                             Container(
                               alignment: Alignment.centerLeft,
-                              child: const Text(
-                                'Liên hệ:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              child: Text(
+                                '${'receiver'.tr()}:',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Container(
@@ -180,9 +185,10 @@ class _QrSmsPageState extends State<QrSmsPage> {
                             const SizedBox(height: 10),
                             Container(
                               alignment: Alignment.centerLeft,
-                              child: const Text(
-                                'Nội dung:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              child: Text(
+                                '${'message'.tr()}:',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Container(

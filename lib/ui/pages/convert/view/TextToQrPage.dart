@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class _TextToQrPageState extends State<TextToQrPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Văn bản'),
+          title: const Text('text').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -116,9 +117,9 @@ class _TextToQrPageState extends State<TextToQrPage> {
                                     left: 10, right: 10, bottom: 10),
                                 child: TextField(
                                   controller: _textEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Văn bản',
-                                    contentPadding: EdgeInsets.all(10),
+                                  decoration: InputDecoration(
+                                    hintText: 'text'.tr(),
+                                    contentPadding: const EdgeInsets.all(10),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,

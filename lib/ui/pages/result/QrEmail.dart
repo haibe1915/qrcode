@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,7 @@ class _QrEmailPageState extends State<QrEmailPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Email'),
+        title: const Text('email').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -130,7 +131,7 @@ class _QrEmailPageState extends State<QrEmailPage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,21 +140,21 @@ class _QrEmailPageState extends State<QrEmailPage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Share.share('Email: ${contact["email"]}\n'
-                            'Chủ đề: ${contact["subject"] ?? ""}\n'
-                            'Nội dung: ${contact["body"] ?? ""}\n');
+                        Share.share('${'email'.tr()}${': ${contact["email"]}\n'
+                            'subject'.tr()}${': ${contact["subject"] ?? ""}\n'
+                            'message'.tr()}: ${contact["body"] ?? ""}\n');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                   ElevatedButton.icon(
                       onPressed: () async {
                         launchUrl(Uri.parse(widget.historyItem.content));
                       },
                       icon: const Icon(Icons.send),
-                      label: const Text('Gửi')),
+                      label: const Text('send').tr()),
                 ],
               ),
             ),

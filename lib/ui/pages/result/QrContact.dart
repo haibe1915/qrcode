@@ -52,7 +52,7 @@ class _QrContactPageState extends State<QrContactPage> {
               ),
               actions: [
                 TextButton(
-                  child: const Text('Close'),
+                  child: const Text('close').tr(),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -105,7 +105,7 @@ class _QrContactPageState extends State<QrContactPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Liên hệ'),
+        title: const Text('contact').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -166,7 +166,7 @@ class _QrContactPageState extends State<QrContactPage> {
                   height: 10,
                 ),
                 SizedBox(
-                  width: screenWidth * 0.8,
+                  width: screenWidth * 0.9,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -175,22 +175,22 @@ class _QrContactPageState extends State<QrContactPage> {
                             qrCodeWidget.saveImageToGallery();
                           },
                           icon: const Icon(Icons.save),
-                          label: const Text('Lưu')),
+                          label: const Text('save').tr()),
                       ElevatedButton.icon(
                           onPressed: () {
-                            Share.share('Họ tên: ${contact["FN"]}\n'
-                                'Số điện thoại: ${contact["TEL"]}\n'
-                                'Địa chỉ: ${contact["ADR"] ?? ""}\n'
-                                'Note: ${contact["NOTE"] ?? ""}\n');
+                            Share.share('${'name'.tr()}:${'${contact["FN"]}\n'
+                                'phone number'.tr()}:${'${contact["TEL"]}\n'
+                                'address'.tr()}:${'${contact["ADR"] ?? ""}\n'
+                                'note'.tr()}${contact["NOTE"] ?? ""}\n');
                           },
                           icon: const Icon(Icons.share),
-                          label: const Text('Chia sẻ')),
+                          label: const Text('share').tr()),
                       ElevatedButton.icon(
                           onPressed: () async {
                             addContact(contact);
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Thêm')),
+                          label: const Text('add').tr()),
                     ],
                   ),
                 ),
@@ -208,9 +208,9 @@ class _QrContactPageState extends State<QrContactPage> {
                           Container(
                             alignment: Alignment.centerLeft,
                             child: const Text(
-                              'Họ tên:',
+                              'name:',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ).tr(),
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
@@ -224,9 +224,9 @@ class _QrContactPageState extends State<QrContactPage> {
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
                             child: const Text(
-                              'Số điện thoại:',
+                              'phone number:',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ).tr(),
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
@@ -240,9 +240,9 @@ class _QrContactPageState extends State<QrContactPage> {
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
                             child: const Text(
-                              'Địa chỉ:',
+                              'address:',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ).tr(),
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
@@ -256,9 +256,9 @@ class _QrContactPageState extends State<QrContactPage> {
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
                             child: const Text(
-                              'Ghi chú:',
+                              'note:',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ).tr(),
                           ),
                           Container(
                             alignment: Alignment.centerLeft,

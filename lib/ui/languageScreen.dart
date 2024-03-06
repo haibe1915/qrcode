@@ -3,6 +3,7 @@ import 'package:qrcode/ui/homePage.dart';
 import 'package:qrcode/ui/qr_app.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -70,6 +71,7 @@ class _LanguageListState extends State<LanguageList> {
               onPressed: () {
                 StaticVariable.language = language;
                 SharedPreference.setLanguagePreference(language);
+                context.setLocale(StaticVariable.languageMap[language]!);
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

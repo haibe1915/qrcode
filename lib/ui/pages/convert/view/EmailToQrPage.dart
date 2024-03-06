@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -179,7 +180,7 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Email'),
+          title: const Text('email').tr(),
           actions: [
             IconButton(
               padding: const EdgeInsets.only(
@@ -241,9 +242,10 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
                                     Expanded(
                                       child: TextField(
                                         controller: _nameEditingController,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Đến',
-                                          contentPadding: EdgeInsets.all(10),
+                                        decoration: InputDecoration(
+                                          hintText: 'email'.tr(),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
                                           border: InputBorder.none,
                                         ),
                                         maxLines: null,
@@ -270,9 +272,9 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
                                     left: 10, right: 10, bottom: 10),
                                 child: TextField(
                                   controller: _descriptionEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Chủ đề',
-                                    contentPadding: EdgeInsets.all(10),
+                                  decoration: InputDecoration(
+                                    hintText: 'subject'.tr(),
+                                    contentPadding: const EdgeInsets.all(10),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,
@@ -307,9 +309,9 @@ class _EmailToQrPageState extends State<EmailToQrPage> {
                                     left: 10, right: 10, bottom: 10),
                                 child: TextField(
                                   controller: _textEditingController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Văn bản',
-                                    contentPadding: EdgeInsets.all(10),
+                                  decoration: InputDecoration(
+                                    hintText: 'message'.tr(),
+                                    contentPadding: const EdgeInsets.all(10),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Số điện thoại'),
+        title: const Text('phone number').tr(),
         // actions: [
         //   IconButton(
         //     padding:
@@ -107,7 +108,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
               height: 10,
             ),
             SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -116,21 +117,21 @@ class _QrPhonePageState extends State<QrPhonePage> {
                         qrCodeWidget.saveImageToGallery();
                       },
                       icon: const Icon(Icons.save),
-                      label: const Text('Lưu')),
+                      label: const Text('save').tr()),
                   ElevatedButton.icon(
                       onPressed: () {
                         Share.share(
-                            'Điện thoại: ${widget.historyItem.content}');
+                            '${'phone number'.tr()}: ${widget.historyItem.content}');
                       },
                       icon: const Icon(Icons.share),
-                      label: const Text('Chia sẻ')),
+                      label: const Text('share').tr()),
                   ElevatedButton.icon(
                       onPressed: () async {
                         launchUrl(
                             Uri.parse("tel:${widget.historyItem.content}"));
                       },
                       icon: const Icon(Icons.call),
-                      label: const Text('Gọi')),
+                      label: const Text('call').tr()),
                 ],
               ),
             ),

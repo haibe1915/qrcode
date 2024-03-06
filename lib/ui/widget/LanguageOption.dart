@@ -59,10 +59,16 @@ class _LanguageOptionState extends State<LanguageOption> {
                           widget.onLanguageChanged();
                           Navigator.pop(context);
                         },
+                        trailing: language == StaticVariable.language
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              )
+                            : null,
                       ),
                       Center(
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          width: MediaQuery.of(context).size.width * 0.9,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.grey,
