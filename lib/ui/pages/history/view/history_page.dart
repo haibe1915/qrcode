@@ -18,10 +18,44 @@ class HistoryPage extends StatelessWidget {
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: TabBar(
+              leading: Container(
+                width: 48.0,
+                height: 48.0,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  child: IconButton(
+                    icon: const Icon(Icons.money),
+                    color: Colors.blueGrey,
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+              actions: [
+                Container(
+                  width: 48.0,
+                  height: 48.0,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue,
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: IconButton(
+                      icon: const Icon(Icons.flag),
+                      color: Colors.blueGrey,
+                      onPressed: () {},
+                    ),
+                  ),
+                )
+              ],
+              bottom: TabBar(
                   indicator: const UnderlineTabIndicator(
                     borderSide: BorderSide(
-                      width: 12.0, // Width of the indicator line
+                      width: 4.0, // Width of the indicator line
                       color: Colors.blueGrey, // Color of the indicator line
                     ),
                   ),
@@ -30,12 +64,12 @@ class HistoryPage extends StatelessWidget {
                   unselectedLabelColor: Colors.grey,
                   tabs: <Widget>[
                     Tab(
-                        iconMargin: const EdgeInsets.only(bottom: 5),
-                        icon: const Icon(Icons.qr_code_scanner),
+                        //iconMargin: const EdgeInsets.only(bottom: 5),
+                        //icon: const Icon(Icons.qr_code_scanner),
                         text: 'scanned'.tr()),
                     Tab(
-                        iconMargin: const EdgeInsets.only(bottom: 5),
-                        icon: const Icon(Icons.qr_code),
+                        //iconMargin: const EdgeInsets.only(bottom: 5),
+                        //icon: const Icon(Icons.qr_code),
                         text: 'created'.tr()),
                   ]),
             ),

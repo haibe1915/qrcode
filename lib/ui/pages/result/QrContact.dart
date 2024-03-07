@@ -207,10 +207,11 @@ class _QrContactPageState extends State<QrContactPage> {
                         children: [
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: const Text(
-                              'name:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ).tr(),
+                            child: Text(
+                              '${'name'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
@@ -223,9 +224,10 @@ class _QrContactPageState extends State<QrContactPage> {
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
-                            child: const Text(
-                              'phone number:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            child: Text(
+                              '${'phone number'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ).tr(),
                           ),
                           Container(
@@ -239,9 +241,10 @@ class _QrContactPageState extends State<QrContactPage> {
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
-                            child: const Text(
-                              'address:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            child: Text(
+                              '${'address'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ).tr(),
                           ),
                           Container(
@@ -255,9 +258,10 @@ class _QrContactPageState extends State<QrContactPage> {
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 15),
-                            child: const Text(
-                              'note:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            child: Text(
+                              '${'note'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ).tr(),
                           ),
                           Container(

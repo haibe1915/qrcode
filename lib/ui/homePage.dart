@@ -22,6 +22,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     StaticVariable.interstitialAd
         .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
+    // StaticVariable.rewardedAd
+    //     .populateRewardedAd(adUnitId: StaticVariable.adRewarded);
     //_adBannerSingleton.adBanner = StaticVariable.adBanner;
   }
 
@@ -37,7 +39,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      StaticVariable.interstitialAd.loadInterstitialAd();
+      //StaticVariable.interstitialAd.loadInterstitialAd();
     }
   }
 

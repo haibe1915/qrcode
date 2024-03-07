@@ -12,6 +12,7 @@ import 'package:qrcode/ui/pages/setting/view/SettingPage.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
 import 'package:qrcode/ui/widget/AdInterstitial.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
+import 'package:qrcode/ui/widget/AdRewarded.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -107,7 +108,9 @@ class StaticVariable {
   static const adBannerId = "ca-app-pub-3940256099942544/6300978111";
   static const adNativeId = "ca-app-pub-3940256099942544/2247696110";
   static const adInterstitialId = "ca-app-pub-3940256099942544/1033173712";
+  static const adRewarded = "ca-app-pub-3940256099942544/5224354917";
   static final interstitialAd = AdInterstitial();
+  static final rewardedAd = AdRewarded();
   static AdBanner adBanner = const AdBanner();
   static NativeAd defaultAdNative = NativeAd(
       adUnitId: adNativeId,

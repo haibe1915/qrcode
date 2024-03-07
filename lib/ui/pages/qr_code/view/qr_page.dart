@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -33,6 +34,11 @@ class _QrPageState extends State<QrPage> {
   final ScanImageBloc _scanImageBloc = ScanImageBloc();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     controller?.dispose();
     super.dispose();
@@ -61,8 +67,8 @@ class _QrPageState extends State<QrPage> {
       return "text";
   }
 
-  void getResult(QRViewController controller, HistoryItem tmp) {
-    StaticVariable.interstitialAd.loadInterstitialAd();
+  Future<void> getResult(QRViewController controller, HistoryItem tmp) async {
+    StaticVariable.rewardedAd.loadRewardedAd();
     Future.delayed(Duration.zero, () {
       controller.pauseCamera();
       switch (tmp.type) {
@@ -233,12 +239,28 @@ class _QrPageState extends State<QrPage> {
                             child: const Center(
                                 child: CircularProgressIndicator())));
                   } else if (state is ScanImageError) {
-                    return Center(
-                      child: Text(
-                        state.message.toString(),
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              width: 200,
+                              height: 100,
+                              child: Center(
+                                  child: const Text('Can not scan, try again')
+                                      .tr()),
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text('close').tr(),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  _scanImageBloc.add(ScanImageEndError());
+                                },
+                              ),
+                            ],
+                          );
+                        });
                   }
                   return Container();
                 })

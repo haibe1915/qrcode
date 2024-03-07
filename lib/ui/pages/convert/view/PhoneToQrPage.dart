@@ -239,7 +239,10 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                                 _phoneToQrBloc.add(PhoneToQrEventLoadData());
                                 _showContact();
                               },
-                              child: Center(child: const Text('enter', style: TextStyle(color: Colors.white)).tr())))),
+                              child: Center(
+                                  child: const Text('enter',
+                                          style: TextStyle(color: Colors.white))
+                                      .tr())))),
                 ),
               ),
               const SizedBox(height: 20),

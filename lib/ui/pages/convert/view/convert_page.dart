@@ -41,7 +41,14 @@ class ConvertPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('qr generator').tr(),
+          backgroundColor: Colors.white,
+          leading: Icon(Icons.flag, color: Colors.blueGrey),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings, color: Colors.blueGrey),
+              onPressed: () {},
+            )
+          ],
         ),
         body: Center(
           child: Container(

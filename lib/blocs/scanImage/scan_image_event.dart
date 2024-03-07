@@ -11,3 +11,5 @@ class ScanImageCapture extends ScanImageEvent {
   final String str;
   ScanImageCapture(this.str);
 }
+
+class ScanImageEndError extends ScanImageEvent {}
