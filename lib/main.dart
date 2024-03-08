@@ -32,6 +32,7 @@ Future<void> main() async {
 
   StaticVariable.conn = DatabaseHelper();
   StaticVariable.language = await SharedPreference.getLanguagePreference();
+  StaticVariable.premiumState = await SharedPreference.getPremiumPreference();
   await StaticVariable.conn.initializeDatabase();
 
   BlocObserver observer = const QrObserver();

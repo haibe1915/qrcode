@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/ui/pages/convert/view/convert_page.dart';
+import 'package:qrcode/ui/pages/history/view/history_page.dart';
+import 'package:qrcode/ui/pages/qr_code/view/qr_page.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
 import 'package:qrcode/ui/widget/AdInterstitial.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,10 +19,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  late List<Widget> pages;
+
+  void updateLanguage() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    pages = [
+      HistoryPage(
+        onLanguageChange: updateLanguage,
+      ),
+      const QrPage(),
+      ConvertPage(onLanguageChange: updateLanguage),
+    ];
     StaticVariable.interstitialAd
         .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
     // StaticVariable.rewardedAd
@@ -52,7 +68,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         children: [
           Expanded(
             child: Scaffold(
-              body: StaticVariable.pages[_currentPageIndex],
+              body: pages[_currentPageIndex],
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Container(
@@ -100,10 +116,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         ),
                         label: 'history'.tr()),
                     const BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
+                        icon: Icon(Icons.add, color: Colors.white, size: 10),
                         label: ''),
                     BottomNavigationBarItem(
                         icon: const Icon(Icons.qr_code_outlined),

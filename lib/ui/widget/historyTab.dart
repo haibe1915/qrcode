@@ -85,7 +85,7 @@ class _HistoryTabState extends State<HistoryTab> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 5),
+            margin: const EdgeInsets.only(top: 12, bottom: 5),
             child: Row(
               children: [
                 const SizedBox(width: 10),
@@ -95,9 +95,8 @@ class _HistoryTabState extends State<HistoryTab> {
                     child: TextField(
                       controller: search,
                       onChanged: (value) {},
-                      decoration: InputDecoration(
-                        hintText: 'search'.tr(),
-                        prefixIcon: const Icon(
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
                           Icons.search,
                         ),
                         border: InputBorder.none,
@@ -167,7 +166,7 @@ class _HistoryTabState extends State<HistoryTab> {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 0,
           ),
           Expanded(
             child: SizedBox(

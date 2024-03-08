@@ -31,6 +31,11 @@ class _QrTextPageState extends State<QrTextPage> {
   @override
   void initState() {
     super.initState();
+    if (!StaticVariable.premiumState) {
+      StaticVariable.interstitialAd
+          .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
+      StaticVariable.interstitialAd.loadInterstitialAd();
+    }
   }
 
   @override

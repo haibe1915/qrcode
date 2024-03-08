@@ -18,8 +18,10 @@ class ScanImageBloc extends Bloc<ScanImageEvent, ScanImageState> {
   void _handleScanImageScan(
       ScanImageScan event, Emitter<ScanImageState> emit) async {
     emit(ScanImageLoading());
-    await StaticVariable.rewardedAd
-        .populateRewardedAd(adUnitId: StaticVariable.adRewarded);
+    if (!StaticVariable.premiumState) {
+      await StaticVariable.rewardedAd
+          .populateRewardedAd(adUnitId: StaticVariable.adRewarded);
+    }
     try {
       final imagePath = await GetImage.getImageFromGallery();
       final result = await ScanImage.scanImageFromImage(imagePath!.path);
@@ -33,8 +35,10 @@ class ScanImageBloc extends Bloc<ScanImageEvent, ScanImageState> {
   void _handleScanImageCapture(
       ScanImageCapture event, Emitter<ScanImageState> emit) async {
     emit(ScanImageLoading());
-    await StaticVariable.rewardedAd
-        .populateRewardedAd(adUnitId: StaticVariable.adRewarded);
+    if (!StaticVariable.premiumState) {
+      await StaticVariable.rewardedAd
+          .populateRewardedAd(adUnitId: StaticVariable.adRewarded);
+    }
     try {
       HistoryItem tmp = await AddImageToDb.addImage(event.str);
       emit(ScanImageScaned(tmp));

@@ -8,11 +8,17 @@ import 'package:qrcode/ui/pages/convert/view/PhoneToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/SmsToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/UrlToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/WifiToQrPage.dart';
+import 'package:qrcode/ui/widget/LanguageOption.dart';
+import 'package:qrcode/ui/widget/PremiumOption.dart';
 import 'TextToQrPage.dart';
 
-class ConvertPage extends StatelessWidget {
-  ConvertPage({Key? key}) : super(key: key);
-  final double offset = 0;
+class ConvertPage extends StatefulWidget {
+  const ConvertPage({super.key, required this.onLanguageChange});
+  final Function() onLanguageChange;
+  State<ConvertPage> createState() => _ConvertPageState();
+}
+
+class _ConvertPageState extends State<ConvertPage> {
   final List<String> name = [
     'text',
     'wifi',
@@ -36,23 +42,31 @@ class ConvertPage extends StatelessWidget {
     const EmailToQrPage()
   ];
 
+  void changeLanguage() {
+    setState(() {});
+    widget.onLanguageChange();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          leading: Icon(Icons.flag, color: Colors.blueGrey),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.settings, color: Colors.blueGrey),
-              onPressed: () {},
-            )
-          ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const PremiumOption(),
+              const SizedBox(width: 10),
+              LanguageOption(
+                onLanguageChanged: changeLanguage,
+              )
+            ],
+          ),
         ),
         body: Center(
           child: Container(
-            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 15),
             width: MediaQuery.of(context).size.width * 0.9,
             child: ListView.builder(
               itemCount: name.length,

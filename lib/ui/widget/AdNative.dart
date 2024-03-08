@@ -57,16 +57,16 @@ class _AdNativeState extends State<AdNative> {
             child: Stack(
               children: [
                 AdWidget(ad: state.nativeAd!),
-                Positioned(
-                  left: -10,
-                  top: -10,
-                  child: IconButton(
-                    icon: const Icon(Icons.cancel),
-                    onPressed: () {
-                      adsBloc.add(AdNativeDisposeEvent());
-                    },
-                  ),
-                ),
+                // Positioned(
+                //   left: -10,
+                //   top: -10,
+                //   child: IconButton(
+                //     icon: const Icon(Icons.cancel),
+                //     onPressed: () {
+                //       adsBloc.add(AdNativeDisposeEvent());
+                //     },
+                //   ),
+                // ),
               ],
             ),
           );

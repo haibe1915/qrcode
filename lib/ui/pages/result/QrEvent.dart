@@ -33,6 +33,11 @@ class _QrEventPageState extends State<QrEventPage> {
   @override
   void initState() {
     super.initState();
+    if (!StaticVariable.premiumState) {
+      StaticVariable.interstitialAd
+          .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
+      StaticVariable.interstitialAd.loadInterstitialAd();
+    }
   }
 
   _calendarPermissions() async {

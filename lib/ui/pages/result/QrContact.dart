@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -32,6 +33,11 @@ class _QrContactPageState extends State<QrContactPage> {
   @override
   void initState() {
     super.initState();
+    if (!StaticVariable.premiumState) {
+      StaticVariable.interstitialAd
+          .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
+      StaticVariable.interstitialAd.loadInterstitialAd();
+    }
   }
 
   addContact(Map<String, String> contact) async {

@@ -17,7 +17,11 @@ class AdInterstitial {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
           debugPrint('InterstitialAdListener onAdLoaded ${ad.toString()}.');
-          ad.fullScreenContentCallback = const FullScreenContentCallback();
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+            },
+          );
           adCompleter.complete(ad);
         }, onAdFailedToLoad: (LoadAdError error) {
           debugPrint('NativeAdListener onAdFailedToLoad: $error');

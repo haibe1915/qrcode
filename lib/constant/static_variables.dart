@@ -17,11 +17,6 @@ import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StaticVariable {
-  static List<Widget> pages = [
-    const HistoryPage(),
-    const QrPage(),
-    ConvertPage(),
-  ];
   static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
 
   static List<HistoryItem> createdHistoryList = <HistoryItem>[];
@@ -166,4 +161,20 @@ class StaticVariable {
     'Dutch': const Locale('nl'),
     'Vietnamese': const Locale('vi', 'VN')
   };
+
+  static final Map<String, String> countryMap = {
+    'Spanish (Mexico)': 'MX',
+    'Arabic': 'SA',
+    'English (US)': 'US',
+    'French': 'FR',
+    'German': 'DE',
+    'Portuguese (Brazil)': 'PT',
+    'Spanish (Spain)': 'ES',
+    'Turkish': 'TR',
+    'Japanese': 'JP',
+    'Dutch': 'NL',
+    'Vietnamese': 'VN'
+  };
+
+  static late bool premiumState;
 }

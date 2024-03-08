@@ -50,5 +50,6 @@
   "password": "Wachtwoord",
   "surname": "Achternaam",
   "enter": "Invoeren",
-  "title": "Titel"
+  "title": "Titel",
+  "premium":"Premium"
 }

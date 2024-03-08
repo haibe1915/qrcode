@@ -68,7 +68,9 @@ class _QrPageState extends State<QrPage> {
   }
 
   Future<void> getResult(QRViewController controller, HistoryItem tmp) async {
-    StaticVariable.rewardedAd.loadRewardedAd();
+    if (!StaticVariable.premiumState) {
+      StaticVariable.rewardedAd.loadRewardedAd();
+    }
     Future.delayed(Duration.zero, () {
       controller.pauseCamera();
       switch (tmp.type) {

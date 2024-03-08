@@ -4,6 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
+import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
@@ -30,6 +31,11 @@ class _QrPhonePageState extends State<QrPhonePage> {
   @override
   void initState() {
     super.initState();
+    if (!StaticVariable.premiumState) {
+      StaticVariable.interstitialAd
+          .populateInterstitialAd(adUnitId: StaticVariable.adInterstitialId);
+      StaticVariable.interstitialAd.loadInterstitialAd();
+    }
   }
 
   @override

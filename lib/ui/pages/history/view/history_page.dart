@@ -1,10 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/ui/widget/LanguageOption.dart';
+import 'package:qrcode/ui/widget/PremiumOption.dart';
 import 'package:qrcode/ui/widget/historyTab.dart';
 
-class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
+class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key, required this.onLanguageChange});
+  final Function() onLanguageChange;
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  void changeLanguage() {
+    setState(() {});
+    widget.onLanguageChange();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,40 +29,16 @@ class HistoryPage extends StatelessWidget {
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              leading: Container(
-                width: 48.0,
-                height: 48.0,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue,
-                ),
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  child: IconButton(
-                    icon: const Icon(Icons.money),
-                    color: Colors.blueGrey,
-                    onPressed: () {},
-                  ),
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const PremiumOption(),
+                  const SizedBox(width: 10),
+                  LanguageOption(
+                    onLanguageChanged: changeLanguage,
+                  )
+                ],
               ),
-              actions: [
-                Container(
-                  width: 48.0,
-                  height: 48.0,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue,
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: IconButton(
-                      icon: const Icon(Icons.flag),
-                      color: Colors.blueGrey,
-                      onPressed: () {},
-                    ),
-                  ),
-                )
-              ],
               bottom: TabBar(
                   indicator: const UnderlineTabIndicator(
                     borderSide: BorderSide(
