@@ -171,155 +171,181 @@ class _QrEventPageState extends State<QrEventPage> {
         //   )
         // ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: qrCodeWidget,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        qrCodeWidget.saveImageToGallery();
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('save').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        Share.share('${'summmary'.tr()}${': ${event["SUMMARY"]}\n'
-                            'description'.tr()}${': ${event["DESCRIPTION"] ?? ""}\n'
-                            'location'.tr()}${': ${event["LOCATION"] ?? ""}\n'
-                            'start time'.tr()}${': ${event["DTSTART"]}\n'
-                            'end time'.tr()}: ${event["DTEND"]}\n');
-                      },
-                      icon: const Icon(Icons.share),
-                      label: const Text('share').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () async {
-                        addEvent(event);
-                      },
-                      icon: const Icon(Icons.add),
-                      label: const Text('add').tr()),
+                  TitleBar(screenWidth: screenWidth, widget: widget),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: qrCodeWidget,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              qrCodeWidget.saveImageToGallery();
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text('save').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              Share.share('${'summmary'.tr()}${': ${event["SUMMARY"]}\n'
+                                  'description'.tr()}${': ${event["DESCRIPTION"] ?? ""}\n'
+                                  'location'.tr()}${': ${event["LOCATION"] ?? ""}\n'
+                                  'start time'.tr()}${': ${event["DTSTART"]}\n'
+                                  'end time'.tr()}: ${event["DTEND"]}\n');
+                            },
+                            icon: const Icon(Icons.share),
+                            label: const Text('share').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () async {
+                              addEvent(event);
+                            },
+                            icon: const Icon(Icons.add),
+                            label: const Text('add').tr()),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Provider(
+                        create: (_) => AdsBloc(),
+                        builder: (context, child) {
+                          return AdNative(
+                            tempType: TemplateType.small,
+                            width: 0.83 * MediaQuery.of(context).size.width,
+                          );
+                        }),
+                  ),
+                  Container(
+                    alignment: Alignment.topCenter,
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Card(
+                      elevation: 6,
+                      clipBehavior: Clip.hardEdge,
+                      child: Container(
+                        width: screenWidth * 0.8,
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${'summary'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                event["SUMMARY"]!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '${'description'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                event["DESCRIPTION"]!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '${'location'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                event["LOCATION"]!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '${'start time'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                StaticVariable.formattedDateTime
+                                    .format(_convertString(event["DTSTART"]!))
+                                    .toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '${'end time'.tr()}:',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                StaticVariable.formattedDateTime
+                                    .format(_convertString(event["DTEND"]!))
+                                    .toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Center(
+                  //   child: SizedBox(
+                  //     height: screenHeight * 0.06,
+                  //     width: screenWidth * 0.4,
+                  //     child: ElevatedButton(
+                  //       onPressed: () async {
+                  //         addEvent(event);
+                  //       },
+                  //       child: const Text('Thêm'),
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.topCenter,
-              margin: const EdgeInsets.only(top: 20),
-              child: Card(
-                elevation: 4,
-                clipBehavior: Clip.hardEdge,
-                child: Container(
-                  width: screenWidth * 0.8,
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${'summary'.tr()}:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["SUMMARY"]!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${'description'.tr()}:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["DESCRIPTION"]!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${'location'.tr()}:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          event["LOCATION"]!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${'start time'.tr()}:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          StaticVariable.formattedDateTime
-                              .format(_convertString(event["DTSTART"]!))
-                              .toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${'end time'.tr()}:',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          StaticVariable.formattedDateTime
-                              .format(_convertString(event["DTEND"]!))
-                              .toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          ),
+          Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Material(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
               ),
             ),
-            const SizedBox(height: 20),
-            // Center(
-            //   child: SizedBox(
-            //     height: screenHeight * 0.06,
-            //     width: screenWidth * 0.4,
-            //     child: ElevatedButton(
-            //       onPressed: () async {
-            //         addEvent(event);
-            //       },
-            //       child: const Text('Thêm'),
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

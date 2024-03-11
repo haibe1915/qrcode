@@ -4,17 +4,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/model/history_model.dart';
-import 'package:qrcode/ui/pages/convert/view/convert_page.dart';
-import 'package:qrcode/ui/pages/qr_code/view/qr_page.dart';
-import 'package:qrcode/ui/pages/history/view/history_page.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode/ui/pages/setting/view/SettingPage.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
 import 'package:qrcode/ui/widget/AdInterstitial.dart';
-import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/AdRewarded.dart';
-import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StaticVariable {
   static DateFormat formattedDateTime = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -32,26 +25,42 @@ class StaticVariable {
   static late DatabaseHelper conn;
 
   //Icon color
+  static const mainColor = MaterialColor(
+    0xFF006d3d,
+    <int, Color>{
+      50: Color(0xFFe0f2e9),
+      100: Color(0xFFb3e0c5),
+      200: Color(0xFF80cba0),
+      300: Color(0xFF4db77c),
+      400: Color(0xFF26a566),
+      500: Color(0xFF006d3d),
+      600: Color(0xFF006437),
+      700: Color(0xFF005b31),
+      800: Color(0xFF00522a),
+      900: Color(0xFF003e1e),
+    },
+  );
   static final Map<String, Icon> iconCategory = {
-    "text": Icon(
+    "text": const Icon(
       Icons.edit_document,
-      color: Colors.yellow.shade700,
+      color: Color(0xFFE6C33C),
+      size: 50,
     ),
-    "wifi": Icon(Icons.wifi, color: Colors.lightBlue.shade700),
-    "url": Icon(Icons.link, color: Colors.blue.shade700),
-    "phone": Icon(Icons.phone, color: Colors.green.shade700),
-    "contact": Icon(Icons.person, color: Colors.redAccent.shade700),
-    "sms": Icon(
+    "wifi": const Icon(Icons.wifi, color: Color(0xFF3C91E6)),
+    "url": const Icon(Icons.link, color: Color(0xFF3C7AE6)),
+    "phone": const Icon(Icons.phone, color: Color(0xFF3CE67B)),
+    "contact": const Icon(Icons.person, color: Color(0xFFE63C58)),
+    "sms": const Icon(
       Icons.sms,
-      color: Colors.greenAccent.shade700,
+      color: Color(0xFF3C4AE6),
     ),
-    "event": Icon(
+    "event": const Icon(
       Icons.calendar_month,
-      color: Colors.red.shade700,
+      color: Color(0xFFE69E3C),
     ),
-    "email": Icon(
+    "email": const Icon(
       Icons.email,
-      color: Colors.pink.shade700,
+      color: Color(0xFFE63CB1),
     ),
   };
   static final Map<String, Icon> iconCategory2 = {
@@ -59,44 +68,38 @@ class StaticVariable {
       Icons.edit_document,
       color: Colors.white,
     ),
-    "wifi": const Icon(
-      Icons.wifi,
-      color: Colors.white,
-    ),
-    "url": const Icon(
-      Icons.link,
-      color: Colors.white,
-    ),
-    "phone": const Icon(
-      Icons.phone,
-      color: Colors.white,
-    ),
-    "contact": const Icon(
-      Icons.person,
-      color: Colors.white,
-    ),
-    "sms": const Icon(
-      Icons.sms,
-      color: Colors.white,
-    ),
-    "event": const Icon(
-      Icons.calendar_month,
-      color: Colors.white,
-    ),
-    "email": const Icon(
-      Icons.email,
-      color: Colors.white,
-    ),
+    "wifi": const Icon(Icons.wifi, color: Colors.white),
+    "url": const Icon(Icons.link, color: Colors.white),
+    "phone": const Icon(Icons.phone, color: Colors.white),
+    "contact": const Icon(Icons.person, color: Colors.white),
+    "sms": const Icon(Icons.sms, color: Colors.white),
+    "event": const Icon(Icons.calendar_month, color: Colors.white),
+    "email": const Icon(Icons.email, color: Colors.white),
   };
+  static final Map<String, Icon> iconCategory3 = {
+    "text": const Icon(
+      Icons.edit_document,
+      color: Colors.white,
+      size: 50,
+    ),
+    "wifi": const Icon(Icons.wifi, color: Colors.white, size: 50),
+    "url": const Icon(Icons.link, color: Colors.white, size: 50),
+    "phone": const Icon(Icons.phone, color: Colors.white, size: 50),
+    "contact": const Icon(Icons.person, color: Colors.white, size: 50),
+    "sms": const Icon(Icons.sms, color: Colors.white, size: 50),
+    "event": const Icon(Icons.calendar_month, color: Colors.white, size: 50),
+    "email": const Icon(Icons.email, color: Colors.white, size: 50),
+  };
+
   static final Map<String, Color> colorCategory = {
-    "text": Colors.yellow.shade700,
-    "wifi": Colors.lightBlue.shade700,
-    "url": Colors.blue.shade700,
-    "phone": Colors.green.shade700,
-    "contact": Colors.redAccent.shade700,
-    "sms": Colors.greenAccent.shade700,
-    "event": Colors.red.shade700,
-    "email": Colors.pink.shade700,
+    "text": const Color(0xFFE6C33C),
+    "wifi": const Color(0xFF3C91E6),
+    "url": const Color(0xFF3C7AE6),
+    "phone": const Color(0xFF3CE67B),
+    "contact": const Color(0xFFE63C58),
+    "sms": const Color(0xFF3C4AE6),
+    "event": const Color(0xFFE69E3C),
+    "email": const Color(0xFFE63CB1),
   };
 
   // Ad relate

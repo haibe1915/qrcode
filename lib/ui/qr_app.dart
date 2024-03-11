@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/homePage.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
@@ -37,7 +38,22 @@ class QrApp extends StatelessWidget {
     }
 
     final ThemeData myTheme = ThemeData(
-      primarySwatch: Colors.blueGrey,
+      fontFamily: GoogleFonts.rubik().fontFamily,
+      primarySwatch: const MaterialColor(
+        0xFF006d3d,
+        <int, Color>{
+          50: Color(0xFFe0f2e9),
+          100: Color(0xFFb3e0c5),
+          200: Color(0xFF80cba0),
+          300: Color(0xFF4db77c),
+          400: Color(0xFF26a566),
+          500: Color(0xFF006d3d),
+          600: Color(0xFF006437),
+          700: Color(0xFF005b31),
+          800: Color(0xFF00522a),
+          900: Color(0xFF003e1e),
+        },
+      ),
       brightness: Brightness.light,
     );
 
@@ -47,15 +63,48 @@ class QrApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: myTheme,
-        home: FutureBuilder<String>(
-          future: SharedPreference.getLanguagePreference(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.data != "") {
-              return const HomePage(title: 'QrApp');
-            } else {
-              return const LanguageScreen();
-            }
-          },
-        ));
+        darkTheme: ThemeData(
+          primarySwatch: const MaterialColor(
+            0xFF006d3d,
+            <int, Color>{
+              50: Color(0xFFe0f2e9),
+              100: Color(0xFFb3e0c5),
+              200: Color(0xFF80cba0),
+              300: Color(0xFF4db77c),
+              400: Color(0xFF26a566),
+              500: Color(0xFF006d3d),
+              600: Color(0xFF006437),
+              700: Color(0xFF005b31),
+              800: Color(0xFF00522a),
+              900: Color(0xFF003e1e),
+            },
+          ),
+          brightness: Brightness.dark,
+        ),
+        home: Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Column(
+              children: [
+                Expanded(
+                  child: FutureBuilder<String>(
+                    future: SharedPreference.getLanguagePreference(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != "") {
+                        return const HomePage(title: 'QrApp');
+                      } else {
+                        return const LanguageScreen();
+                      }
+                    },
+                  ),
+                ),
+                Material(
+                  child: SizedBox(
+                    height: 50,
+                    child: StaticVariable.adBanner,
+                  ),
+                ),
+              ],
+            )));
   }
 }

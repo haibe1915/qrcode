@@ -372,7 +372,7 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                       width: screenWidth * 0.4,
                       padding: const EdgeInsets.only(top: 10),
                       child: Card(
-                          color: Colors.blueGrey,
+                          color: Theme.of(context).colorScheme.primary,
                           elevation: 4,
                           child: InkWell(
                               onTap: () {

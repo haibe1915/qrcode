@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/widget/LanguageOption.dart';
 import 'package:qrcode/ui/widget/PremiumOption.dart';
@@ -40,24 +41,38 @@ class _HistoryPageState extends State<HistoryPage> {
                 ],
               ),
               bottom: TabBar(
-                  indicator: const UnderlineTabIndicator(
+                  indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(
                       width: 4.0, // Width of the indicator line
-                      color: Colors.blueGrey, // Color of the indicator line
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary, // Color of the indicator line
                     ),
                   ),
-                  labelColor: Colors.black,
+                  labelColor: Theme.of(context).primaryColor,
                   labelStyle: const TextStyle(fontWeight: FontWeight.bold),
                   unselectedLabelColor: Colors.grey,
                   tabs: <Widget>[
                     Tab(
-                        //iconMargin: const EdgeInsets.only(bottom: 5),
-                        //icon: const Icon(Icons.qr_code_scanner),
-                        text: 'scanned'.tr()),
+                      //iconMargin: const EdgeInsets.only(bottom: 5),
+                      //icon: const Icon(Icons.qr_code_scanner),
+                      child: Text(
+                        'scanned',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.rubik().fontFamily),
+                      ).tr(),
+                    ),
                     Tab(
-                        //iconMargin: const EdgeInsets.only(bottom: 5),
-                        //icon: const Icon(Icons.qr_code),
-                        text: 'created'.tr()),
+                      //iconMargin: const EdgeInsets.only(bottom: 5),
+                      //icon: const Icon(Icons.qr_code),
+                      child: Text(
+                        'created',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.rubik().fontFamily),
+                      ).tr(),
+                    ),
                   ]),
             ),
             body: const TabBarView(children: [

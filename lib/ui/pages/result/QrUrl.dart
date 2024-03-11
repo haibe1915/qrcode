@@ -99,87 +99,108 @@ class _QrUrlPageState extends State<QrUrlPage> {
         //   )
         // ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: qrCodeWidget,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        qrCodeWidget.saveImageToGallery();
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('save').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        Share.share(
-                            '${'url'.tr()}: ${widget.historyItem.content}');
-                      },
-                      icon: const Icon(Icons.share),
-                      label: const Text('share').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () async {
-                        launchUrl(Uri.parse(widget.historyItem.content));
-                      },
-                      icon: const Icon(Icons.add_link),
-                      label: const Text('access').tr()),
+                  TitleBar(screenWidth: screenWidth, widget: widget),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: qrCodeWidget,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              qrCodeWidget.saveImageToGallery();
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text('save').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              Share.share(
+                                  '${'url'.tr()}: ${widget.historyItem.content}');
+                            },
+                            icon: const Icon(Icons.share),
+                            label: const Text('share').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () async {
+                              launchUrl(Uri.parse(widget.historyItem.content));
+                            },
+                            icon: const Icon(Icons.add_link),
+                            label: const Text('access').tr()),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Provider(
+                        create: (_) => AdsBloc(),
+                        builder: (context, child) {
+                          return AdNative(
+                            tempType: TemplateType.small,
+                            width: 0.83 * MediaQuery.of(context).size.width,
+                          );
+                        }),
+                  ),
+                  Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(top: 10),
+                      child: Card(
+                          elevation: 6,
+                          clipBehavior: Clip.hardEdge,
+                          child: IntrinsicHeight(
+                              child: Container(
+                                  width: screenWidth * 0.8,
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10, top: 10),
+                                  child: Text(widget.historyItem.content,
+                                      style: const TextStyle(fontSize: 16)))))),
+                  // Center(
+                  //   child: Center(
+                  //     child: Container(
+                  //         height: screenHeight * 0.1,
+                  //         width: screenWidth * 0.4,
+                  //         padding: const EdgeInsets.only(top: 10),
+                  //         child: Card(
+                  //             elevation: 4,
+                  //             child: InkWell(
+                  //                 onTap: () async {
+                  //                   launchUrl(Uri.parse(widget.historyItem.content));
+                  //                 },
+                  //                 child: const Center(child: Text('Nhập'))))),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: IntrinsicHeight(
-                        child: Container(
-                            width: screenWidth * 0.8,
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10, top: 10),
-                            child: Text(widget.historyItem.content,
-                                style: const TextStyle(fontSize: 16)))))),
-            // Center(
-            //   child: Center(
-            //     child: Container(
-            //         height: screenHeight * 0.1,
-            //         width: screenWidth * 0.4,
-            //         padding: const EdgeInsets.only(top: 10),
-            //         child: Card(
-            //             elevation: 4,
-            //             child: InkWell(
-            //                 onTap: () async {
-            //                   launchUrl(Uri.parse(widget.historyItem.content));
-            //                 },
-            //                 child: const Center(child: Text('Nhập'))))),
-            //   ),
-            // ),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
-            )
-          ],
-        ),
+          ),
+          Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Material(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

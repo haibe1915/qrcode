@@ -117,144 +117,161 @@ class _QrWifiPageState extends State<QrWifiPage> {
         //   )
         // ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: qrCodeWidget,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        qrCodeWidget.saveImageToGallery();
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('save').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        Share.share('wifi'.tr() +
-                            ': ${wifi["wifi"]}\n'
-                                    'security type'
-                                .tr() +
-                            ': ${wifi["type"]}');
-                      },
-                      icon: const Icon(Icons.share),
-                      label: const Text('share').tr()),
+                  TitleBar(screenWidth: screenWidth, widget: widget),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: qrCodeWidget,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              qrCodeWidget.saveImageToGallery();
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text('save').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              Share.share('${'wifi'.tr()}${': ${wifi["wifi"]}\n'
+                                  'security type'.tr()}: ${wifi["type"]}');
+                            },
+                            icon: const Icon(Icons.share),
+                            label: const Text('share').tr()),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Provider(
+                        create: (_) => AdsBloc(),
+                        builder: (context, child) {
+                          return AdNative(
+                            tempType: TemplateType.small,
+                            width: 0.83 * MediaQuery.of(context).size.width,
+                          );
+                        }),
+                  ),
+                  Container(
+                    alignment: Alignment.topCenter,
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Card(
+                      elevation: 6,
+                      clipBehavior: Clip.hardEdge,
+                      child: Container(
+                        width: screenWidth * 0.8,
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '${'wifi'.tr()}:',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                wifi["wifi"]!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 15),
+                              child: Text(
+                                '${'password'.tr()}:',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(top: 5),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        enabled: false,
+                                        controller: passwordController,
+                                        obscureText: _obscureText,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTapDown: (_) {
+                                        setState(() {
+                                          _obscureText = false;
+                                        });
+                                      },
+                                      onTapUp: (_) {
+                                        setState(() {
+                                          _obscureText = true;
+                                        });
+                                      },
+                                      child: const Icon(Icons.remove_red_eye),
+                                    )
+                                  ],
+                                )),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 15),
+                              child: Text(
+                                '${'security type'.tr()}:',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                wifi["type"]!,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.topCenter,
-              margin: const EdgeInsets.only(top: 20),
-              child: Card(
-                elevation: 4,
-                clipBehavior: Clip.hardEdge,
-                child: Container(
-                  width: screenWidth * 0.8,
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${'wifi'.tr()}:',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          wifi["wifi"]!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Text(
-                          '${'password'.tr()}:',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(top: 5),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                  enabled: false,
-                                  controller: passwordController,
-                                  obscureText: _obscureText,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTapDown: (_) {
-                                  setState(() {
-                                    _obscureText = false;
-                                  });
-                                },
-                                onTapUp: (_) {
-                                  setState(() {
-                                    _obscureText = true;
-                                  });
-                                },
-                                child: const Icon(Icons.remove_red_eye),
-                              )
-                            ],
-                          )),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Text(
-                          '${'security type'.tr()}:',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          wifi["type"]!,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          ),
+          Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Material(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
               ),
             ),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

@@ -154,163 +154,188 @@ class _QrContactPageState extends State<QrContactPage> {
         //   )
         // ],
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TitleBar(screenWidth: screenWidth, widget: widget),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: qrCodeWidget,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: screenWidth * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      ElevatedButton.icon(
-                          onPressed: () {
-                            qrCodeWidget.saveImageToGallery();
-                          },
-                          icon: const Icon(Icons.save),
-                          label: const Text('save').tr()),
-                      ElevatedButton.icon(
-                          onPressed: () {
-                            Share.share('${'name'.tr()}:${'${contact["FN"]}\n'
-                                'phone number'.tr()}:${'${contact["TEL"]}\n'
-                                'address'.tr()}:${'${contact["ADR"] ?? ""}\n'
-                                'note'.tr()}${contact["NOTE"] ?? ""}\n');
-                          },
-                          icon: const Icon(Icons.share),
-                          label: const Text('share').tr()),
-                      ElevatedButton.icon(
-                          onPressed: () async {
-                            addContact(contact);
-                          },
-                          icon: const Icon(Icons.add),
-                          label: const Text('add').tr()),
+                      TitleBar(screenWidth: screenWidth, widget: widget),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: qrCodeWidget,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                                onPressed: () {
+                                  qrCodeWidget.saveImageToGallery();
+                                },
+                                icon: const Icon(Icons.save),
+                                label: const Text('save').tr()),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton.icon(
+                                onPressed: () {
+                                  Share.share('${'name'.tr()}:${'${contact["FN"]}\n'
+                                      'phone number'.tr()}:${'${contact["TEL"]}\n'
+                                      'address'.tr()}:${'${contact["ADR"] ?? ""}\n'
+                                      'note'.tr()}${contact["NOTE"] ?? ""}\n');
+                                },
+                                icon: const Icon(Icons.share),
+                                label: const Text('share').tr()),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton.icon(
+                                onPressed: () async {
+                                  addContact(contact);
+                                },
+                                icon: const Icon(Icons.add),
+                                label: const Text('add').tr()),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Provider(
+                            create: (_) => AdsBloc(),
+                            builder: (context, child) {
+                              return AdNative(
+                                tempType: TemplateType.small,
+                                width: 0.83 * MediaQuery.of(context).size.width,
+                              );
+                            }),
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Card(
+                          elevation: 6,
+                          clipBehavior: Clip.hardEdge,
+                          child: Container(
+                            width: screenWidth * 0.8,
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '${'name'.tr()}:',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    contact["FN"]!,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 15),
+                                  child: Text(
+                                    '${'phone number'.tr()}:',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ).tr(),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    contact["TEL"]!,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 15),
+                                  child: Text(
+                                    '${'address'.tr()}:',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ).tr(),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    contact["ADR"] == null
+                                        ? ""
+                                        : contact["ADR"]!,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 15),
+                                  child: Text(
+                                    '${'note'.tr()}:',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ).tr(),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    contact["NOTE"] == null
+                                        ? ""
+                                        : contact["NOTE"]!,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //const SizedBox(height: 20),
+                      // Center(
+                      //   child: SizedBox(
+                      //     height: screenHeight * 0.06,
+                      //     width: screenWidth * 0.4,
+                      //     child: ElevatedButton(
+                      //       onPressed: () async {
+                      //         addContact(contact);
+                      //       },
+                      //       child: const Text('Thêm'),
+                      //     ),
+                      //   ),
+                      // ),
+                      const SizedBox(height: 20),
                     ],
                   ),
-                ),
-                Container(
-                  alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: Container(
-                      width: screenWidth * 0.8,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '${'name'.tr()}:',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 5),
-                            child: Text(
-                              contact["FN"]!,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 15),
-                            child: Text(
-                              '${'phone number'.tr()}:',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ).tr(),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 5),
-                            child: Text(
-                              contact["TEL"]!,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 15),
-                            child: Text(
-                              '${'address'.tr()}:',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ).tr(),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 5),
-                            child: Text(
-                              contact["ADR"] == null ? "" : contact["ADR"]!,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 15),
-                            child: Text(
-                              '${'note'.tr()}:',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ).tr(),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 5),
-                            child: Text(
-                              contact["NOTE"] == null ? "" : contact["NOTE"]!,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                //const SizedBox(height: 20),
-                // Center(
-                //   child: SizedBox(
-                //     height: screenHeight * 0.06,
-                //     width: screenWidth * 0.4,
-                //     child: ElevatedButton(
-                //       onPressed: () async {
-                //         addContact(contact);
-                //       },
-                //       child: const Text('Thêm'),
-                //     ),
-                //   ),
-                // ),
-                const SizedBox(height: 20),
-              ],
+                ],
+              ),
             ),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
+          ),
+          Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Material(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
+              ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

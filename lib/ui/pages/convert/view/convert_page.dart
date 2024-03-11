@@ -66,16 +66,12 @@ class _ConvertPageState extends State<ConvertPage> {
         ),
         body: Center(
           child: Container(
-            padding: const EdgeInsets.only(top: 15),
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: ListView.builder(
-              itemCount: name.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 5, bottom: 5),
-                  height: 80,
-                  child: Card(
-                    elevation: 4,
+              padding: const EdgeInsets.only(top: 10),
+              width: MediaQuery.of(context).size.width * 0.98,
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(functionPages.length, (index) {
+                  return Center(
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -84,41 +80,40 @@ class _ConvertPageState extends State<ConvertPage> {
                               builder: (context) => functionPages[index]),
                         );
                       },
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                color: StaticVariable
-                                    .colorCategory[name[index].toLowerCase()],
-                                borderRadius: BorderRadius.circular(5)),
-                            width: 65,
-                            child: Center(
-                                child: StaticVariable
-                                    .iconCategory2[name[index].toLowerCase()]),
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(name[index]).tr(),
+                      child: Container(
+                        margin: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            color: StaticVariable
+                                .colorCategory[name[index].toLowerCase()],
+                            borderRadius: BorderRadius.circular(5)),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        //height: MediaQuery.of(context).size.width * 0.7,
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 65,
-                            child: Center(
-                              child: Icon(
-                                Icons.add_circle_rounded,
-                                color: Colors.blueGrey,
-                              ),
+                            Container(
+                              child: StaticVariable
+                                  .iconCategory3[name[index].toLowerCase()],
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              name[index],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 18),
+                            ).tr()
+                          ],
+                        )),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
+                  );
+                }),
+              )),
         ),
       ),
     );

@@ -55,15 +55,18 @@ class _HistoryTabState extends State<HistoryTab> {
 
   @override
   Widget build(BuildContext context) {
-    Widget adNativeTemp = Center(
-      child: Provider(
-          create: (_) => AdsBloc(),
-          builder: (context, child) {
-            return AdNative(
-              tempType: TemplateType.small,
-              width: 0.95 * MediaQuery.of(context).size.width,
-            );
-          }),
+    Widget adNativeTemp = ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Center(
+        child: Provider(
+            create: (_) => AdsBloc(),
+            builder: (context, child) {
+              return AdNative(
+                tempType: TemplateType.small,
+                width: 0.94 * MediaQuery.of(context).size.width,
+              );
+            }),
+      ),
     );
     List<HistoryItem> historyList = widget.type == "Scan"
         ? StaticVariable.scannedHistoryList
@@ -91,13 +94,14 @@ class _HistoryTabState extends State<HistoryTab> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Card(
-                    elevation: 4,
+                    elevation: 2,
                     child: TextField(
                       controller: search,
                       onChanged: (value) {},
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.search,
+                          color: Theme.of(context).primaryColor,
                         ),
                         border: InputBorder.none,
                       ),
@@ -106,15 +110,15 @@ class _HistoryTabState extends State<HistoryTab> {
                 ),
                 const SizedBox(width: 10),
                 Card(
-                  elevation: 4,
+                  elevation: 2,
                   child: BlocBuilder<SearchBloc, SearchState>(
                       bloc: _searchBloc,
                       builder: (context, state) {
                         if (state is SearchStateNotLoaded) {
                           return PopupMenuButton<int>(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.calendar_month,
-                              color: Colors.blueGrey,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             initialValue: type,
                             onSelected: (int type) {
@@ -124,11 +128,19 @@ class _HistoryTabState extends State<HistoryTab> {
                                 <PopupMenuEntry<int>>[
                               PopupMenuItem<int>(
                                 value: 0,
-                                child: const Text('time').tr(),
+                                child: Text(
+                                  'time',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ).tr(),
                               ),
                               PopupMenuItem<int>(
                                 value: 1,
-                                child: const Text('type').tr(),
+                                child: Text('type',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor))
+                                    .tr(),
                               ),
                             ],
                           );
@@ -139,7 +151,7 @@ class _HistoryTabState extends State<HistoryTab> {
                               state.type == 0
                                   ? Icons.calendar_month
                                   : Icons.type_specimen,
-                              color: Colors.blueGrey,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             initialValue: state.type,
                             onSelected: (int type) {

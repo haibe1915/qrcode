@@ -20,11 +20,12 @@ class _LanguageOptionState extends State<LanguageOption> {
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      width: 160,
+      width: 170,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: Colors.grey,
+            color: Theme.of(context).colorScheme.primary,
             width: 2.0,
           )),
       child: Padding(
@@ -44,9 +45,12 @@ class _LanguageOptionState extends State<LanguageOption> {
               const SizedBox(
                 width: 10,
               ),
-              const Text(
+              Text(
                 'language',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 18),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal),
               ).tr(),
               const SizedBox(
                 width: 5,

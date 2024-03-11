@@ -135,8 +135,8 @@ class _HistoryCardState extends State<HistoryCard> {
         ? StaticVariable.scannedHistoryList
         : StaticVariable.createdHistoryList;
     return Container(
-      margin: const EdgeInsets.only(top: 5, bottom: 5),
-      height: 80,
+      margin: const EdgeInsets.only(top: 3, bottom: 3),
+      height: 90,
       child: InkWell(
           onTap: () {
             Navigator.push(
@@ -146,16 +146,16 @@ class _HistoryCardState extends State<HistoryCard> {
             );
           },
           child: Card(
-            elevation: 4,
+            elevation: 1,
             child: Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       color:
                           StaticVariable.colorCategory[widget.historyItem.type],
                       borderRadius: BorderRadius.circular(5)),
-                  width: 65,
+                  width: 66,
                   child: Center(
                       child: StaticVariable
                           .iconCategory2[widget.historyItem.type]),
@@ -163,10 +163,16 @@ class _HistoryCardState extends State<HistoryCard> {
                 Expanded(
                     child: ListTile(
                   //leading: StaticVariable.iconCategory[widget.historyItem.type],
-                  title: Text(StaticVariable.formattedDateTime
-                      .format(widget.historyItem.datetime)
-                      .toString()),
-                  subtitle: Text(HistoryItemText(widget.historyItem)),
+                  subtitle: Text(
+                    StaticVariable.formattedDateTime
+                        .format(widget.historyItem.datetime)
+                        .toString(),
+                    style:
+                        const TextStyle(color: Color(0xFF618b6d), fontSize: 15),
+                  ),
+                  title: Text(HistoryItemText(widget.historyItem),
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor, fontSize: 18)),
                 )),
                 IconButton(
                     onPressed: () {
@@ -210,9 +216,9 @@ class _HistoryCardState extends State<HistoryCard> {
                             );
                           });
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete,
-                      color: Colors.red,
+                      color: Theme.of(context).primaryColor,
                     ))
               ],
             ),

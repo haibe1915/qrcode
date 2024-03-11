@@ -13,7 +13,7 @@ class LanguageScreen extends StatelessWidget {
     return Scaffold(
       appBar: null,
       body: Container(
-        color: Colors.blueGrey,
+        color: Theme.of(context).colorScheme.primary,
         child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

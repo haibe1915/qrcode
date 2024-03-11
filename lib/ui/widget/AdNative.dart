@@ -31,15 +31,16 @@ class _AdNativeState extends State<AdNative> {
     super.dispose();
   }
 
+  void closeAd() {}
+
   @override
   Widget build(BuildContext context) {
     double adHeight = 100.0;
     if (widget.tempType == TemplateType.small) {
-      adHeight = 80; // Change the height for small template type
+      adHeight = 90; // Change the height for small template type
     } else if (widget.tempType == TemplateType.medium) {
       adHeight = 360; // Change the height for medium template type
     }
-    final premiumState = false;
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5),
       // decoration: BoxDecoration(
@@ -54,20 +55,9 @@ class _AdNativeState extends State<AdNative> {
           return SizedBox(
             width: widget.width,
             height: adHeight,
-            child: Stack(
-              children: [
-                AdWidget(ad: state.nativeAd!),
-                // Positioned(
-                //   left: -10,
-                //   top: -10,
-                //   child: IconButton(
-                //     icon: const Icon(Icons.cancel),
-                //     onPressed: () {
-                //       adsBloc.add(AdNativeDisposeEvent());
-                //     },
-                //   ),
-                // ),
-              ],
+            child: Card(
+              elevation: 2,
+              child: AdWidget(ad: state.nativeAd!),
             ),
           );
         },

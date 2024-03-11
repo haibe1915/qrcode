@@ -99,96 +99,122 @@ class _QrTextPageState extends State<QrTextPage> {
           //   )
           // ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TitleBar(screenWidth: screenWidth, widget: widget),
-              const SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: qrCodeWidget,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: screenWidth * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          qrCodeWidget.saveImageToGallery();
-                        },
-                        icon: const Icon(Icons.save),
-                        label: const Text('save').tr()),
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          Share.share(
-                              '${'text'.tr()}: ${widget.historyItem.content}');
-                        },
-                        icon: const Icon(Icons.share),
-                        label: const Text('share').tr()),
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                                  text: widget.historyItem.content))
-                              .then((value) {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: SizedBox(
-                                      width: 200,
-                                      height: 100,
-                                      child: Center(
-                                          child:
-                                              const Text('copy success').tr()),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        child: const Text('close').tr(),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
+                    TitleBar(screenWidth: screenWidth, widget: widget),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: qrCodeWidget,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.9,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                              onPressed: () {
+                                qrCodeWidget.saveImageToGallery();
+                              },
+                              icon: const Icon(Icons.save),
+                              label: const Text('save').tr()),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ElevatedButton.icon(
+                              onPressed: () {
+                                Share.share(
+                                    '${'text'.tr()}: ${widget.historyItem.content}');
+                              },
+                              icon: const Icon(Icons.share),
+                              label: const Text('share').tr()),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ElevatedButton.icon(
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(
+                                        text: widget.historyItem.content))
+                                    .then((value) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: SizedBox(
+                                            width: 200,
+                                            height: 100,
+                                            child: Center(
+                                                child:
+                                                    const Text('copy success')
+                                                        .tr()),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text('close').tr(),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 });
-                          });
-                        },
-                        icon: const Icon(Icons.copy),
-                        label: const Text('copy').tr())
+                              },
+                              icon: const Icon(Icons.copy),
+                              label: const Text('copy').tr())
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: Provider(
+                          create: (_) => AdsBloc(),
+                          builder: (context, child) {
+                            return AdNative(
+                              tempType: TemplateType.small,
+                              width: 0.83 * MediaQuery.of(context).size.width,
+                            );
+                          }),
+                    ),
+                    Container(
+                        alignment: Alignment.topCenter,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Card(
+                            elevation: 6,
+                            clipBehavior: Clip.hardEdge,
+                            child: IntrinsicHeight(
+                                child: Container(
+                                    width: screenWidth * 0.8,
+                                    margin: const EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                        bottom: 10,
+                                        top: 10),
+                                    child: Text(widget.historyItem.content,
+                                        style:
+                                            const TextStyle(fontSize: 16)))))),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
-              Container(
-                  alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Card(
-                      elevation: 4,
-                      clipBehavior: Clip.hardEdge,
-                      child: IntrinsicHeight(
-                          child: Container(
-                              width: screenWidth * 0.8,
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10, top: 10),
-                              child: Text(widget.historyItem.content,
-                                  style: const TextStyle(fontSize: 16)))))),
-              const SizedBox(height: 20),
-              Center(
-                child: Provider(
-                    create: (_) => AdsBloc(),
-                    builder: (context, child) {
-                      return AdNative(
-                        tempType: TemplateType.small,
-                        width: 0.8 * MediaQuery.of(context).size.width,
-                      );
-                    }),
-              )
-            ],
-          ),
+            ),
+            Provider<AdsBloc>(
+              create: (rootContext) => AdsBloc(),
+              child: Material(
+                child: SizedBox(
+                  height: 50,
+                  child: StaticVariable.adBanner,
+                ),
+              ),
+            )
+          ],
         ));
   }
 }

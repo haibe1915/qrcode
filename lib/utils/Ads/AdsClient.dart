@@ -19,6 +19,7 @@ class AdsClient {
         listener: BannerAdListener(
           onAdLoaded: (Ad ad) {
             debugPrint('BannerAdListener onAdLoaded ${ad.toString()}.');
+
             adCompleter.complete(ad as BannerAd);
           },
           onAdFailedToLoad: (Ad ad, LoadAdError error) {
@@ -61,6 +62,8 @@ class AdsClient {
               return StaticVariable.defaultAdNative;
             },
           ),
+          nativeAdOptions: NativeAdOptions(
+              adChoicesPlacement: AdChoicesPlacement.topRightCorner),
           nativeTemplateStyle: NativeTemplateStyle(
               // Required: Choose a template.
               templateType: tempType,
@@ -69,8 +72,8 @@ class AdsClient {
               cornerRadius: 10.0,
               callToActionTextStyle: NativeTemplateTextStyle(
                   textColor: Colors.white,
-                  backgroundColor: Colors.blueGrey,
-                  style: NativeTemplateFontStyle.monospace,
+                  backgroundColor: StaticVariable.mainColor,
+                  style: NativeTemplateFontStyle.normal,
                   size: 16.0),
               primaryTextStyle: NativeTemplateTextStyle(
                   textColor: Colors.black,

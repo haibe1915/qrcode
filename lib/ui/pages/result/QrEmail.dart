@@ -123,135 +123,159 @@ class _QrEmailPageState extends State<QrEmailPage> {
         //   )
         // ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleBar(screenWidth: screenWidth, widget: widget),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: qrCodeWidget,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: screenWidth * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        qrCodeWidget.saveImageToGallery();
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('save').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () {
-                        Share.share('${'email'.tr()}${': ${contact["email"]}\n'
-                            'subject'.tr()}${': ${contact["subject"] ?? ""}\n'
-                            'message'.tr()}: ${contact["body"] ?? ""}\n');
-                      },
-                      icon: const Icon(Icons.share),
-                      label: const Text('share').tr()),
-                  ElevatedButton.icon(
-                      onPressed: () async {
-                        launchUrl(Uri.parse(widget.historyItem.content));
-                      },
-                      icon: const Icon(Icons.send),
-                      label: const Text('send').tr()),
+                  TitleBar(screenWidth: screenWidth, widget: widget),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: qrCodeWidget,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              qrCodeWidget.saveImageToGallery();
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text('save').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              Share.share('${'email'.tr()}${': ${contact["email"]}\n'
+                                  'subject'.tr()}${': ${contact["subject"] ?? ""}\n'
+                                  'message'.tr()}: ${contact["body"] ?? ""}\n');
+                            },
+                            icon: const Icon(Icons.share),
+                            label: const Text('share').tr()),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () async {
+                              launchUrl(Uri.parse(widget.historyItem.content));
+                            },
+                            icon: const Icon(Icons.send),
+                            label: const Text('send').tr()),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Provider(
+                        create: (_) => AdsBloc(),
+                        builder: (context, child) {
+                          return AdNative(
+                            tempType: TemplateType.small,
+                            width: 0.83 * MediaQuery.of(context).size.width,
+                          );
+                        }),
+                  ),
+                  Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(top: 10),
+                      child: Card(
+                          elevation: 6,
+                          clipBehavior: Clip.hardEdge,
+                          child: Container(
+                              width: screenWidth * 0.8,
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: const Text(
+                                      'Email:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      contact["email"]!,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: const Text(
+                                      'Chủ đề:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      contact["subject"]!,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: const Text(
+                                      'Nội dung:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      contact["body"]!,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              )))),
+                  // Center(
+                  //   child: Center(
+                  //     child: Container(
+                  //         height: screenHeight * 0.1,
+                  //         width: screenWidth * 0.4,
+                  //         padding: const EdgeInsets.only(top: 10),
+                  //         child: Card(
+                  //             elevation: 4,
+                  //             child: InkWell(
+                  //                 onTap: () async {
+                  //                   launchUrl(Uri.parse(widget.historyItem.content));
+                  //                 },
+                  //                 child: const Center(child: Text('Gửi'))))),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
-            Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 20),
-                child: Card(
-                    elevation: 4,
-                    clipBehavior: Clip.hardEdge,
-                    child: Container(
-                        width: screenWidth * 0.8,
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: const Text(
-                                'Email:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                contact["email"]!,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: const Text(
-                                'Chủ đề:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                contact["subject"]!,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: const Text(
-                                'Nội dung:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                contact["body"]!,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            )
-                          ],
-                        )))),
-            // Center(
-            //   child: Center(
-            //     child: Container(
-            //         height: screenHeight * 0.1,
-            //         width: screenWidth * 0.4,
-            //         padding: const EdgeInsets.only(top: 10),
-            //         child: Card(
-            //             elevation: 4,
-            //             child: InkWell(
-            //                 onTap: () async {
-            //                   launchUrl(Uri.parse(widget.historyItem.content));
-            //                 },
-            //                 child: const Center(child: Text('Gửi'))))),
-            //   ),
-            // ),
-            const SizedBox(height: 20),
-            Center(
-              child: Provider(
-                  create: (_) => AdsBloc(),
-                  builder: (context, child) {
-                    return AdNative(
-                      tempType: TemplateType.small,
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                    );
-                  }),
-            )
-          ],
-        ),
+          ),
+          Provider<AdsBloc>(
+            create: (rootContext) => AdsBloc(),
+            child: Material(
+              child: SizedBox(
+                height: 50,
+                child: StaticVariable.adBanner,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

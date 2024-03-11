@@ -163,7 +163,7 @@ class _QrPageState extends State<QrPage> {
               key: qrKey,
               onQRViewCreated: onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                borderColor: Colors.blueGrey,
+                borderColor: Theme.of(context).colorScheme.primary,
                 borderWidth: 10,
                 cutOutSize: MediaQuery.of(context).size.width * 0.8,
               ),

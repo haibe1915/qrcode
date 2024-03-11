@@ -157,6 +157,9 @@ class _EventToQrPageState extends State<EventToQrPage> {
                               controller: _scrollController,
                               child: Column(
                                 children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
                                   Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
@@ -268,6 +271,7 @@ class _EventToQrPageState extends State<EventToQrPage> {
                                                       (BuildContext context) {
                                                     return SizedBox(
                                                         height: 250,
+                                                        width: screenWidth,
                                                         child:
                                                             CupertinoDatePicker(
                                                           backgroundColor:

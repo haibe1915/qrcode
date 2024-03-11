@@ -14,7 +14,7 @@ class TitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth * 0.9,
+      width: screenWidth * 0.8,
       margin: const EdgeInsets.only(top: 20),
       child: Card(
         elevation: 4,
@@ -39,7 +39,9 @@ class TitleBar extends StatelessWidget {
                         .format(widget.historyItem.datetime)
                         .toString(),
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
