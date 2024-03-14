@@ -54,10 +54,9 @@ class _ConvertPageState extends State<ConvertPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const PremiumOption(),
-              const SizedBox(width: 10),
+              const Expanded(child: SizedBox()),
               LanguageOption(
                 onLanguageChanged: changeLanguage,
               )
@@ -66,8 +65,8 @@ class _ConvertPageState extends State<ConvertPage> {
         ),
         body: Center(
           child: Container(
-              padding: const EdgeInsets.only(top: 10),
-              width: MediaQuery.of(context).size.width * 0.98,
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              width: MediaQuery.of(context).size.width * 0.92,
               child: GridView.count(
                 crossAxisCount: 2,
                 children: List.generate(functionPages.length, (index) {
@@ -81,7 +80,7 @@ class _ConvertPageState extends State<ConvertPage> {
                         );
                       },
                       child: Container(
-                        margin: const EdgeInsets.all(3),
+                        margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: StaticVariable
                                 .colorCategory[name[index].toLowerCase()],

@@ -193,7 +193,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                       elevation: 4,
                       clipBehavior: Clip.hardEdge,
                       child: SizedBox(
-                          height: screenHeight * 0.1,
+                          height: 70,
                           width: screenWidth * 0.8,
                           child: Column(
                             children: [

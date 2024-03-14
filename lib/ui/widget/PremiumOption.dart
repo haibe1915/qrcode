@@ -9,7 +9,7 @@ class PremiumOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      width: 170,
+      width: 40,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -18,34 +18,13 @@ class PremiumOption extends StatelessWidget {
             width: 2.0,
           )),
       child: Padding(
-        padding: const EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(2.0),
         child: InkWell(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: 5,
-              ),
-              CircleAvatar(
-                radius: 12,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                child: const Icon(Icons.attach_money,
-                    color: Colors.white, size: 20),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                'premium',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal),
-              ).tr(),
-              const SizedBox(
-                width: 5,
-              ),
-            ],
+          child: CircleAvatar(
+            radius: 10,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child:
+                const Icon(Icons.attach_money, color: Colors.white, size: 20),
           ),
           onTap: () {
             showDialog(

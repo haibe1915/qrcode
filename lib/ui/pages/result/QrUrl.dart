@@ -116,7 +116,7 @@ class _QrUrlPageState extends State<QrUrlPage> {
                     height: 10,
                   ),
                   SizedBox(
-                    width: screenWidth * 0.9,
+                    width: screenWidth,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -154,11 +154,12 @@ class _QrUrlPageState extends State<QrUrlPage> {
                         builder: (context, child) {
                           return AdNative(
                             tempType: TemplateType.small,
-                            width: 0.83 * MediaQuery.of(context).size.width,
+                            width: 0.8 * MediaQuery.of(context).size.width,
                           );
                         }),
                   ),
                   Container(
+                      width: 0.8 * screenWidth,
                       alignment: Alignment.topCenter,
                       margin: const EdgeInsets.only(top: 10),
                       child: Card(

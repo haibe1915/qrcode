@@ -150,12 +150,12 @@ class _HistoryCardState extends State<HistoryCard> {
             child: Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color:
                           StaticVariable.colorCategory[widget.historyItem.type],
                       borderRadius: BorderRadius.circular(5)),
-                  width: 66,
+                  width: 52,
                   child: Center(
                       child: StaticVariable
                           .iconCategory2[widget.historyItem.type]),
@@ -172,7 +172,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   ),
                   title: Text(HistoryItemText(widget.historyItem),
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 18)),
+                          color: Theme.of(context).primaryColor, fontSize: 17)),
                 )),
                 IconButton(
                     onPressed: () {

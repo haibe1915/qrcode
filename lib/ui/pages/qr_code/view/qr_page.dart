@@ -189,18 +189,7 @@ class _QrPageState extends State<QrPage> {
                           onPressed: () async {
                             await controller?.toggleFlash();
                           },
-                          icon: FutureBuilder<bool?>(
-                            future: controller?.getFlashStatus(),
-                            builder: (context, snapshot) {
-                              if (snapshot.data != null) {
-                                return Icon(snapshot.data!
-                                    ? Icons.flash_on
-                                    : Icons.flash_off);
-                              } else {
-                                return Container();
-                              }
-                            },
-                          )),
+                          icon: const Icon(Icons.flash_on)),
                       IconButton(
                           onPressed: () async {
                             await controller?.flipCamera();

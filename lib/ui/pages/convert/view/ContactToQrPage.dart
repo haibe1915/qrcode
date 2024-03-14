@@ -88,13 +88,13 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                                                   contactName[1];
                                             }
 
-                                            if (contact.addresses.length > 1) {
+                                            if (contact.addresses.isNotEmpty) {
                                               _locationEditingController.text =
                                                   contact.addresses
                                                       .elementAt(0)
                                                       .address;
                                             }
-                                            if (contact.notes.length > 1) {
+                                            if (contact.notes.isNotEmpty) {
                                               _noteEditingController.text =
                                                   contact.notes
                                                       .elementAt(0)

@@ -22,7 +22,7 @@ class TitleBar extends StatelessWidget {
           children: [
             Container(
               height: 50,
-              margin: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                   color: StaticVariable.colorCategory[widget.historyItem.type],
                   borderRadius: BorderRadius.circular(5)),

@@ -27,14 +27,14 @@ class _HistoryPageState extends State<HistoryPage> {
         length: tabsCount,
         child: SafeArea(
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const PremiumOption(),
-                  const SizedBox(width: 10),
+                  const Expanded(child: SizedBox()),
                   LanguageOption(
                     onLanguageChanged: changeLanguage,
                   )
@@ -54,8 +54,6 @@ class _HistoryPageState extends State<HistoryPage> {
                   unselectedLabelColor: Colors.grey,
                   tabs: <Widget>[
                     Tab(
-                      //iconMargin: const EdgeInsets.only(bottom: 5),
-                      //icon: const Icon(Icons.qr_code_scanner),
                       child: Text(
                         'scanned',
                         style: TextStyle(
@@ -64,8 +62,6 @@ class _HistoryPageState extends State<HistoryPage> {
                       ).tr(),
                     ),
                     Tab(
-                      //iconMargin: const EdgeInsets.only(bottom: 5),
-                      //icon: const Icon(Icons.qr_code),
                       child: Text(
                         'created',
                         style: TextStyle(

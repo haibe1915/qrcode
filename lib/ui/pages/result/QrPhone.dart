@@ -117,7 +117,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
                     height: 10,
                   ),
                   SizedBox(
-                    width: screenWidth * 0.9,
+                    width: screenWidth,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -156,7 +156,7 @@ class _QrPhonePageState extends State<QrPhonePage> {
                         builder: (context, child) {
                           return AdNative(
                             tempType: TemplateType.small,
-                            width: 0.83 * MediaQuery.of(context).size.width,
+                            width: 0.8 * MediaQuery.of(context).size.width,
                           );
                         }),
                   ),

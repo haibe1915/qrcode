@@ -20,7 +20,7 @@ class _LanguageOptionState extends State<LanguageOption> {
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      width: 170,
+      width: 40,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -29,33 +29,12 @@ class _LanguageOptionState extends State<LanguageOption> {
             width: 2.0,
           )),
       child: Padding(
-        padding: const EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(2.0),
         child: InkWell(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: 5,
-              ),
-              CountryFlag.fromCountryCode(
-                StaticVariable.countryMap[currentLanguage]!,
-                height: 30,
-                width: 30,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                'language',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal),
-              ).tr(),
-              const SizedBox(
-                width: 5,
-              ),
-            ],
+          child: CircleAvatar(
+            radius: 10,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: const Icon(Icons.public, color: Colors.white, size: 20),
           ),
           onTap: () {
             showModalBottomSheet(

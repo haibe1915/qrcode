@@ -85,13 +85,14 @@ class _HistoryTabState extends State<HistoryTab> {
           str: search.text, type: typeChoosed, historyList: historyList));
     });
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Container(
             margin: const EdgeInsets.only(top: 12, bottom: 5),
             child: Row(
               children: [
-                const SizedBox(width: 10),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Card(
                     elevation: 2,
@@ -173,7 +174,7 @@ class _HistoryTabState extends State<HistoryTab> {
                         return Container();
                       }),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 20),
               ],
             ),
           ),
@@ -182,59 +183,133 @@ class _HistoryTabState extends State<HistoryTab> {
           ),
           Expanded(
             child: SizedBox(
-              width: 0.95 * MediaQuery.of(context).size.width,
+              width: 0.9 * MediaQuery.of(context).size.width,
               child: Center(
                 child: BlocBuilder<SearchBloc, SearchState>(
                     bloc: _searchBloc,
                     builder: (context, state) {
+                      DateFormat formattedDate = DateFormat('d MMMM',
+                          Localizations.localeOf(context).languageCode);
+
+                      DateTime getDate(DateTime datetime) {
+                        DateTime dateOnly = DateTime(
+                            datetime.year, datetime.month, datetime.day);
+                        return dateOnly;
+                      }
+
                       if (state is SearchStateNotLoaded) {
+                        DateTime currentDate = DateTime(0, 0, 0);
+
+                        Widget setNewTitleDate(HistoryItem historyItem) {
+                          DateTime dateOnly = getDate(historyItem.datetime);
+                          if (currentDate != dateOnly) {
+                            currentDate = dateOnly;
+                            return Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    formattedDate.format(currentDate),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Theme.of(context).primaryColor),
+                                  ).tr(),
+                                ],
+                              ),
+                            );
+                          }
+                          return Container();
+                        }
+
                         return ListView.builder(
                           controller: _scrollController,
                           itemCount: historyList.length,
                           itemBuilder: (context, index) {
                             final HistoryItem historyItem =
                                 historyList[historyList.length - index - 1];
-                            if (index != 0 && index % 10 == 0) {
-                              return Column(
-                                children: [
-                                  adNativeTemp,
-                                  HistoryCard(
-                                      historyItem: historyItem,
-                                      type: widget.type,
-                                      searchBloc: _searchBloc)
-                                ],
-                              );
-                            } else {
-                              return HistoryCard(
-                                  historyItem: historyItem,
-                                  type: widget.type,
-                                  searchBloc: _searchBloc);
-                            }
+                            return Column(
+                              children: [
+                                if (index != 0 && index % 10 == 0) adNativeTemp,
+                                if (type == 0) setNewTitleDate(historyItem),
+                                HistoryCard(
+                                    historyItem: historyItem,
+                                    type: widget.type,
+                                    searchBloc: _searchBloc)
+                              ],
+                            );
                           },
                         );
                       } else if (state is SearchStateLoaded) {
+                        DateTime currentDate = DateTime(0, 0, 0);
+                        String currentType = "";
+
+                        Widget setNewTitleDate(HistoryItem historyItem) {
+                          DateTime dateOnly = getDate(historyItem.datetime);
+                          if (currentDate != dateOnly) {
+                            currentDate = dateOnly;
+                            return Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    formattedDate.format(currentDate),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Theme.of(context).primaryColor),
+                                  ).tr(),
+                                ],
+                              ),
+                            );
+                          }
+                          return Container();
+                        }
+
+                        Widget setNewTitleType(HistoryItem historyItem) {
+                          if (currentType != historyItem.type) {
+                            currentType = historyItem.type;
+                            return Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    currentType,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Theme.of(context).primaryColor),
+                                  ).tr(),
+                                ],
+                              ),
+                            );
+                          }
+                          return Container();
+                        }
+
                         return ListView.builder(
                           controller: _scrollController,
                           itemCount: state.dataList.length,
                           itemBuilder: (context, index) {
                             final HistoryItem historyItem =
                                 state.dataList[index];
-                            if (index != 0 && index % 10 == 0) {
-                              return Column(
-                                children: [
-                                  adNativeTemp,
-                                  HistoryCard(
-                                      historyItem: historyItem,
-                                      type: widget.type,
-                                      searchBloc: _searchBloc)
-                                ],
-                              );
-                            } else {
-                              return HistoryCard(
-                                  historyItem: historyItem,
-                                  type: widget.type,
-                                  searchBloc: _searchBloc);
-                            }
+                            return Column(
+                              children: [
+                                if (index != 0 && index % 10 == 0) adNativeTemp,
+                                if (type == 0) setNewTitleDate(historyItem),
+                                if (type == 1) setNewTitleType(historyItem),
+                                HistoryCard(
+                                    historyItem: historyItem,
+                                    type: widget.type,
+                                    searchBloc: _searchBloc)
+                              ],
+                            );
                           },
                         );
                       } else if (state is SearchStateLoading) {

@@ -68,23 +68,25 @@ Future<void> main() async {
   MobileAds.instance.initialize();
 
   runApp(EasyLocalization(
-      supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('vi', 'VN'),
-        const Locale('es', 'MX'),
-        const Locale('ar'),
-        const Locale('fr'),
-        const Locale('de'),
-        const Locale('pt', 'BR'),
-        const Locale('es', 'ES'),
-        const Locale('tr'),
-        const Locale('ja'),
-        const Locale('nl'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('vi', 'VN'),
+        Locale('es', 'MX'),
+        Locale('ar'),
+        Locale('fr'),
+        Locale('de'),
+        Locale('pt', 'BR'),
+        Locale('es', 'ES'),
+        Locale('tr'),
+        Locale('ja'),
+        Locale('nl'),
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
       child: Builder(builder: ((context) {
-        context.setLocale(StaticVariable.languageMap[StaticVariable.language]!);
+        context.setLocale(StaticVariable.languageMap[StaticVariable.language] ??
+            const Locale('en', 'US'));
+
         return const QrApp();
       }))));
 }
