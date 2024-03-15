@@ -52,7 +52,8 @@ class _AdNativeState extends State<AdNative> {
           if (!state.didNativeAdLoad) {
             return const SizedBox.shrink();
           }
-          return SizedBox(
+          return Container(
+            margin: const EdgeInsets.only(top: 10),
             width: widget.width,
             height: adHeight,
             child: Card(

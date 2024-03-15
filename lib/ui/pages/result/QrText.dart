@@ -173,6 +173,9 @@ class _QrTextPageState extends State<QrTextPage> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Center(
                       child: Provider(
                           create: (_) => AdsBloc(),

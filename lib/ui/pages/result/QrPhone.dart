@@ -150,6 +150,9 @@ class _QrPhonePageState extends State<QrPhonePage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),

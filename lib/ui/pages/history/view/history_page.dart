@@ -32,9 +32,10 @@ class _HistoryPageState extends State<HistoryPage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const PremiumOption(),
-                  const Expanded(child: SizedBox()),
+                  // const PremiumOption(),
+                  // const Expanded(child: SizedBox()),
                   LanguageOption(
                     onLanguageChanged: changeLanguage,
                   )

@@ -148,6 +148,9 @@ class _QrUrlPageState extends State<QrUrlPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),

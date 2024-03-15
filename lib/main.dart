@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
@@ -16,13 +17,14 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await EasyLocalization.ensureInitialized();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setInt("lastAdTimePreference", DateTime.now().millisecondsSinceEpoch);
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive,
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.top]);
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -89,4 +91,5 @@ Future<void> main() async {
 
         return const QrApp();
       }))));
+  FlutterNativeSplash.remove();
 }

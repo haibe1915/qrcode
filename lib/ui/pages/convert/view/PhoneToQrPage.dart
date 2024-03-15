@@ -252,7 +252,7 @@ class _PhoneToQrPageState extends State<PhoneToQrPage> {
                     builder: (context, child) {
                       return AdNative(
                         tempType: TemplateType.medium,
-                        width: 0.8 * MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width,
                       );
                     }),
               )

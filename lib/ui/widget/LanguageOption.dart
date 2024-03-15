@@ -67,6 +67,11 @@ class _LanguageOptionState extends State<LanguageOption> {
                             return Column(
                               children: [
                                 ListTile(
+                                  leading: CountryFlag.fromCountryCode(
+                                    StaticVariable.countryMap[language]!,
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                   title: Text(language,
                                       style: const TextStyle(
                                           fontSize: 18,
@@ -108,16 +113,16 @@ class _LanguageOptionState extends State<LanguageOption> {
                         ),
                       ),
                     ),
-                    Center(
-                      child: Provider(
-                          create: (_) => AdsBloc(),
-                          builder: (context, child) {
-                            return AdNative(
-                              tempType: TemplateType.small,
-                              width: 0.95 * MediaQuery.of(context).size.width,
-                            );
-                          }),
-                    )
+                    // Center(
+                    //   child: Provider(
+                    //       create: (_) => AdsBloc(),
+                    //       builder: (context, child) {
+                    //         return AdNative(
+                    //           tempType: TemplateType.small,
+                    //           width: 0.95 * MediaQuery.of(context).size.width,
+                    //         );
+                    //       }),
+                    // )
                   ],
                 );
               },

@@ -100,6 +100,7 @@ class _HistoryTabState extends State<HistoryTab> {
                       controller: search,
                       onChanged: (value) {},
                       decoration: InputDecoration(
+                        hintText: 'search'.tr(),
                         prefixIcon: Icon(
                           Icons.search,
                           color: Theme.of(context).primaryColor,
@@ -118,7 +119,7 @@ class _HistoryTabState extends State<HistoryTab> {
                         if (state is SearchStateNotLoaded) {
                           return PopupMenuButton<int>(
                             icon: Icon(
-                              Icons.calendar_month,
+                              Icons.filter_alt_rounded,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                             initialValue: type,
@@ -129,19 +130,33 @@ class _HistoryTabState extends State<HistoryTab> {
                                 <PopupMenuEntry<int>>[
                               PopupMenuItem<int>(
                                 value: 0,
-                                child: Text(
-                                  'time',
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                ).tr(),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.calendar_month,
+                                        color: Theme.of(context).primaryColor),
+                                    const SizedBox(width: 5),
+                                    Text('time',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor))
+                                        .tr()
+                                  ],
+                                ),
                               ),
                               PopupMenuItem<int>(
                                 value: 1,
-                                child: Text('type',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor))
-                                    .tr(),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.type_specimen,
+                                        color: Theme.of(context).primaryColor),
+                                    const SizedBox(width: 5),
+                                    Text('type',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor))
+                                        .tr()
+                                  ],
+                                ),
                               ),
                             ],
                           );
@@ -149,9 +164,7 @@ class _HistoryTabState extends State<HistoryTab> {
                           return PopupMenuButton<int>(
                             offset: const Offset(0, 50),
                             icon: Icon(
-                              state.type == 0
-                                  ? Icons.calendar_month
-                                  : Icons.type_specimen,
+                              Icons.filter_alt_rounded,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                             initialValue: state.type,
@@ -162,11 +175,33 @@ class _HistoryTabState extends State<HistoryTab> {
                                 <PopupMenuEntry<int>>[
                               PopupMenuItem<int>(
                                 value: 0,
-                                child: const Text('time').tr(),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.calendar_month,
+                                        color: Theme.of(context).primaryColor),
+                                    const SizedBox(width: 5),
+                                    Text('time',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor))
+                                        .tr()
+                                  ],
+                                ),
                               ),
                               PopupMenuItem<int>(
                                 value: 1,
-                                child: const Text('type').tr(),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.type_specimen,
+                                        color: Theme.of(context).primaryColor),
+                                    const SizedBox(width: 5),
+                                    Text('type',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor))
+                                        .tr()
+                                  ],
+                                ),
                               ),
                             ],
                           );

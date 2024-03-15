@@ -168,6 +168,9 @@ class _QrSmsPageState extends State<QrSmsPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),

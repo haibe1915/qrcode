@@ -298,8 +298,8 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                     create: (_) => AdsBloc(),
                     builder: (context, child) {
                       return AdNative(
-                        tempType: TemplateType.small,
-                        width: 0.8 * MediaQuery.of(context).size.width,
+                        tempType: TemplateType.medium,
+                        width: MediaQuery.of(context).size.width,
                       );
                     }),
               )

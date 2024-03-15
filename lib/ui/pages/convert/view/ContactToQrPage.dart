@@ -387,14 +387,14 @@ class _ContactToQrPageState extends State<ContactToQrPage> {
                               ))))),
                 ),
               ),
-              const SizedBox(height: 20),
+              //const SizedBox(height: 20),
               Center(
                 child: Provider(
                     create: (_) => AdsBloc(),
                     builder: (context, child) {
                       return AdNative(
-                        tempType: TemplateType.small,
-                        width: 0.8 * MediaQuery.of(context).size.width,
+                        tempType: TemplateType.medium,
+                        width: MediaQuery.of(context).size.width,
                       );
                     }),
               )

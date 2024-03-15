@@ -209,6 +209,9 @@ class _QrContactPageState extends State<QrContactPage> {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       Center(
                         child: Provider(
                             create: (_) => AdsBloc(),

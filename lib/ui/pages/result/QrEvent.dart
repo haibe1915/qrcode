@@ -223,6 +223,9 @@ class _QrEventPageState extends State<QrEventPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),

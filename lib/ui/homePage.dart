@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   // final AdBannerSingleton _adBannerSingleton = AdBannerSingleton();
-  int _currentPageIndex = 1;
+  int _currentPageIndex = 2;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

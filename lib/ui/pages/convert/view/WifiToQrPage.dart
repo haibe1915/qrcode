@@ -181,7 +181,7 @@ class _WifiToQrPageState extends State<WifiToQrPage> {
                     builder: (context, child) {
                       return AdNative(
                         tempType: TemplateType.medium,
-                        width: 0.8 * MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width,
                       );
                     }),
               )

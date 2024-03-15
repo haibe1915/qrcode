@@ -173,6 +173,9 @@ class _QrEmailPageState extends State<QrEmailPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),

@@ -157,6 +157,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Provider(
                         create: (_) => AdsBloc(),
