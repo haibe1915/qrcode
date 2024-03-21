@@ -10,6 +10,7 @@ import 'package:qrcode/ui/pages/convert/view/UrlToQrPage.dart';
 import 'package:qrcode/ui/pages/convert/view/WifiToQrPage.dart';
 import 'package:qrcode/ui/widget/LanguageOption.dart';
 import 'package:qrcode/ui/widget/PremiumOption.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'TextToQrPage.dart';
 
 class ConvertPage extends StatefulWidget {
@@ -74,6 +75,9 @@ class _ConvertPageState extends State<ConvertPage> {
                   return Center(
                     child: InkWell(
                       onTap: () {
+                        logEvent(
+                            name: '${index}_page_click',
+                            parameters: {'placement': ''});
                         Navigator.push(
                           context,
                           MaterialPageRoute(

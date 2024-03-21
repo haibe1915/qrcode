@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "990446413851",
+    "project_id": "pm-server-qrcode-scanner",
+    "storage_bucket": "pm-server-qrcode-scanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990446413851:android:9848bed72710bfb55570be",
+        "android_client_info": {
+          "package_name": "com.flabs.qrcode.scanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDakbD73MJN8gc3fXdXdufLOgGAS32zCHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,6 +9,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:share_plus/share_plus.dart';
 
 class QrWifiPage extends StatefulWidget {
@@ -140,6 +141,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                       children: [
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'qr_save', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               qrCodeWidget.saveImageToGallery();
                             },
                             icon: const Icon(Icons.save),
@@ -149,6 +153,9 @@ class _QrWifiPageState extends State<QrWifiPage> {
                         ),
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'content_share', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               Share.share('${'wifi'.tr()}${': ${wifi["wifi"]}\n'
                                   'security type'.tr()}: ${wifi["type"]}');
                             },

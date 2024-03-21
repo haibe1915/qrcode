@@ -14,26 +14,50 @@ class AdInterstitial {
   }) async {
     final adCompleter = Completer<InterstitialAd>();
 
-    await InterstitialAd.load(
+    void loadInterstitialAd() async {
+      await InterstitialAd.load(
         adUnitId: adUnitId,
         request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
-          debugPrint('InterstitialAdListener onAdLoaded ${ad.toString()}.');
-          ad.fullScreenContentCallback =
-              FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-            ad.dispose();
-          }, onAdFailedToShowFullScreenContent: (ad, err) {
-            ad.dispose();
-          }, onAdClicked: (ad) {
-            // logEvent(
-            //     name: 'ads_interstitial_click', parameters: {'placement': ''});
-          });
-          ad.onPaidEvent = onPaidEvent;
-          adCompleter.complete(ad);
-        }, onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('NativeAdListener onAdFailedToLoad: $error');
-          adCompleter.completeError(error);
-        }));
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            logEvent(name: 'ad_interstitial_load_success', parameters: {});
+            debugPrint('InterstitialAdListener onAdLoaded ${ad.toString()}.');
+            ad.fullScreenContentCallback =
+                FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+            }, onAdFailedToShowFullScreenContent: (ad, err) {
+              ad.dispose();
+            }, onAdClicked: (ad) {
+              logEvent(
+                  name: 'ads_interstitial_click',
+                  parameters: {'placement': ''});
+            });
+            ad.onPaidEvent = onPaidEvent;
+            adCompleter.complete(ad);
+          },
+          onAdFailedToLoad: (LoadAdError error) async {
+            await Future.delayed(const Duration(milliseconds: 350));
+            logEvent(name: 'ad_inter_load_fail', parameters: {
+              'errormsg': error.message,
+              'code': error.code,
+              "mediationClassName": error.responseInfo != null
+                  ? error.responseInfo!.mediationAdapterClassName != null
+                      ? error.responseInfo!.mediationAdapterClassName!
+                      : ''
+                  : '',
+              "adapterResponses": error.responseInfo != null
+                  ? error.responseInfo!.adapterResponses != null
+                      ? error.responseInfo!.adapterResponses.toString()
+                      : ''
+                  : '',
+            });
+            loadInterstitialAd();
+          },
+        ),
+      );
+    }
+
+    loadInterstitialAd();
     _interstitialAd = await adCompleter.future;
   }
 
@@ -49,20 +73,20 @@ class AdInterstitial {
   }
 
   static void onPaidEvent(ad, valueMicros, precision, currencyCode) async {
-    // double valueInCurrency = valueMicros / 1e6;
+    double valueInCurrency = valueMicros / 1e6;
 
-    // final FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.instance;
-    // final adSource = ad.responseInfo.loadedAdapterResponseInfo.adSourceName;
+    final FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.instance;
+    final adSource = ad.responseInfo.loadedAdapterResponseInfo.adSourceName;
 
-    // firebaseAnalytics.logEvent(
-    //   name: 'ad_impression',
-    //   parameters: {
-    //     'ad_platform': 'admob',
-    //     'ad_source': adSource,
-    //     'ad_format': 'inters',
-    //     'currency': currencyCode,
-    //     'value': valueInCurrency,
-    //   },
-    // );
+    firebaseAnalytics.logEvent(
+      name: 'ad_impression',
+      parameters: {
+        'ad_platform': 'admob',
+        'ad_source': adSource,
+        'ad_format': 'inters',
+        'currency': currencyCode,
+        'value': valueInCurrency,
+      },
+    );
   }
 }

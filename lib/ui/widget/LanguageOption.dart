@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 
 class LanguageOption extends StatefulWidget {
@@ -37,6 +38,8 @@ class _LanguageOptionState extends State<LanguageOption> {
             child: const Icon(Icons.public, color: Colors.white, size: 20),
           ),
           onTap: () {
+            logEvent(
+                name: 'change_language_click', parameters: {'placement': ''});
             showModalBottomSheet(
               context: context,
               builder: (context) {

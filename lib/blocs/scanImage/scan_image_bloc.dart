@@ -3,6 +3,7 @@ import 'package:qrcode/blocs/scanImage/scan_image_event.dart';
 import 'package:qrcode/blocs/scanImage/scan_image_state.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:qrcode/model/history_model.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:qrcode/utils/image_gallery/getImage.dart';
 import 'package:qrcode/utils/scan_image/addImageToDatabase.dart';
 import 'package:qrcode/utils/scan_image/scan_image.dart';
@@ -25,6 +26,7 @@ class ScanImageBloc extends Bloc<ScanImageEvent, ScanImageState> {
     try {
       final imagePath = await GetImage.getImageFromGallery();
       final result = await ScanImage.scanImageFromImage(imagePath!.path);
+      logEvent(name: 'get_gallery_image_success', parameters: {});
       HistoryItem tmp = await AddImageToDb.addImage(result!);
       emit(ScanImageScaned(tmp));
     } catch (e) {

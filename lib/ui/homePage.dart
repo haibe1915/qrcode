@@ -8,6 +8,7 @@ import 'package:qrcode/ui/pages/qr_code/view/qr_page.dart';
 import 'package:qrcode/ui/widget/AdBanner.dart';
 import 'package:qrcode/ui/widget/AdInterstitial.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -73,6 +74,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 2,
             onPressed: () {
+              logEvent(name: 'qr_scan_page_click', parameters: {});
               setState(() {
                 _currentPageIndex = 1;
               });
@@ -98,6 +100,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               TextStyle(color: Theme.of(context).colorScheme.primary),
           currentIndex: _currentPageIndex,
           onTap: (int index) {
+            logEvent(
+                name: '${index == 0 ? 'history' : 'qr_generator'}_page_click',
+                parameters: {});
             setState(() {
               _currentPageIndex = index;
             });

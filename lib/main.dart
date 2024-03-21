@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bloc/bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:qrcode/data/Sqlite/database_helper.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/firebase_options.dart';
 import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/blocs/qr_observer.dart';
 import 'package:qrcode/ui/qr_app.dart';
@@ -31,6 +33,11 @@ Future<void> main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
+  await Firebase.initializeApp(
+    name: "qrcode",
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   StaticVariable.conn = DatabaseHelper();
   StaticVariable.language = await SharedPreference.getLanguagePreference();

@@ -14,6 +14,7 @@ import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
 import 'package:qrcode/ui/pages/result/QrWifi.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 
 class HistoryCard extends StatefulWidget {
   const HistoryCard(
@@ -139,6 +140,9 @@ class _HistoryCardState extends State<HistoryCard> {
       height: 90,
       child: InkWell(
           onTap: () {
+            logEvent(
+                name: '${widget.type}_item_click',
+                parameters: {'type': widget.historyItem.type});
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -176,6 +180,9 @@ class _HistoryCardState extends State<HistoryCard> {
                 )),
                 IconButton(
                     onPressed: () {
+                      logEvent(
+                          name: '${widget.type}_item_delete_click',
+                          parameters: {'placement': ''});
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -191,6 +198,10 @@ class _HistoryCardState extends State<HistoryCard> {
                                 TextButton(
                                   child: const Text('yes').tr(),
                                   onPressed: () {
+                                    logEvent(
+                                        name:
+                                            '${widget.type}_item_delete_confirm',
+                                        parameters: {'placement': ''});
                                     if (widget.type == "Scan") {
                                       StaticVariable.conn.deleteScaned(
                                           widget.historyItem.datetime);

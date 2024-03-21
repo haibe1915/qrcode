@@ -9,6 +9,7 @@ import 'package:qrcode/model/history_model.dart';
 import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -123,6 +124,9 @@ class _QrPhonePageState extends State<QrPhonePage> {
                       children: [
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'qr_save', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               qrCodeWidget.saveImageToGallery();
                             },
                             icon: const Icon(Icons.save),
@@ -132,6 +136,9 @@ class _QrPhonePageState extends State<QrPhonePage> {
                         ),
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'content_share', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               Share.share(
                                   '${'phone number'.tr()}: ${widget.historyItem.content}');
                             },

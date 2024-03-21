@@ -12,6 +12,7 @@ import 'package:qrcode/ui/widget/QRCodeWidget.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/ui/widget/titleBar.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:share_plus/share_plus.dart';
 
 class QrEventPage extends StatefulWidget {
@@ -194,6 +195,9 @@ class _QrEventPageState extends State<QrEventPage> {
                       children: [
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'qr_save', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               qrCodeWidget.saveImageToGallery();
                             },
                             icon: const Icon(Icons.save),
@@ -203,6 +207,9 @@ class _QrEventPageState extends State<QrEventPage> {
                         ),
                         ElevatedButton.icon(
                             onPressed: () {
+                              logEvent(name: 'content_share', parameters: {
+                                'type': widget.historyItem.type
+                              });
                               Share.share('${'summmary'.tr()}${': ${event["SUMMARY"]}\n'
                                   'description'.tr()}${': ${event["DESCRIPTION"] ?? ""}\n'
                                   'location'.tr()}${': ${event["LOCATION"] ?? ""}\n'

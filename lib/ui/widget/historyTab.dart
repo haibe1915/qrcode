@@ -25,6 +25,7 @@ class HistoryTab extends StatefulWidget {
 class _HistoryTabState extends State<HistoryTab> {
   late StreamSubscription<HistoryItem>? sub;
   final ScrollController _scrollController = ScrollController();
+  TextEditingController search = TextEditingController();
 
   final SearchBloc _searchBloc = SearchBloc();
 
@@ -71,7 +72,6 @@ class _HistoryTabState extends State<HistoryTab> {
     List<HistoryItem> historyList = widget.type == "Scan"
         ? StaticVariable.scannedHistoryList
         : StaticVariable.createdHistoryList;
-    TextEditingController search = TextEditingController();
     StreamController<int> typeController = StreamController<int>.broadcast();
     int type = 0;
     typeController.sink.add(0);

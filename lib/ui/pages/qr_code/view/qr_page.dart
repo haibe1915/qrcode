@@ -17,6 +17,7 @@ import 'package:qrcode/ui/pages/result/QrSms.dart';
 import 'package:qrcode/ui/pages/result/QrText.dart';
 import 'package:qrcode/ui/pages/result/QrUrl.dart';
 import 'package:qrcode/ui/pages/result/QrWifi.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:vibration/vibration.dart';
 
@@ -215,6 +216,7 @@ class _QrPageState extends State<QrPage> {
                   if (state is ScanImageNotScan) {
                     return Container();
                   } else if (state is ScanImageScaned) {
+                    logEvent(name: 'scan_image_success', parameters: {});
                     getResult(controller!, state.tmp);
                   } else if (state is ScanImageLoading) {
                     return Center(
@@ -230,6 +232,9 @@ class _QrPageState extends State<QrPage> {
                             child: const Center(
                                 child: CircularProgressIndicator())));
                   } else if (state is ScanImageError) {
+                    logEvent(
+                        name: 'scan_qr_error',
+                        parameters: {'error': state.message});
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {

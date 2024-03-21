@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -181,6 +182,9 @@ class _QrContactPageState extends State<QrContactPage> {
                           children: [
                             ElevatedButton.icon(
                                 onPressed: () {
+                                  logEvent(name: 'qr_save', parameters: {
+                                    'type': widget.historyItem.type
+                                  });
                                   qrCodeWidget.saveImageToGallery();
                                 },
                                 icon: const Icon(Icons.save),
@@ -190,6 +194,9 @@ class _QrContactPageState extends State<QrContactPage> {
                             ),
                             ElevatedButton.icon(
                                 onPressed: () {
+                                  logEvent(name: 'content_share', parameters: {
+                                    'type': widget.historyItem.type
+                                  });
                                   Share.share('${'name'.tr()}:${'${contact["FN"]}\n'
                                       'phone number'.tr()}:${'${contact["TEL"]}\n'
                                       'address'.tr()}:${'${contact["ADR"] ?? ""}\n'

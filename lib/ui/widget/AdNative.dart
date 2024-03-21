@@ -39,7 +39,7 @@ class _AdNativeState extends State<AdNative> {
     if (widget.tempType == TemplateType.small) {
       adHeight = 90; // Change the height for small template type
     } else if (widget.tempType == TemplateType.medium) {
-      adHeight = 360; // Change the height for medium template type
+      adHeight = 380; // Change the height for medium template type
     }
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5),
@@ -56,10 +56,7 @@ class _AdNativeState extends State<AdNative> {
             margin: const EdgeInsets.only(top: 10),
             width: widget.width,
             height: adHeight,
-            child: Card(
-              elevation: 2,
-              child: AdWidget(ad: state.nativeAd!),
-            ),
+            child: AdWidget(ad: state.nativeAd!),
           );
         },
       ),

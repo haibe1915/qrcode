@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:qrcode/constant/static_variables.dart';
+import 'package:qrcode/utils/Ads/firebase.dart';
 
 class AdsClient {
   Future<BannerAd> _populateBannerAd({
@@ -26,6 +27,9 @@ class AdsClient {
             debugPrint('BannerAdListener onAdFailedToLoad: $error');
             ad.dispose();
             adCompleter.completeError(error);
+          },
+          onAdClicked: (ad) {
+            logEvent(name: 'ads_banner_click', parameters: {'placement': ''});
           },
           // Add other listener callbacks if needed
         ),
@@ -60,6 +64,9 @@ class AdsClient {
               ad.dispose();
               adCompleter.completeError(error);
               return StaticVariable.defaultAdNative;
+            },
+            onAdClicked: (ad) {
+              logEvent(name: 'ads_native_click', parameters: {'placement': ''});
             },
           ),
           nativeAdOptions: NativeAdOptions(
