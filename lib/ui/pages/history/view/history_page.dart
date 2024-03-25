@@ -31,16 +31,12 @@ class _HistoryPageState extends State<HistoryPage> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // const PremiumOption(),
-                  // const Expanded(child: SizedBox()),
-                  LanguageOption(
-                    onLanguageChanged: changeLanguage,
-                  )
-                ],
-              ),
+              actions: [
+                LanguageOption(
+                  onLanguageChanged: changeLanguage,
+                ),
+                const SizedBox(width: 20)
+              ],
               bottom: TabBar(
                   indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(

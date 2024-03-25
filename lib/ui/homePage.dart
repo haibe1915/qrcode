@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
       body: pages[_currentPageIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -74,7 +75,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 2,
             onPressed: () {
-              logEvent(name: 'qr_scan_page_click', parameters: {});
+              logEvent(
+                name: 'screen_view',
+                parameters: {
+                  'firebase_screen': 'qr_scan',
+                },
+              );
               setState(() {
                 _currentPageIndex = 1;
               });
@@ -101,8 +107,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           currentIndex: _currentPageIndex,
           onTap: (int index) {
             logEvent(
-                name: '${index == 0 ? 'history' : 'qr_generator'}_page_click',
-                parameters: {});
+              name: 'screen_view',
+              parameters: {
+                'firebase_screen': index == 0 ? 'history' : 'qr_generator',
+              },
+            );
             setState(() {
               _currentPageIndex = index;
             });

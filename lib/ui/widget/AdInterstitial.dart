@@ -20,7 +20,7 @@ class AdInterstitial {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) {
-            logEvent(name: 'ad_interstitial_load_success', parameters: {});
+            logEvent(name: 'ad_inter_load_success', parameters: {});
             debugPrint('InterstitialAdListener onAdLoaded ${ad.toString()}.');
             ad.fullScreenContentCallback =
                 FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
@@ -28,17 +28,16 @@ class AdInterstitial {
             }, onAdFailedToShowFullScreenContent: (ad, err) {
               ad.dispose();
             }, onAdClicked: (ad) {
-              logEvent(
-                  name: 'ads_interstitial_click',
-                  parameters: {'placement': ''});
+              logEvent(name: 'ads_inter_click', parameters: {'placement': ''});
             });
             ad.onPaidEvent = onPaidEvent;
             adCompleter.complete(ad);
+            logEvent(name: 'ad_inter_show', parameters: {});
           },
           onAdFailedToLoad: (LoadAdError error) async {
-            await Future.delayed(const Duration(milliseconds: 350));
+            debugPrint(error.message);
+            await Future.delayed(const Duration(milliseconds: 5000));
             logEvent(name: 'ad_inter_load_fail', parameters: {
-              'errormsg': error.message,
               'code': error.code,
               "mediationClassName": error.responseInfo != null
                   ? error.responseInfo!.mediationAdapterClassName != null

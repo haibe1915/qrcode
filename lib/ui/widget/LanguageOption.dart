@@ -22,21 +22,11 @@ class _LanguageOptionState extends State<LanguageOption> {
     return Container(
       height: 40,
       width: 40,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2.0,
-          )),
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: InkWell(
-          child: CircleAvatar(
-            radius: 10,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: const Icon(Icons.public, color: Colors.white, size: 20),
-          ),
+          child: Icon(Icons.language,
+              color: Theme.of(context).primaryColor, size: 40),
           onTap: () {
             logEvent(
                 name: 'change_language_click', parameters: {'placement': ''});

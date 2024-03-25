@@ -58,6 +58,7 @@ class QrApp extends StatelessWidget {
     );
 
     return MaterialApp(
+        color: Colors.black,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
@@ -85,20 +86,19 @@ class QrApp extends StatelessWidget {
             create: (rootContext) => AdsBloc(),
             child: Column(
               children: [
-                const Expanded(
-                    child:
-                        // FutureBuilder<String>(
-                        //   future: SharedPreference.getLanguagePreference(),
-                        //   builder:
-                        //       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                        //     if (snapshot.data != "") {
-                        //       return ;
-                        //     } else {
-                        //       return const LanguageScreen();
-                        //     }
-                        //   },
-                        // ),
-                        HomePage(title: 'QrApp')),
+                Expanded(
+                  child: FutureBuilder<String>(
+                    future: SharedPreference.getLanguagePreference(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != "") {
+                        return const HomePage(title: 'QrApp');
+                      } else {
+                        return const LanguageScreen();
+                      }
+                    },
+                  ),
+                ),
                 Material(
                   child: SizedBox(
                     height: 50,

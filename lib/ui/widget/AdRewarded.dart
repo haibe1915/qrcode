@@ -21,9 +21,10 @@ class AdRewarded {
             request: const AdRequest(),
             rewardedAdLoadCallback: RewardedAdLoadCallback(
               onAdLoaded: (Ad ad) {
-                logEvent(name: 'ad_reward_load_success', parameters: {});
+                logEvent(name: 'ad_reward_load', parameters: {});
                 debugPrint('RewardedAdListener onAdLoaded ${ad.toString()}.');
                 adCompleter.complete(ad as RewardedAd);
+                logEvent(name: 'ad_reward_show_success', parameters: {});
                 ad.fullScreenContentCallback = FullScreenContentCallback(
                     onAdDismissedFullScreenContent: (ad) {
                   ad.dispose();
@@ -36,9 +37,9 @@ class AdRewarded {
                 ad.onPaidEvent = onPaidEvent;
               },
               onAdFailedToLoad: (LoadAdError error) async {
-                await Future.delayed(const Duration(milliseconds: 350));
-                logEvent(name: 'ad_reward_load_fail', parameters: {
-                  'errormsg': error.message,
+                debugPrint(error.message);
+                await Future.delayed(const Duration(milliseconds: 5000));
+                logEvent(name: 'ad_reward_show_fail', parameters: {
                   'code': error.code,
                   "mediationClassName": error.responseInfo != null
                       ? error.responseInfo!.mediationAdapterClassName != null

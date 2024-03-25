@@ -25,6 +25,8 @@ Future<void> main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setInt("lastAdTimePreference", DateTime.now().millisecondsSinceEpoch);
+  prefs.setInt(
+      "lastScanTimePreference", DateTime.now().millisecondsSinceEpoch - 5000);
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.top]);
@@ -73,6 +75,12 @@ Future<void> main() async {
   StaticVariable.createdController.addStream(StaticVariable.conn.readCreated());
   StaticVariable.scannedController.addStream(StaticVariable.conn.readScanned());
   await Future.delayed(const Duration(seconds: 0));
+
+  MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      testDeviceIds: <String>['9CA17D7586BEF4182B87E053FC88EE38'],
+    ),
+  );
 
   MobileAds.instance.initialize();
 

@@ -19,6 +19,7 @@ import 'package:qrcode/ui/pages/result/QrUrl.dart';
 import 'package:qrcode/ui/pages/result/QrWifi.dart';
 import 'package:qrcode/utils/Ads/firebase.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
 
 class QrPage extends StatefulWidget {
@@ -269,15 +270,22 @@ class _QrPageState extends State<QrPage> {
   void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
-      setState(() {
-        barcode = scanData;
-      });
-      if (barcode != null) {
-        print(barcode!.code);
-        _scanImageBloc.add(ScanImageCapture(barcode!.code!));
-      }
-      if (await SharedPreference.getVibrationPreference()) {
-        Vibration.vibrate(duration: 1000);
+      final prefs = await SharedPreferences.getInstance();
+      final lastScanTime = prefs.getInt("lastScanTimePreference");
+      final now = DateTime.now().millisecondsSinceEpoch;
+      if ((lastScanTime != null && now - lastScanTime > 5000)) {
+        setState(() {
+          barcode = scanData;
+        });
+        if (barcode != null) {
+          print(barcode!.code);
+          _scanImageBloc.add(ScanImageCapture(barcode!.code!));
+        }
+        // if (await SharedPreference.getVibrationPreference()) {
+        //   Vibration.vibrate(duration: 1000);
+        // }
+        prefs.setInt(
+            "lastScanTimePreference", DateTime.now().millisecondsSinceEpoch);
       }
     });
   }

@@ -54,16 +54,12 @@ class _ConvertPageState extends State<ConvertPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // const PremiumOption(),
-              // const Expanded(child: SizedBox()),
-              LanguageOption(
-                onLanguageChanged: changeLanguage,
-              )
-            ],
-          ),
+          actions: [
+            LanguageOption(
+              onLanguageChanged: changeLanguage,
+            ),
+            const SizedBox(width: 20)
+          ],
         ),
         body: Center(
           child: Container(

@@ -103,10 +103,10 @@ class StaticVariable {
   };
 
   // Ad relate
-  static const adBannerId = "ca-app-pub-3940256099942544/6300978111";
-  static const adNativeId = "ca-app-pub-3940256099942544/2247696110";
-  static const adInterstitialId = "ca-app-pub-3940256099942544/1033173712";
-  static const adRewarded = "ca-app-pub-3940256099942544/5224354917";
+  static const adBannerId = "ca-app-pub-1939315010587936/9762148173";
+  static const adNativeId = "ca-app-pub-1939315010587936/2839315476";
+  static const adInterstitialId = "ca-app-pub-1939315010587936/7900070466";
+  static const adRewarded = "ca-app-pub-1939315010587936/6586988792";
   static final interstitialAd = AdInterstitial();
   static final rewardedAd = AdRewarded();
   static AdBanner adBanner = const AdBanner();

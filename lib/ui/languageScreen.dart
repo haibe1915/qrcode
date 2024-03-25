@@ -1,6 +1,6 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/ui/homePage.dart';
-import 'package:qrcode/ui/qr_app.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -106,6 +106,11 @@ class _LanguageListState extends State<LanguageList> {
           return Column(
             children: [
               ListTile(
+                leading: CountryFlag.fromCountryCode(
+                  StaticVariable.countryMap[language]!,
+                  height: 30,
+                  width: 30,
+                ),
                 title: Text(language,
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
