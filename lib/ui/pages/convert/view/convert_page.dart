@@ -72,7 +72,7 @@ class _ConvertPageState extends State<ConvertPage> {
                     child: InkWell(
                       onTap: () {
                         logEvent(
-                            name: '${index}_page_click',
+                            name: '${name[index]}_page_click',
                             parameters: {'placement': ''});
                         Navigator.push(
                           context,

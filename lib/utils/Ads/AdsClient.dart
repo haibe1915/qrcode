@@ -46,6 +46,7 @@ class AdsClient {
   Future<NativeAd> _populateNativeAd({
     required String adUnitId,
     AdSize? size,
+    String? factoryId,
     TemplateType tempType = TemplateType.small,
   }) async {
     try {
@@ -53,6 +54,7 @@ class AdsClient {
 
       final nativeAd = NativeAd(
           adUnitId: adUnitId,
+          factoryId: factoryId,
           request: const AdRequest(),
           listener: NativeAdListener(
             onAdLoaded: (Ad ad) {
@@ -106,6 +108,44 @@ class AdsClient {
     }
   }
 
+  Future<NativeAd> _populateFactoryNativeAd({
+    required String adUnitId,
+    required String factoryId,
+  }) async {
+    try {
+      final adCompleter = Completer<NativeAd>();
+
+      final nativeAd = NativeAd(
+        adUnitId: adUnitId,
+        factoryId: factoryId,
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (Ad ad) {
+            debugPrint('NativeAdListener onAdLoaded ${ad.toString()}.');
+            adCompleter.complete(ad as NativeAd);
+          },
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            debugPrint('NativeAdListener onAdFailedToLoad: $error');
+            ad.dispose();
+            adCompleter.completeError(error);
+            return StaticVariable.defaultAdNative;
+          },
+          onAdClicked: (ad) {
+            logEvent(name: 'ads_native_click', parameters: {'placement': ''});
+          },
+        ),
+        nativeAdOptions: NativeAdOptions(
+            adChoicesPlacement: AdChoicesPlacement.topRightCorner),
+      );
+
+      await nativeAd.load();
+
+      return await adCompleter.future;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<BannerAd> getPageBannerAd() async {
     try {
       return await _populateBannerAd(adUnitId: StaticVariable.adBannerId);
@@ -114,10 +154,18 @@ class AdsClient {
     }
   }
 
-  Future<NativeAd> getPageNativeAd(TemplateType temptype) async {
+  Future<NativeAd> getPageNativeAd(
+      TemplateType temptype, String? factoryId) async {
     try {
-      return await _populateNativeAd(
-          adUnitId: StaticVariable.adNativeId, tempType: temptype);
+      if (factoryId == null) {
+        return await _populateNativeAd(
+            adUnitId: StaticVariable.adNativeId,
+            tempType: temptype,
+            factoryId: factoryId);
+      } else {
+        return await _populateFactoryNativeAd(
+            adUnitId: StaticVariable.adNativeId, factoryId: factoryId);
+      }
     } catch (error) {
       // Handle the error appropriately
       throw error;

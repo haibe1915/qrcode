@@ -12,7 +12,8 @@ class AdBannerDisposeEvent extends AdEvent {}
 
 class AdNativeRequestEvent extends AdEvent {
   final TemplateType tempType;
-  AdNativeRequestEvent({required this.tempType});
+  String? factoryId;
+  AdNativeRequestEvent({required this.tempType, this.factoryId});
 }
 
 class AdNativeDisposeEvent extends AdEvent {}

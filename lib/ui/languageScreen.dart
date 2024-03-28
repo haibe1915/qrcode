@@ -1,39 +1,127 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:qrcode/blocs/Ad/ad_bloc.dart';
 import 'package:qrcode/ui/homePage.dart';
+import 'package:qrcode/ui/qr_app.dart';
+import 'package:qrcode/ui/widget/AdNative.dart';
 import 'package:qrcode/utils/shared_preference/SharedPreference.dart';
 import 'package:qrcode/constant/static_variables.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class LanguageScreen extends StatelessWidget {
-  const LanguageScreen({Key? key}) : super(key: key);
+class LanguageScreen extends StatefulWidget {
+  const LanguageScreen({super.key});
+  @override
+  State<LanguageScreen> createState() => _LanguageScreenState();
+}
 
+class _LanguageScreenState extends State<LanguageScreen> {
+  String finalLanguage = 'English (US)';
+  final List<String> _languages = [
+    'Spanish (Mexico)',
+    'Vietnamese',
+    'Arabic',
+    'English (US)',
+    'French',
+    'German',
+    'Portuguese (Brazil)',
+    'Spanish (Spain)',
+    'Turkish',
+    'Japanese',
+    'Dutch',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
-      body: Container(
-        color: Theme.of(context).colorScheme.primary,
-        child: const Center(
+        appBar: AppBar(
+          title: Text('language'.tr()),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  StaticVariable.language = finalLanguage;
+                  SharedPreference.setLanguagePreference(finalLanguage);
+                  context.setLocale(StaticVariable.languageMap[finalLanguage]!);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const QrApp()));
+                },
+                icon: const Icon(Icons.check))
+          ],
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Text(
-                  'Choose your language:',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: _languages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final String language = _languages[index];
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              finalLanguage = language;
+                            });
+                          },
+                          child: ListTile(
+                            leading: CountryFlag.fromCountryCode(
+                              StaticVariable.countryMap[language]!,
+                              height: 30,
+                              width: 30,
+                            ),
+                            title: Text(language,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor)),
+                            trailing: Radio<String>(
+                              value: language,
+                              groupValue: finalLanguage,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  finalLanguage = value!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 0.5,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
-              SizedBox(height: 30),
-              LanguageList(),
+              Center(
+                child: Provider(
+                    create: (_) => AdsBloc(),
+                    builder: (context, child) {
+                      return AdNative(
+                        tempType: TemplateType.small,
+                        width: MediaQuery.of(context).size.width,
+                        factoryId: "adFactoryLanguage",
+                        height: 230,
+                      );
+                    }),
+              ),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
 
@@ -45,19 +133,6 @@ class LanguageList extends StatefulWidget {
 }
 
 class _LanguageListState extends State<LanguageList> {
-  final List<String> _languages = [
-    'Spanish (Mexico)',
-    'Arabic',
-    'English (US)',
-    'French',
-    'German',
-    'Portuguese (Brazil)',
-    'Spanish (Spain)',
-    'Turkish',
-    'Japanese',
-    'Dutch',
-  ];
-
   void _showLanguageDialog(BuildContext context, String language) {
     showDialog(
       context: context,
@@ -72,10 +147,8 @@ class _LanguageListState extends State<LanguageList> {
                 StaticVariable.language = language;
                 SharedPreference.setLanguagePreference(language);
                 context.setLocale(StaticVariable.languageMap[language]!);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HomePage(title: 'QrApp')));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const QrApp()));
               },
             ),
             TextButton(
@@ -92,47 +165,6 @@ class _LanguageListState extends State<LanguageList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      height: MediaQuery.of(context).size.height * 0.7,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: ListView.builder(
-        itemCount: _languages.length,
-        itemBuilder: (BuildContext context, int index) {
-          final String language = _languages[index];
-          return Column(
-            children: [
-              ListTile(
-                leading: CountryFlag.fromCountryCode(
-                  StaticVariable.countryMap[language]!,
-                  height: 30,
-                  width: 30,
-                ),
-                title: Text(language,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                onTap: () {
-                  _showLanguageDialog(context, language);
-                },
-              ),
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          );
-        },
-      ),
-    );
+    return Container();
   }
 }

@@ -150,7 +150,7 @@ class StaticVariable {
               size: 16.0)));
 
   //Language
-  static late String language;
+  static String? language;
   static final Map<String, Locale> languageMap = {
     'Spanish (Mexico)': const Locale('es', 'MX'),
     'Arabic': const Locale('ar'),

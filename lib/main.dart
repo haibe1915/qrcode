@@ -43,6 +43,7 @@ Future<void> main() async {
 
   StaticVariable.conn = DatabaseHelper();
   StaticVariable.language = await SharedPreference.getLanguagePreference();
+  debugPrint(StaticVariable.language);
   StaticVariable.premiumState = await SharedPreference.getPremiumPreference();
   await StaticVariable.conn.initializeDatabase();
 
@@ -78,7 +79,7 @@ Future<void> main() async {
 
   MobileAds.instance.updateRequestConfiguration(
     RequestConfiguration(
-      testDeviceIds: <String>['9CA17D7586BEF4182B87E053FC88EE38'],
+      testDeviceIds: <String>['2272557AB16E836C6E9CF8FC27E5E787'],
     ),
   );
 

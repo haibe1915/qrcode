@@ -83,29 +83,10 @@ class QrApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         home: Provider<AdsBloc>(
-            create: (rootContext) => AdsBloc(),
-            child: Column(
-              children: [
-                Expanded(
-                  child: FutureBuilder<String>(
-                    future: SharedPreference.getLanguagePreference(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.data != "") {
-                        return const HomePage(title: 'QrApp');
-                      } else {
-                        return const LanguageScreen();
-                      }
-                    },
-                  ),
-                ),
-                Material(
-                  child: SizedBox(
-                    height: 50,
-                    child: StaticVariable.adBanner,
-                  ),
-                ),
-              ],
-            )));
+          create: (rootContext) => AdsBloc(),
+          child: StaticVariable.language == ''
+              ? const LanguageScreen()
+              : const HomePage(title: "qrcode"),
+        ));
   }
 }

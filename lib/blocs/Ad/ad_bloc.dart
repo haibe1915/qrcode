@@ -38,7 +38,8 @@ class AdsBloc extends Bloc<AdEvent, AdState> {
       AdNativeRequestEvent event, Emitter<AdState> emit) async {
     try {
       if (!StaticVariable.premiumState) {
-        final result = await _adsClient.getPageNativeAd(event.tempType);
+        final result =
+            await _adsClient.getPageNativeAd(event.tempType, event.factoryId);
         emit(state.copyWith(nativeAd: result));
       } else {
         emit(state.copyWith());

@@ -16,7 +16,7 @@ class LanguageOption extends StatefulWidget {
 }
 
 class _LanguageOptionState extends State<LanguageOption> {
-  String currentLanguage = StaticVariable.language;
+  String? currentLanguage = StaticVariable.language;
   @override
   Widget build(BuildContext context) {
     return Container(

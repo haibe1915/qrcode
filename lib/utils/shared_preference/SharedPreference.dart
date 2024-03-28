@@ -25,7 +25,7 @@ class SharedPreference {
 
   static Future<String> getLanguagePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_languagePrefKey) ?? 'English (US)';
+    return prefs.getString(_languagePrefKey) ?? '';
   }
 
   static Future<void> setLanguagePreference(String value) async {

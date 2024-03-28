@@ -30,6 +30,14 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
   final PhoneToQrBloc _phoneToQrBloc = PhoneToQrBloc();
   final TextEditingController _textEditingController = TextEditingController();
   final StreamController<int> _textLengthStream = StreamController<int>();
+  List<TextEditingController> importantField = <TextEditingController>[];
+
+  bool checkEmpty() {
+    for (TextEditingController member in importantField) {
+      if (member.text.trimRight().isEmpty) return false;
+    }
+    return true;
+  }
 
   @override
   void dispose() {
@@ -45,6 +53,7 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
     _textEditingController.addListener(() {
       _textLengthStream.sink.add(1000 - _textEditingController.text.length);
     });
+    importantField = [_nameEditingController];
   }
 
   void _showContact() {
@@ -167,21 +176,22 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('sms').tr(),
-          actions: [
-            IconButton(
-              padding: const EdgeInsets.only(
-                  left: 10, top: 20, bottom: 20, right: 10),
-              alignment: Alignment.bottomLeft,
-              icon: const Icon(
-                Icons.check,
-                size: 24,
-                color: Colors.white,
-              ),
-              onPressed: () {
+      appBar: AppBar(
+        title: const Text('sms').tr(),
+        actions: [
+          IconButton(
+            padding:
+                const EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
+            alignment: Alignment.bottomLeft,
+            icon: const Icon(
+              Icons.check,
+              size: 24,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              if (checkEmpty()) {
                 var data =
-                    'sms:${_nameEditingController.text}?body=${Uri.encodeQueryComponent(_textEditingController.text)}';
+                    'sms:${_nameEditingController.text.trimRight()}?body=${Uri.encodeQueryComponent(_textEditingController.text.trimRight())}';
                 HistoryItem tmp = HistoryItem(
                     type: 'sms', datetime: DateTime.now(), content: data);
                 StaticVariable.createdController.add(tmp);
@@ -195,103 +205,154 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
                 );
                 _nameEditingController.clear();
                 _textEditingController.clear();
-              },
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: SizedBox(
+                          width: 200, // Adjust the width as needed
+                          height: 50, // Adjust the height as needed
+                          child: Center(
+                            child: const Text("required_field_is_empty").tr(),
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            child: const Text('close').tr(),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }
+            },
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.9),
           child: Column(
             children: [
-              Container(
-                  alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Card(
-                      elevation: 4,
-                      clipBehavior: Clip.hardEdge,
-                      child: SizedBox(
-                          height: screenHeight * 0.4,
-                          width: screenWidth * 0.8,
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(top: 20),
+                      child: Card(
+                          elevation: 4,
+                          clipBehavior: Clip.hardEdge,
+                          child: SizedBox(
+                              height: screenHeight * 0.4,
+                              width: screenWidth * 0.8,
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        controller: _nameEditingController,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
-                                        ],
-                                        decoration: InputDecoration(
-                                          hintText: 'receiver'.tr(),
-                                          contentPadding:
-                                              const EdgeInsets.all(10),
-                                          border: InputBorder.none,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          margin: const EdgeInsets.only(
+                                              left: 10, right: 3, bottom: 10),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextField(
+                                                  controller:
+                                                      _nameEditingController,
+                                                  inputFormatters: <TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly,
+                                                  ],
+                                                  decoration: InputDecoration(
+                                                    hintText: 'receiver'.tr(),
+                                                    contentPadding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    border: InputBorder.none,
+                                                  ),
+                                                  maxLines: null,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _phoneToQrBloc.add(
+                                                        PhoneToQrEventLoadData());
+                                                    _showContact();
+                                                  },
+                                                  icon: const Icon(Icons.add))
+                                            ],
+                                          ),
                                         ),
-                                        maxLines: null,
+                                      ),
+                                      const Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '*',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          SizedBox(height: 40)
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        StreamBuilder<int>(
+                                          stream: _textLengthStream.stream,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                  snapshot.data.toString());
+                                            } else {
+                                              return const Text('');
+                                            }
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        )
+                                      ]),
+                                  Expanded(
+                                      child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
                                       ),
                                     ),
-                                    IconButton(
-                                        onPressed: () {
-                                          _phoneToQrBloc
-                                              .add(PhoneToQrEventLoadData());
-                                          _showContact();
-                                        },
-                                        icon: const Icon(Icons.add))
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    StreamBuilder<int>(
-                                      stream: _textLengthStream.stream,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Text(snapshot.data.toString());
-                                        } else {
-                                          return const Text('');
-                                        }
-                                      },
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 10, bottom: 10),
+                                    child: TextField(
+                                      controller: _textEditingController,
+                                      decoration: InputDecoration(
+                                        hintText: 'message'.tr(),
+                                        contentPadding:
+                                            const EdgeInsets.all(10),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: null,
                                     ),
-                                    const SizedBox(
-                                      width: 10,
-                                    )
-                                  ]),
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                child: TextField(
-                                  controller: _textEditingController,
-                                  decoration: InputDecoration(
-                                    hintText: 'message'.tr(),
-                                    contentPadding: const EdgeInsets.all(10),
-                                    border: InputBorder.none,
-                                  ),
-                                  maxLines: null,
-                                ),
-                              ))
-                            ],
-                          )))),
+                                  ))
+                                ],
+                              )))),
+                ),
+              ),
               const SizedBox(height: 20),
               Center(
                 child: Provider(
@@ -305,6 +366,8 @@ class _SmsToQrPageState extends State<SmsToQrPage> {
               )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

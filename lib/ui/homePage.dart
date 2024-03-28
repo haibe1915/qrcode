@@ -62,79 +62,94 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: false,
-      body: pages[_currentPageIndex],
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-          margin: const EdgeInsets.all(10),
-          height: 64,
-          width: 64,
-          child: FloatingActionButton(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 2,
-            onPressed: () {
-              logEvent(
-                name: 'screen_view',
-                parameters: {
-                  'firebase_screen': 'qr_scan',
+    return Column(
+      children: [
+        Expanded(
+          child: Scaffold(
+            backgroundColor: Colors.black,
+            resizeToAvoidBottomInset: false,
+            body: pages[_currentPageIndex],
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: Container(
+                margin: const EdgeInsets.all(10),
+                height: 64,
+                width: 64,
+                child: FloatingActionButton(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  elevation: 2,
+                  onPressed: () {
+                    logEvent(
+                      name: 'screen_view',
+                      parameters: {
+                        'firebase_screen': 'qr_scan',
+                      },
+                    );
+                    setState(() {
+                      _currentPageIndex = 1;
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Icon(
+                    Icons.camera,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                )),
+            bottomNavigationBar: Container(
+              color: Colors.black,
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: BottomNavigationBar(
+                selectedItemColor: Theme.of(context)
+                    .colorScheme
+                    .primary, // Set the color for selected item
+                unselectedItemColor: Colors.grey,
+                selectedLabelStyle:
+                    TextStyle(color: Theme.of(context).colorScheme.primary),
+                currentIndex: _currentPageIndex,
+                onTap: (int index) {
+                  logEvent(
+                    name: 'screen_view',
+                    parameters: {
+                      'firebase_screen':
+                          index == 0 ? 'history' : 'qr_generator',
+                    },
+                  );
+                  setState(() {
+                    _currentPageIndex = index;
+                  });
                 },
-              );
-              setState(() {
-                _currentPageIndex = 1;
-              });
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
+                selectedIconTheme: IconThemeData(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary), // Set the color for selected icons
+                unselectedIconTheme: const IconThemeData(color: Colors.grey),
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: const Icon(
+                        Icons.access_time,
+                      ),
+                      label: 'history'.tr()),
+                  const BottomNavigationBarItem(
+                      icon: Icon(Icons.add, color: Colors.white, size: 0),
+                      label: ''),
+                  BottomNavigationBarItem(
+                      icon: const Icon(Icons.qr_code_outlined),
+                      label: 'qr generator'.tr()),
+                ],
+              ),
             ),
-            child: const Icon(
-              Icons.camera,
-              size: 35,
-              color: Colors.white,
-            ),
-          )),
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        width: MediaQuery.of(context).size.width * 0.1,
-        child: BottomNavigationBar(
-          selectedItemColor: Theme.of(context)
-              .colorScheme
-              .primary, // Set the color for selected item
-          unselectedItemColor: Colors.grey,
-          selectedLabelStyle:
-              TextStyle(color: Theme.of(context).colorScheme.primary),
-          currentIndex: _currentPageIndex,
-          onTap: (int index) {
-            logEvent(
-              name: 'screen_view',
-              parameters: {
-                'firebase_screen': index == 0 ? 'history' : 'qr_generator',
-              },
-            );
-            setState(() {
-              _currentPageIndex = index;
-            });
-          },
-          selectedIconTheme: IconThemeData(
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary), // Set the color for selected icons
-          unselectedIconTheme: const IconThemeData(color: Colors.grey),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: const Icon(
-                  Icons.access_time,
-                ),
-                label: 'history'.tr()),
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.add, color: Colors.white, size: 0), label: ''),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.qr_code_outlined),
-                label: 'qr generator'.tr()),
-          ],
+          ),
         ),
-      ),
+        Material(
+          child: SizedBox(
+            height: 50,
+            child: StaticVariable.adBanner,
+          ),
+        ),
+      ],
     );
   }
 }

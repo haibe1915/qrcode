@@ -6,10 +6,17 @@ import 'package:qrcode/blocs/Ad/ad_event.dart';
 import 'package:qrcode/blocs/Ad/ad_state.dart';
 
 class AdNative extends StatefulWidget {
-  const AdNative({Key? key, required this.tempType, required this.width})
+  AdNative(
+      {Key? key,
+      required this.tempType,
+      required this.width,
+      this.factoryId,
+      this.height})
       : super(key: key);
   final TemplateType tempType;
   final double width;
+  double? height;
+  String? factoryId;
 
   @override
   State<AdNative> createState() => _AdNativeState();
@@ -22,7 +29,8 @@ class _AdNativeState extends State<AdNative> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     adsBloc = context.watch<AdsBloc>()
-      ..add(AdNativeRequestEvent(tempType: widget.tempType));
+      ..add(AdNativeRequestEvent(
+          tempType: widget.tempType, factoryId: widget.factoryId));
   }
 
   @override
@@ -35,11 +43,16 @@ class _AdNativeState extends State<AdNative> {
 
   @override
   Widget build(BuildContext context) {
-    double adHeight = 100.0;
-    if (widget.tempType == TemplateType.small) {
-      adHeight = 90; // Change the height for small template type
-    } else if (widget.tempType == TemplateType.medium) {
-      adHeight = 380; // Change the height for medium template type
+    late double adHeight;
+    if (widget.height == null) {
+      adHeight = 100.0;
+      if (widget.tempType == TemplateType.small) {
+        adHeight = 90; // Change the height for small template type
+      } else if (widget.tempType == TemplateType.medium) {
+        adHeight = 339; // Change the height for medium template type
+      }
+    } else {
+      adHeight = widget.height!;
     }
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5),
